@@ -1,4 +1,4 @@
-
+package alpha;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -8,16 +8,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class AppOverview
+ * Servlet implementation class SelectionServlet
  */
-@WebServlet("/AppOverview")
-public class AppOverview extends HttpServlet {
+@WebServlet("/selection")
+public class SelectionServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+       
     /**
-     * Default constructor. 
+     * @see HttpServlet#HttpServlet()
      */
-    public AppOverview() {
+    public SelectionServlet() {
+        super();
         // TODO Auto-generated constructor stub
     }
 
