@@ -1,2 +1,2 @@
 # KioskUDE
-Kiosksystem für das UKE
+Kiosksystem fuer das UKE
