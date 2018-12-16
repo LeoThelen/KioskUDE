@@ -2,14 +2,36 @@
 
 body {
   font-family: sans-serif;
+  background:#222;
   text-shadow: 0px 0px 10px #000;
 }
-
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+[class*="col-"] {
+  float: left;
+  padding: 5px;
+  border: 1px solid red;
+}
 /* ---- grid ---- */
 
 .grid {
-  background: #DDD;
-  max-width: 1200px;
+  
+  max-width: 1080px;
 }
 
 /* clear fix */
@@ -23,8 +45,8 @@ body {
 
 .grid-item {
   float: left;
-  width: 240px;
-  height: 135px;
+  width: 460px;
+  height: 215px;
   background: #0D8;
   border: 2px solid #333;
   border-color: hsla(0, 0%, 0%, 0.7);
@@ -37,7 +59,7 @@ body {
 }
 
 .grid-item.gigante {
-  width: 960px;
-  height: 540px;
+  width: 600px;
+  height: 338px;
   background: #F80;
 }

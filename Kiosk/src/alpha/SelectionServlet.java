@@ -32,13 +32,7 @@ public class SelectionServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		LinkedList<GameEntry> list = new LinkedList<>();
-		list.add(new GameEntry("BeatSaber", 12344, "unter12"));
-		list.add(new GameEntry("Zahnputzsimulator VR", 12345, "unter12"));
-		list.add(new GameEntry("Schattenwelt", 12346, "16+"));
-		list.getLast().addTagToCat(1, "Simulation");
-		
-		
+		LinkedList<GameEntry> list = createSampleList();		
 		request.setAttribute("gamelist", list);
 		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
 		
@@ -52,5 +46,13 @@ public class SelectionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
+	private LinkedList<GameEntry> createSampleList(){
+		LinkedList<GameEntry> list = new LinkedList<>();
+		list.add(new GameEntry("BeatSaber", 12344, "unter12"));
+		list.add(new GameEntry("Zahnputzsimulator VR", 12345, "unter12"));
+		list.add(new GameEntry("Schattenwelt", 12346, "16+"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.getLast().setScreenshotLink("https://steamcdn-a.akamaihd.net//steam//apps//503630//ss_67c274c2e497792d210a7a027f5ad58c56d37187.600x338.jpg");
+		return list;
+	}
 }

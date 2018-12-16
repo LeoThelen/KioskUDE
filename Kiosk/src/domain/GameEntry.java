@@ -7,6 +7,8 @@ public class GameEntry {
 	private String name;
 	private int id;
 	private ArrayList<ArrayList<String>> taglistlist=null;
+	private String thumbnailLink;
+	private String screenshotLink;
 	
 	public GameEntry(String name, int id, String altersfreigabe){
 		this.name=name;
@@ -51,6 +53,22 @@ public class GameEntry {
 			taglistlist.add(new ArrayList<>());
 		}
 		taglistlist.get(catno).add(tag);
+	}
+
+	public String getThumbnailLink() {
+		return this.thumbnailLink==null ? this.thumbnailLink : "screenshots/sample.png";
+	}
+
+	public void setThumbnailLink(String thumbnailLink) {
+		this.thumbnailLink = thumbnailLink;
+	}
+
+	public String getScreenshotLink() {
+		return this.screenshotLink==null ? this.screenshotLink : "screenshots/sample.png";
+	}
+
+	public void setScreenshotLink(String screenshotLink) {
+		this.screenshotLink = screenshotLink;
 	}
 		
 }
