@@ -27,7 +27,7 @@ public class DescriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: "+request.getContextPath()+
+		response.getWriter().append("&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;"+request.getContextPath()+
 				"<br>ID:"+request.getParameter("id")+
 				"<br><img src=\""+"https://steamcdn-a.akamaihd.net//steam//apps//503630//ss_67c274c2e497792d210a7a027f5ad58c56d37187.600x338.jpg"+"\" alt=\"Screenshot\">");
 	}
