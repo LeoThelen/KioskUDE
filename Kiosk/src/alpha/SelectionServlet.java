@@ -35,7 +35,6 @@ public class SelectionServlet extends HttpServlet {
 		LinkedList<GameEntry> list = createSampleList();		
 		request.setAttribute("gamelist", list);
 		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
-		
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
 	}
 
@@ -46,6 +45,7 @@ public class SelectionServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
+	
 	private LinkedList<GameEntry> createSampleList(){
 		LinkedList<GameEntry> list = new LinkedList<>();
 		list.add(new GameEntry("BeatSaber", 12344, "unter12"));

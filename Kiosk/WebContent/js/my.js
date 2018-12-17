@@ -44,6 +44,7 @@ var $grid = $('.grid').isotope({
 
 $grid.on('click', '.grid-item', function() {
 	// change size of item by toggling gigante class
+	$('.gigante').toggleClass('gigante');
 	$(this).toggleClass('gigante');
 	$.get('description?id='+$(this).attr('id'), function(data) {
 		$('#description').html(data);	
