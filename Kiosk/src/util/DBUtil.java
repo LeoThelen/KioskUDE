@@ -59,7 +59,7 @@ public class DBUtil {
 ////		   Compound_iab c;
 //
 //		// fdb30.adb_mkm_liste_de.merkmals_nr
-//		String myQuery = "SELECT merkmals_nr AS merkmal" + " FROM fdb30.adb_mkm_liste_de" + " LIMIT 10";// TODO nach
+//		String myQuery = "SELECT merkmals_nr AS merkmal" + " FROM fdb30.adb_mkm_liste_de" + " LIMIT 10";//noch zu tun: nach
 //																										// Test anpassen
 //		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
 //			ResultSet rs = stmt.executeQuery();
@@ -70,7 +70,7 @@ public class DBUtil {
 ////					c.setInchi(rs.getString("inchi"));
 ////					c.setSmiles_original(rs.getString("smiles_original"));
 ////					
-////					//TODO[...]
+////					//hier gibts noch was zu tun evtl[...]
 ////					System.out.println(c.toString());
 ////					compound_iabList.add(c);
 //			}
