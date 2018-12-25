@@ -37,8 +37,7 @@
 
 					<div class="grid-item ${game.classtags}" id="${game.id}"
 						style="background-image: url(https://steamcdn-a.akamaihd.net//steam//apps//503630//header.jpg); background-repeat: no-repeat">
-						${game.name} <br> <a href="/babble_details?gameid=${game.id}">Description
-							comes here</a><br> <br>
+						${game.name} <br> <a href="/babble_details?gameid=${game.id}">kp, was hier hin soll, vllt Warnhinweissymbole</a><br><br><br><br><br><br>&#x1F648;eine wunderbare Erfahrung für Epileptiker.
 					</div>
 					</#if> </#list>
 				</div>
@@ -53,10 +52,9 @@
 	<script>
 		window.jQuery
 				|| document
-						.write('<script src="https://isotope.metafizzy.co/js/jquery.min.js"><\/script>')
+						.write('<script src="js/jquery-3.1.1.min.js"><\/script>')
 	</script>
-	<script
-		src="https://unpkg.com/isotope-layout@3.0.6/dist/isotope.pkgd.js"></script>
+	<script	src="js/isotope.pkgd.js"></script>
 	<script src="js/my.js"></script>
 	
 </body>

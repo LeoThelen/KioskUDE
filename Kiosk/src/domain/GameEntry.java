@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class GameEntry {
 	private String name;

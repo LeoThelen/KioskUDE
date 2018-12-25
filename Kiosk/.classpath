@@ -10,5 +10,6 @@
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/servlet-api.jar"/>
 	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="C:/xampp/tomcat/lib/mariadb-java-client-2.3.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

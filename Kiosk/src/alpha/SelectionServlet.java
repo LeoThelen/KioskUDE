@@ -23,14 +23,12 @@ public class SelectionServlet extends HttpServlet {
      */
     public SelectionServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		LinkedList<GameEntry> list = createSampleList();		
 		request.setAttribute("gamelist", list);
 		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
@@ -41,7 +39,6 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 	
@@ -52,6 +49,26 @@ public class SelectionServlet extends HttpServlet {
 		list.add(new GameEntry("Schattenwelt", 12346, "16+"));
 		list.getLast().addTagToCat(1, "Simulation");
 		list.getLast().setScreenshotLink("https://steamcdn-a.akamaihd.net//steam//apps//503630//ss_67c274c2e497792d210a7a027f5ad58c56d37187.600x338.jpg");
+		list.add(new GameEntry("Lorem", 897641, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Ipsum", 873186, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Dolor", 183736, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Sit amet", 726781, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Lorem", 897641, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Ipsum", 873186, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Dolor", 183736, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		list.add(new GameEntry("Sit amet", 726781, "unter12"));
+		list.getLast().addTagToCat(1, "Simulation");
+		
+		
+		
+		
 		return list;
 	}
 }
