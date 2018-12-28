@@ -37,7 +37,7 @@
 
 					<div class="grid-item ${game.classtags}" id="${game.id}"
 						style="background-image: url(https://steamcdn-a.akamaihd.net//steam//apps//503630//header.jpg); background-repeat: no-repeat">
-						${game.name} <br> <a href="/babble_details?gameid=${game.id}">kp, was hier hin soll, vllt Warnhinweissymbole</a><br><br><br><br><br><br>&#x1F648;eine wunderbare Erfahrung für Epileptiker.
+						${game.name}<br><br><br><br><br><br>&#x1F648;eine wunderbare Erfahrung für Epileptiker.
 					</div>
 					</#if> </#list>
 				</div>
@@ -45,6 +45,8 @@
 			</div>
 		</div>
 		<div class="col-6" id="description">
+			<div style="text-align:center; font-size:200px;color:#666">UKE<br>VR
+			</div>
 		</div>
 	</div>
 

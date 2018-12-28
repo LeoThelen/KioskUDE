@@ -2,6 +2,9 @@ package util;
 
 import java.io.PrintWriter;
 import java.sql.*;
+import java.util.ArrayList;
+
+import domain.Game;
 
 public class DBUtil {
 
@@ -38,6 +41,60 @@ public class DBUtil {
 		}
 	}
 
+	/**
+	 * bekommt ein request.getParameter("...") übergeben und gibt eine
+	 * List<GameEntry> zurück.
+	 * @return 
+	 */
+	public static ArrayList<Game> getGameList() {
+		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
+		Game g;
+		ArrayList<Game> gameList = new ArrayList<>();
+
+		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				g = new Game(rs.getString(1), rs.getString(2), rs.getString(3));
+				gameList.add(g);
+			}
+			return gameList;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	/**
+	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird,
+	 * wuerde eine passgenauere Funktion die Performance nicht wesentlich
+	 * steigern. TODO: Klasse schreiben, die gametags für jedes Spiel gettet.
+	 * @return 
+	 */
+	public static Game getGameDescriptionByID(String ID) {
+		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, arabDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
+				+ " FROM games WHERE gameID=?";
+		Game g;
+		ArrayList<Game> gameList = new ArrayList<>();
+
+		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
+			stmt.setString(1, ID);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				g = new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"));
+				g.setSteamID(rs.getString("SteamID"));
+				g.setGermanDescription(rs.getString("germanDescription"));
+				g.setEnglishDescription(rs.getString("englishDescription"));
+				g.setArabDescription(rs.getString("arabDescription"));
+				g.setThumbnailLink(rs.getString("thumbnailLink"));
+				g.setScreenshotLink(rs.getString("screenshotLink"));
+				g.setPath(rs.getString("path"));
+				g.setLastTimeUsed(rs.getString("lastTimeUsed"));
+			}
+			return g;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	// public static void leerstellenEntfernen(){
 //			// Datenbankabfragen
 //			String myQuery = "UPDATE adb_wert "

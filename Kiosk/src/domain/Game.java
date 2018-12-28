@@ -2,16 +2,16 @@ package domain;
 
 import java.util.ArrayList;
 
-public class GameEntry {
+public class Game {
 	private String name;
-	private int id;
+	private String gameID;
 	private ArrayList<ArrayList<String>> taglistlist=null;
 	private String thumbnailLink;
 	private String screenshotLink;
 	
-	public GameEntry(String name, int id, String altersfreigabe){
+	public Game(String name, String gameID, String altersfreigabe){
 		this.name=name;
-		this.id=id;
+		this.gameID=gameID;
 		taglistlist=new ArrayList<>();
 		for (int i = 0; i < 1; i++) {	//Anzahl der Kategorien, erstmal nur Alter
 			taglistlist.add(new ArrayList<>());
@@ -25,11 +25,11 @@ public class GameEntry {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getId() {
-		return id;
+	public String getId() {
+		return gameID;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(String gameID) {
+		this.gameID = gameID;
 	}
 	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
 		return taglistlist;
