@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Game;
+import util.SteamUtil;
 
 /**
  * Servlet implementation class SelectionServlet
@@ -29,7 +30,9 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		LinkedList<Game> list = createSampleList();		
+//		LinkedList<Game> list = createSampleList();
+		LinkedList<Game> list = SteamUtil.getSteamGames();
+		System.out.println("Steam geladen...");
 		request.setAttribute("gamelist", list);
 		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
 		request.getRequestDispatcher("selection.ftl").forward(request, response);

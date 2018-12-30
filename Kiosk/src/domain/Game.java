@@ -8,6 +8,25 @@ public class Game {
 	private ArrayList<ArrayList<String>> taglistlist=null;
 	private String thumbnailLink;
 	private String screenshotLink;
+	private String steamID;
+	private String germanDescription;
+	private String englishDescription;
+	private String arabDescription;
+	private String path;
+	private String lastTimeUsed;
+	
+	
+	
+	
+	
+	
+	
+	public Game(String steamID){//from SteamUtil
+		System.out.println("Steam: "+steamID);
+		this.steamID=steamID;
+		this.gameID=steamID;//TODO: braucht man diese Zeile noch oder haben wir schon eine DB?
+		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
+	}
 	
 	public Game(String name, String gameID, String altersfreigabe){
 		this.name=name;
@@ -39,6 +58,9 @@ public class Game {
 	}
 	
 	public String getClasstags() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
+		if(taglistlist==null) {
+			return null;
+		}
 		String classtags="";
 		for (int i = 0; i < taglistlist.size(); i++) {
 			for (int j = 0; j < taglistlist.get(i).size(); j++) {
@@ -55,7 +77,7 @@ public class Game {
 	}
 
 	public String getThumbnailLink() {
-		return this.thumbnailLink==null ? this.thumbnailLink : "screenshots/sample.png";
+		return this.thumbnailLink==null ? "screenshots/sample.png":this.thumbnailLink;
 	}
 
 	public void setThumbnailLink(String thumbnailLink) {
@@ -63,11 +85,60 @@ public class Game {
 	}
 
 	public String getScreenshotLink() {
-		return this.screenshotLink==null ? this.screenshotLink : "screenshots/sample.png";
+		return this.screenshotLink==null ? "screenshots/sample.png":this.screenshotLink;
 	}
 
 	public void setScreenshotLink(String screenshotLink) {
 		this.screenshotLink = screenshotLink;
 	}
-		
+
+	public String getSteamID() {
+		return steamID;
+	}
+
+	public void setSteamID(String steamID) {
+		this.steamID = steamID;
+	}
+
+	public String getGermanDescription() {
+		return germanDescription;
+	}
+
+	public void setGermanDescription(String germanDescription) {
+		this.germanDescription = germanDescription;
+	}
+
+	public String getEnglishDescription() {
+		return englishDescription;
+	}
+
+	public void setEnglishDescription(String englishDescription) {
+		this.englishDescription = englishDescription;
+	}
+
+	public String getArabDescription() {
+		return arabDescription;
+	}
+
+	public void setArabDescription(String arabDescription) {
+		this.arabDescription = arabDescription;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	public String getLastTimeUsed() {
+		return lastTimeUsed;
+	}
+
+	public void setLastTimeUsed(String lastTimeUsed) {
+		this.lastTimeUsed = lastTimeUsed;
+	}
+	
+	
 }

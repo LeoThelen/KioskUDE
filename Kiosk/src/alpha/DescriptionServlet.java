@@ -7,6 +7,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domain.Game;
+import util.SteamUtil;
+
 /**
  * Servlet implementation class DescriptionServlet
  */
@@ -25,10 +28,12 @@ public class DescriptionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;"+request.getContextPath()+
-				"<br>ID:"+request.getParameter("id") + "<a href=\"TEST\">SPIELEN!</a>" +
-				"<br><img src=\""+"https://steamcdn-a.akamaihd.net//steam//apps//503630//ss_67c274c2e497792d210a7a027f5ad58c56d37187.600x338.jpg"+"\" alt=\"Screenshot\">"
-						+ "<h1>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est</h1>");
+		Game g = SteamUtil.getGameWithDetails(request.getParameter("id"));
+		response.getWriter().append(
+				"<h1>&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;"+g.getName()+
+				"</h1><br><div class=\"anima\"><a href=\"TEST\"><button type=\"button\" class=\"btn btn-warning btn-lg\">ID:"+request.getParameter("id")+"</button></a></div>" +
+				"<br><img src=\""+g.getScreenshotLink()+"\" alt=\"Screenshot\"><br>"
+						+ g.getEnglishDescription());
 	}
 
 	/**

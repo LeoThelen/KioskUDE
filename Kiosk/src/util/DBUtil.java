@@ -73,8 +73,7 @@ public class DBUtil {
 	public static Game getGameDescriptionByID(String ID) {
 		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, arabDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
-		Game g;
-		ArrayList<Game> gameList = new ArrayList<>();
+		Game g=null;
 
 		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
 			stmt.setString(1, ID);
@@ -93,7 +92,7 @@ public class DBUtil {
 			return g;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		}return null;
 	}
 	// public static void leerstellenEntfernen(){
 //			// Datenbankabfragen
