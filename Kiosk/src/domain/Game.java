@@ -18,7 +18,9 @@ public class Game {
 	
 	
 	
-	
+	public Game() {
+		
+	}
 	
 	
 	public Game(String steamID){//from SteamUtil
@@ -50,14 +52,14 @@ public class Game {
 	public void setId(String gameID) {
 		this.gameID = gameID;
 	}
-	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur fÃ¼r die Ãœbergabe an Freemarker oder zum kopieren von Kategorisierungen.
 		return taglistlist;
 	}
 	public void setTaglistlist(ArrayList<ArrayList<String>> taglistlist) {
 		this.taglistlist = taglistlist;
 	}
 	
-	public String getClasstags() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	public String getClasstags() {	//nur fÃ¼r die Ãœbergabe an Freemarker oder zum kopieren von Kategorisierungen.
 		if(taglistlist==null) {
 			return null;
 		}
@@ -138,6 +140,14 @@ public class Game {
 
 	public void setLastTimeUsed(String lastTimeUsed) {
 		this.lastTimeUsed = lastTimeUsed;
+	}
+	
+	public String getGameID() {
+		return gameID;
+	}
+	
+	public void setGameID(String gameID) {
+		this.gameID = gameID;
 	}
 	
 	
