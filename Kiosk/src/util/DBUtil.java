@@ -1,14 +1,16 @@
 package util;
 
 import java.io.PrintWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 
 import domain.Game;
+import domain.GameList;
 
 public class DBUtil {
 
-	static Connection conn = null;
+/*	static Connection conn = null;
 	static String dbHost = "localhost";
 	static String database = "kiosk";
 	static String dbPort = "3306";
@@ -45,7 +47,7 @@ public class DBUtil {
 	 * bekommt ein request.getParameter("...") übergeben und gibt eine
 	 * List<GameEntry> zurück.
 	 * @return 
-	 */
+	 *
 	public static ArrayList<Game> getGameList() {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
 		Game g;
@@ -69,7 +71,7 @@ public class DBUtil {
 	 * wuerde eine passgenauere Funktion die Performance nicht wesentlich
 	 * steigern. TODO: Klasse schreiben, die gametags für jedes Spiel gettet.
 	 * @return 
-	 */
+	 *
 	public static Game getGameDescriptionByID(String ID) {
 		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, arabDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
@@ -139,9 +141,191 @@ public class DBUtil {
 //	}
 	/** Mainmethode zum testen:
   */
-public static void main(String[] args) throws SQLException {
-	try(Connection con = MySQLConnection_connect()){
-		MySQLConnection_close(con);
+	
+	
+	/*Damit das läuft bräuchtest du sqlLite, aber du kannst ja auch einfach nen anderen Driver benutzten
+	 * Das ist jetzt JDBC
+	 * CREATE TABLE games(gameID TEXT primary key, name TEXT, taglistlist TEXT, thumbnailLink TEXT, screenshotLink TEXT,
+	 * steamID TEXT, germanDescription TEXT, englishDescription TEXT, path TEXT, lastTimeUsed TEXT);
+	 * 
+	 * taglistlist ist da drin, weil ich kurz die Idee hatte taglistlist einfach in nen String umzuwandelen
+	 * z.B.
+	 * "$ alter, unter 12 $ genre, Simulation, Entspannung" 
+	 * $ - für jede neue ArrayList und , als Trennung der einzigen Elemente
+	 * Aber das ist glaub ich zu ineffizient
+	 * 
+	 * Ich hoffe du kannst was damit anfangen
+	 * Ich bin noch am arbeiten und will alles in methoden zusammenfassen.
+	 * writeGame(Game g)
+	 * readGame(String id)
+	 * readAllGames()
+	 * deleteGame()
+	 * saveGameChanges()
+	 * 
+	 * Tags kommen auch noch, sorry dass das alles etwas dauert
+	 */
+	private static Connection con = null;
+    private static PreparedStatement pstmt = null;
+    private static ResultSet rs = null;
+    private static String insert = "";
+    private static String query = "";
+    private static String connect = "jdbc:sqlite:C:\\Users\\suzan\\git\\KioskUDE\\Kiosk\\database.db";
+
+	//Name des Tabelle ist Games
+	public static void main(String[] args) {
+		Game g1 = new Game("11");
+		g1.setName("BeatSaber");
+		
+		Game g2 = new Game("22");
+		g2.setName("Job Simulator");
+		
+		ArrayList<Game> games = new ArrayList();
+	
+		loadDriver();
+		
+		//Spiel reinschreiben funktioniert
+		//auskommentiert da ich mir nicht sicher bin was passiert wenn man ein spiel zum zweiten mal
+		//reinschreiben will
+		/*try {
+			connect();
+			openWriteable();
+			//writeGame(g1);
+			//writeGame(g2);
+			
+		}finally {
+			closeWriteable();
+		}*/
+		
+		//Spiele auslesen funktioniert auch
+		try {
+			connect();
+			openReadableGames();
+			Game nextGame = null;
+			nextGame = readGame();
+			while(nextGame != null) {
+				games.add(nextGame);
+				nextGame = readGame();
+			}
+		}finally {
+			closeReadable();
+		}
+		
+		for(int i = 0; i < games.size(); i++) {
+			System.out.println(games.get(i).getGameID());
+		}
+		
 	}
-}
+	
+	//Connection kram
+	public static void loadDriver(){
+        try {
+            Class.forName("org.sqlite.JDBC");
+            System.out.println("Driver load complete");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	public static void connect() {
+		try {
+            con = DriverManager.getConnection(connect);
+            System.out.println("Connection established");
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	//reinschreiben eines songs
+	public static void openWriteable() {
+		insert = "INSERT INTO GAMES(gameID, name, taglistlist, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
+				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	}
+	
+	public static void writeGame(Game g) {
+		try {
+			pstmt = con.prepareStatement(insert);
+			pstmt.setString(1, g.getGameID());
+			pstmt.setString(2, g.getName());
+			pstmt.setString(3, "muss ich verbessern");
+			pstmt.setString(4, g.getThumbnailLink());
+			pstmt.setString(5, g.getScreenshotLink());
+			pstmt.setString(6, g.getSteamID());
+			pstmt.setString(7, g.getGermanDescription());
+			pstmt.setString(8, g.getEnglishDescription());
+			pstmt.setString(9, g.getPath());
+			pstmt.setString(10, g.getLastTimeUsed());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+    public static void closeWriteable() {
+        try {
+            pstmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+            System.out.println("Connection closed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    //auslesen von allen spielen
+    public static void openReadableGames() {
+    	query = "SELECT * FROM games";
+    	try {
+    		pstmt = con.prepareStatement(query);
+    		rs = pstmt.executeQuery();
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    public static Game readGame() {
+    	Game readGame = null;
+    	try {
+    		if(rs.next() == true) {
+    			readGame = new Game();
+    			readGame.setGameID(rs.getString("gameID"));
+    			readGame.setName(rs.getString("name"));
+    			readGame.setThumbnailLink(rs.getString("thumbnailLink"));
+    			readGame.setScreenshotLink(rs.getString("screenshotLink"));
+    			readGame.setSteamID(rs.getString("steamID"));
+    			readGame.setGermanDescription(rs.getString("germanDescription"));
+    			readGame.setEnglishDescription(rs.getString("englishDescription"));
+    			readGame.setPath(rs.getString("path"));
+    			readGame.setLastTimeUsed(rs.getString("lastTimeUsed"));
+    		}
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	
+    	return readGame;
+    }
+    
+    public static void closeReadable() {
+        try {
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+
+            pstmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try {
+            con.close();
+            System.out.println("Connection closed");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }   
+
 }
