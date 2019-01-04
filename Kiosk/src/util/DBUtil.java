@@ -44,8 +44,8 @@ public class DBUtil {
 	}
 
 	/**
-	 * bekommt ein request.getParameter("...") übergeben und gibt eine
-	 * List<GameEntry> zurück.
+	 * bekommt ein request.getParameter("...") Ã¼bergeben und gibt eine
+	 * List<GameEntry> zurÃ¼ck.
 	 * @return 
 	 *
 	public static ArrayList<Game> getGameList() {
@@ -69,7 +69,7 @@ public class DBUtil {
 	/**
 	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird,
 	 * wuerde eine passgenauere Funktion die Performance nicht wesentlich
-	 * steigern. TODO: Klasse schreiben, die gametags für jedes Spiel gettet.
+	 * steigern. TODO: Klasse schreiben, die gametags fÃ¼r jedes Spiel gettet.
 	 * @return 
 	 *
 	public static Game getGameDescriptionByID(String ID) {
@@ -143,7 +143,7 @@ public class DBUtil {
   */
 	
 	
-	/*Damit das läuft bräuchtest du sqlLite, aber du kannst ja auch einfach nen anderen Driver benutzten
+	/*Damit das lÃ¤uft brÃ¤uchtest du sqlLite, aber du kannst ja auch einfach nen anderen Driver benutzten
 	 * Das ist jetzt JDBC
 	 * CREATE TABLE games(gameID TEXT primary key, name TEXT, taglistlist TEXT, thumbnailLink TEXT, screenshotLink TEXT,
 	 * steamID TEXT, germanDescription TEXT, englishDescription TEXT, path TEXT, lastTimeUsed TEXT);
@@ -151,7 +151,7 @@ public class DBUtil {
 	 * taglistlist ist da drin, weil ich kurz die Idee hatte taglistlist einfach in nen String umzuwandelen
 	 * z.B.
 	 * "$ alter, unter 12 $ genre, Simulation, Entspannung" 
-	 * $ - für jede neue ArrayList und , als Trennung der einzigen Elemente
+	 * $ - fÃ¼r jede neue ArrayList und , als Trennung der einzigen Elemente
 	 * Aber das ist glaub ich zu ineffizient
 	 * 
 	 * Ich hoffe du kannst was damit anfangen
@@ -235,7 +235,7 @@ public class DBUtil {
 		}
 	}
 	
-	//reinschreiben eines songs
+	//reinschreiben eines game
 	public static void openWriteable() {
 		insert = "INSERT INTO GAMES(gameID, name, taglistlist, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
