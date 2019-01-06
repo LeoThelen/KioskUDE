@@ -14,9 +14,9 @@ import domain.TagList;
  * loadDriver();
  * 
  * addGame(Game g);
- * addGameTags(String gameID, String tagName; (private methode in addGame aufgerufen)
+ * addGameTags; (private methode in addGame aufgerufen)
  * readGameByID(String ID);
- * readGameTagByID(String gameID, String tagName); (private methode in readGameByID aufgerufen)
+ * readGameTagByID(String gameID); (private methode in readGameByID aufgerufen)
  * readAllGames(); liest gameID, name, thumbnail
  * deleteGame(Game g);
  * updateGame(Game g);
@@ -28,7 +28,7 @@ import domain.TagList;
  * deleteTag(Tag t);
  * updateTag(Tag t);
  */
-public class DBUtil {
+public class tempDBUtil {
 
 	private static String connect = "jdbc:sqlite:C:\\Users\\suzan\\git\\KioskUDE\\Kiosk\\database.db";
     private static String insert = "";
@@ -66,13 +66,20 @@ public class DBUtil {
 		g1.setTaglistlist(taglistlist);
 		System.out.println("Davor:");
 		for(int i = 0; i < g1.getTaglistlist().size(); i++) {
+			System.out.println("Test");
 			for(int j = 0; j < g1.getTaglistlist().get(i).size(); j++) {
 				System.out.println(g1.getTaglistlist().get(i).get(j));
 			}
 		}
 		//addGame(g1);
+		//readGameByID("8");
 		System.out.println("Danach:");
-		updateGame(g1);
+		for(int i = 0; i < g1.getTaglistlist().size(); i++) {
+			System.out.println("Test");
+			for(int j = 0; j < g1.getTaglistlist().get(i).size(); j++) {
+				System.out.println(g1.getTaglistlist().get(i).get(j));
+			}
+		}
 		
 	}
 	
@@ -158,30 +165,44 @@ public class DBUtil {
     		e.printStackTrace();
     	}
     	
-    	//ArrayList<String> categorys = new ArrayList();
-    	ArrayList<Tag> tags = readGameTagsByID(ID);
-    	System.out.println(tags.get(0));
+    	readGame.setTaglistlist(readGameTagsByID(ID));
     	return readGame;
 	}
 	
-	//arbeite dran
-	private static ArrayList<Tag> readGameTagsByID(String ID) {
-		query = "SELECT tagID, tagName, tagCat FROM tags INNER JOIN gametags ON gametags.tagID = tags.tagID WHERE gametags.gameID = ?";
+	private static ArrayList<ArrayList<String>> readGameTagsByID(String ID) {
+		query = "SELECT tags.tagID, tags.tagName, tags.tagCat FROM tags INNER JOIN gametags ON gametags.tagID = tags.tagID WHERE gameID = ?";
 		Tag readTag = null;
 		ArrayList<Tag> taglist = new ArrayList();
+		ArrayList<String> allCategorys = new ArrayList();
+		ArrayList<ArrayList<String>> taglistlist = new ArrayList();
+		String tagCat;
+		
 		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(query)){
-			pstmt.setString(1, ID);
+			pstmt.setString(1,  ID);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next() == true) {
+				readTag = new Tag();
 				readTag.setID(rs.getString("tagID"));
 				readTag.setTagName(rs.getString("tagName"));
-				readTag.setTagCat(rs.getString("tagCat"));
+				tagCat = rs.getString("tagCat");
+				readTag.setTagCat(tagCat);
+				if(!(allCategorys.contains(tagCat))) allCategorys.add(tagCat);
 				taglist.add(readTag);
 			}
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		return taglist;
+		
+		for(int i = 0; i < allCategorys.size(); i++) {
+			ArrayList<String> cat = new ArrayList();
+			for(int j = 0; j < taglist.size(); j++) {
+				if(taglist.get(j).getTagCat().equals(allCategorys.get(i))) {
+					cat.add(taglist.get(j).getTagName());
+				}
+			}
+			taglistlist.add(cat);
+		}
+		return taglistlist;
 	}
 	
 	public static ArrayList<Game> readAllGames(){
@@ -205,9 +226,15 @@ public class DBUtil {
 		return null;
 	}
 	
-	//arbeite dran
 	public static void deleteGame(Game g) {
 		insert = "DELETE FROM games WHERE gameID = ?";
+		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
+			pstmt.setString(1, g.getGameID());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		insert = "DELETE FROM gametags WHERE gameID = ?";
 		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
 			pstmt.setString(1, g.getGameID());
 			pstmt.executeUpdate();
@@ -297,9 +324,15 @@ public class DBUtil {
 		return null;
 	}
 	
-	//arbeite dran
 	public static void deleteTag(Tag t) {
 		insert = "DELETE FROM tags WHERE tagID = ?";
+		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
+			pstmt.setString(1, t.getID());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		insert = "DELETE FROM gametags WHERE tagID = ?";
 		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
 			pstmt.setString(1, t.getID());
 			pstmt.executeUpdate();
