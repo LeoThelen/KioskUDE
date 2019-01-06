@@ -2,7 +2,7 @@ package domain;
 
 public class Tag {
 	
-	private long tagID;
+	private String tagID;
 	private String tagCat;
 	private String tagName;
 	
@@ -10,11 +10,11 @@ public class Tag {
 		
 	}
 	
-	public long getTagID() {
+	public String getTagID() {
 		return tagID;
 	}
 	
-	public void setTagID(long tagID) {
+	public void setTagID(String tagID) {
 		this.tagID = tagID;
 	}
 	
