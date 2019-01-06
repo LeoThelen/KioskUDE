@@ -165,6 +165,7 @@ public class DBUtil {
 		}
 	}
 	
+	//vorrübergehende sehr ineffiziente methode
 	public static void updateGame(Game g) {
 		deleteGame(g);
 		addGame(g);
@@ -257,6 +258,7 @@ public class DBUtil {
 		}
 	}
 	
+	//vorrübergehende sehr ineffiziente methode
 	public static void updateTag(Tag t) {
 		deleteTag(t);
 		addTag(t);
