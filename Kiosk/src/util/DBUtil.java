@@ -16,7 +16,7 @@ import domain.TagList;
  * addGame(Game g);
  * addGameTags; (private methode in addGame aufgerufen)
  * readGameByID(String ID);
- * readGameTagByID(String ID); (private methode in readGameByID aufgerufen) (in arbeit)
+ * readGameTagByID(String gameID, String tagName); (private methode in readGameByID aufgerufen)
  * readAllGames(); liest gameID, name, thumbnail
  * deleteGame(Game g);
  * updateGame(Game g);
@@ -64,6 +64,15 @@ public class DBUtil {
 		taglistlist.add(alter);
 		taglistlist.add(genre);
 		g1.setTaglistlist(taglistlist);
+		System.out.println("Davor:");
+		for(int i = 0; i < g1.getTaglistlist().size(); i++) {
+			for(int j = 0; j < g1.getTaglistlist().get(i).size(); j++) {
+				System.out.println(g1.getTaglistlist().get(i).get(j));
+			}
+		}
+		//addGame(g1);
+		System.out.println("Danach:");
+		updateGame(g1);
 		
 	}
 	
@@ -94,6 +103,7 @@ public class DBUtil {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
+		
 		for(int i = 0; i < g.getTaglistlist().size(); i++) {
 			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
 				addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
@@ -118,7 +128,7 @@ public class DBUtil {
 		insert = "INSERT INTO gametags(gameID, tagID) values(?,?)";
 		try (Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)){
 			pstmt.setString(1, gameID);
-			pstmt.setString(2, tagName);
+			pstmt.setString(2, tagID);
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -147,13 +157,31 @@ public class DBUtil {
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
-    	readGame.setTaglistlist(readGameTagsByID(ID));
+    	
+    	//ArrayList<String> categorys = new ArrayList();
+    	ArrayList<Tag> tags = readGameTagsByID(ID);
+    	System.out.println(tags.get(0));
     	return readGame;
 	}
 	
 	//arbeite dran
-	private static ArrayList<ArrayList<String>> readGameTagsByID(String ID) {
-		return null;
+	private static ArrayList<Tag> readGameTagsByID(String ID) {
+		query = "SELECT tagID, tagName, tagCat FROM tags INNER JOIN gametags ON gametags.tagID = tags.tagID WHERE gametags.gameID = ?";
+		Tag readTag = null;
+		ArrayList<Tag> taglist = new ArrayList();
+		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(query)){
+			pstmt.setString(1, ID);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next() == true) {
+				readTag.setID(rs.getString("tagID"));
+				readTag.setTagName(rs.getString("tagName"));
+				readTag.setTagCat(rs.getString("tagCat"));
+				taglist.add(readTag);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return taglist;
 	}
 	
 	public static ArrayList<Game> readAllGames(){
@@ -188,7 +216,6 @@ public class DBUtil {
 		}
 	}
 	
-	//vorrübergehende sehr ineffiziente methode
 	public static void updateGame(Game g) {
 		deleteGame(g);
 		addGame(g);
@@ -281,7 +308,6 @@ public class DBUtil {
 		}
 	}
 	
-	//vorrübergehende sehr ineffiziente methode
 	public static void updateTag(Tag t) {
 		deleteTag(t);
 		addTag(t);
