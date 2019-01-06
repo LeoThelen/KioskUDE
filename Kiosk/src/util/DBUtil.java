@@ -16,8 +16,8 @@ import domain.TagList;
  * addGame(Game g);
  * addGameTags; (private methode in addGame aufgerufen) (in arbeit)
  * readGameByID(String ID);
- * getGameTagsByID(String ID); (private methode in readGameByID aufgerufen) (in arbeit)
- * getAllGames(); liest gameID, name, thumbnail
+ * readGameTagsByID(String ID); (private methode in readGameByID aufgerufen) (in arbeit)
+ * readAllGames(); liest gameID, name, thumbnail
  * deleteGame(Game g);
  * updateGame(Game g);
  * 
