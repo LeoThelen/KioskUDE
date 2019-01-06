@@ -14,7 +14,7 @@ import domain.TagList;
  * loadDriver();
  * 
  * addGame(Game g);
- * addGameTags; (private methode in addGame aufgerufen) (in arbeit)
+ * addGameTags; (private methode in addGame aufgerufen)
  * readGameByID(String ID);
  * readGameTagsByID(String ID); (private methode in readGameByID aufgerufen) (in arbeit)
  * readAllGames(); liest gameID, name, thumbnail
@@ -94,12 +94,35 @@ public class DBUtil {
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		addGameTagsByID(g);
+		for(int i = 0; i < g.getTaglistlist().size(); i++) {
+			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
+				addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
+			}
+		}
 	}
 	
-	//arbeite dran
-	private static void addGameTagsByID(Game g) {
+	private static void addGameTagByID(String gameID, String tagName) {
+		query = "SELECT tagID FROM tags WHERE tagName = ?";
+		String tagID = "";
 		
+		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(query)){
+			pstmt.setString(1, tagName);
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next() == true) {
+				tagID = rs.getString("tagID");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		insert = "INSERT INTO gametags(gameID, tagID) values(?,?)";
+		try (Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)){
+			pstmt.setString(1, gameID);
+			pstmt.setString(2, tagName);
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static Game readGameByID(String ID) {
