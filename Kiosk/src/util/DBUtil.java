@@ -14,9 +14,9 @@ import domain.TagList;
  * loadDriver();
  * 
  * addGame(Game g);
- * addGameTags; (private methode in addGame aufgerufen)
+ * addGameTags; (private methode in addGame aufgerufen) (in arbeit)
  * readGameByID(String ID);
- * getGameTagsByID(String ID); (private methode in readGameByID aufgerufen)
+ * getGameTagsByID(String ID); (private methode in readGameByID aufgerufen) (in arbeit)
  * getAllGames(); liest gameID, name, thumbnail
  * deleteGame(Game g);
  * updateGame(Game g);
