@@ -1,0 +1,3 @@
+CREATE TABLE games(gameID TEXT primary key, name TEXT, thumbnailLink TEXT, screenshotLink TEXT, steamID UNIQUE, germanDescription TEXT, englishDescription TEXT, path TEXT, lastTimeUsed TEXT);
+CREATE TABLE tags(tagID TEXT, tagName TEXT, tagCat TEXT);
+CREATE TABLE gametags(gameID TEXT, tagName TEXT);
