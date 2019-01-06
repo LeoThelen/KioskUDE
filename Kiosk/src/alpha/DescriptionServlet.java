@@ -29,6 +29,7 @@ public class DescriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Game g = SteamUtil.getGameWithDetails(request.getParameter("id"));
+		System.out.println(g.getEnglishDescription());
 		response.getWriter().append(
 				"<h1>&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;"+g.getName()+
 				"</h1><br><div class=\"anima\"><a href=\"TEST\"><button type=\"button\" class=\"btn btn-warning btn-lg\">ID:"+request.getParameter("id")+"</button></a></div>" +

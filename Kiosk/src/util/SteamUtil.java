@@ -48,7 +48,6 @@ public class SteamUtil {
 		JSONArray arr = obj.getJSONArray("games");
 		for (int i = 0; i < arr.length(); i++)
 		{
-			System.out.println();
 			list.add(new Game(arr.getJSONObject(i).get("appid").toString()));
 			list.getLast().setName(arr.getJSONObject(i).get("name").toString());
 		}
@@ -67,5 +66,13 @@ public class SteamUtil {
 
 		}
 		return g;
+	}
+	public static void main(String[] args) {
+		LinkedList<Game> list = SteamUtil.getSteamGames();
+		for (Game game : list) {
+			//TODO if already in db, dont add
+			DBUtil.setGame(game);
+		}
+		//addtodb
 	}
 }

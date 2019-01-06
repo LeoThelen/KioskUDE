@@ -22,7 +22,6 @@ public class Game {
 	
 	
 	public Game(String steamID){//from SteamUtil
-		System.out.println("Steam: "+steamID);
 		this.steamID=steamID;
 		this.gameID=steamID;//TODO: braucht man diese Zeile noch oder haben wir schon eine DB?
 		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";

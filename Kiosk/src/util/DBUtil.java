@@ -15,7 +15,7 @@ public class DBUtil {
 	static String dbUser = "root";
 	static String dbPassword = "";
 
-	public static Connection MySQLConnection_connect() {
+	private static Connection MySQLConnection_connect() {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			DriverManager.setLogWriter(new PrintWriter(System.out));
@@ -30,7 +30,7 @@ public class DBUtil {
 	}
 
 	// Datenbearbeitung und Datenbankabfragen
-	public static void MySQLConnection_close(Connection conn) {
+	private static void MySQLConnection_close(Connection conn) {
 		if (conn != null) {
 			try {
 				System.out.println("\n Verbindung wird getrennt \n");
