@@ -35,6 +35,7 @@ public class tempDBUtil {
     private static String query = "";
 
 	public static void main(String[] args) {
+		//Das ist jetzt der Test für die Tag funktionen
 		Game g1 = new Game();
 		g1.setId("8");
 		g1.setName("TestDerTags");
