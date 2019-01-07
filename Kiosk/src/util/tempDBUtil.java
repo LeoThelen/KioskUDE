@@ -77,7 +77,7 @@ public class tempDBUtil {
 		for(int i = 0; i < g1.getTaglistlist().size(); i++) {
 			System.out.println("Test");
 			for(int j = 0; j < g1.getTaglistlist().get(i).size(); j++) {
-				System.out.println(g1.getTaglistlist().get(i).get(j));
+				System.out.println(readGameByID("8").getTaglistlist().get(i).get(j));
 			}
 		}
 		
