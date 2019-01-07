@@ -22,7 +22,7 @@ public class DBUtil {
 			// Verbindung zur Datenbank herstellen
 			conn = DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
-			System.out.println("Datenbankverbindung aufgebaut");
+//			System.out.println("Datenbankverbindung aufgebaut");
 		} catch (SQLException e) {
 			System.out.println("Verbindung nicht moeglich");
 		}
@@ -43,7 +43,8 @@ public class DBUtil {
 	/**
 	 * bekommt ein request.getParameter("...") übergeben und gibt eine
 	 * List<GameEntry> zurück.
-	 * @return 
+	 * 
+	 * @return
 	 */
 	public static ArrayList<Game> getGameList() {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
@@ -64,17 +65,18 @@ public class DBUtil {
 	}
 
 	/**
-	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird,
-	 * wuerde eine passgenauere Funktion die Performance nicht wesentlich
-	 * steigern. TODO: Klasse schreiben, die gametags für jedes Spiel gettet.
-	 * @return 
+	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird, wuerde
+	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
+	 * Klasse schreiben, die gametags für jedes Spiel gettet.
+	 * 
+	 * @return
 	 */
 	public static Game getGameDescriptionByID(String ID) {
 		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, arabDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
-		Game g=null;
+		Game g = null;
 
-		try (Connection con = MariaDBConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
 			stmt.setString(1, ID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -91,14 +93,15 @@ public class DBUtil {
 			return g;
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}return null;
+		}
+		return null;
 	}
-	
+
 	public static void addGame(Game g) {
 		String insert = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		
-		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)) {
 			pstmt.setString(1, g.getID());
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
@@ -109,32 +112,36 @@ public class DBUtil {
 			pstmt.setString(8, g.getPath());
 			pstmt.setString(9, g.getLastTimeUsed());
 			pstmt.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		for(int i = 0; i < g.getTaglistlist().size(); i++) {
-			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
-				addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
+
+		if (!(g.getTaglistlist() == null)) {
+			for (int i = 0; i < g.getTaglistlist().size(); i++) {
+				for (int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
+					addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
+				}
 			}
 		}
 	}
+
 	private static void addGameTagByID(String gameID, String tagID) {
 		String insert = "INSERT INTO gametags(gameID, tagID) values(?,?)";
-		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)) {
 			pstmt.setString(1, gameID);
 			pstmt.setString(2, tagID);
 			pstmt.executeUpdate();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	/** Mainmethode zum testen:
-  */
-public static void main(String[] args) throws SQLException {
-	try(Connection con = MariaDBConnection_connect()){
-		MySQLConnection_close(con);
+	/**
+	 * Mainmethode zum testen:
+	 */
+	public static void main(String[] args) throws SQLException {
+		try (Connection con = MariaDBConnection_connect()) {
+			MySQLConnection_close(con);
+		}
 	}
-}
 }

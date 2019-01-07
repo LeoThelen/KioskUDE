@@ -85,7 +85,7 @@ public class tempDBUtil {
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try (Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)){
-			pstmt.setString(1, g.getGameID());
+			pstmt.setString(1, g.getID());
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
 			pstmt.setString(4, g.getScreenshotLink());
@@ -101,7 +101,7 @@ public class tempDBUtil {
 		
 		for(int i = 0; i < g.getTaglistlist().size(); i++) {
 			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
-				addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
+				addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
 			}
 		}
 	}
@@ -132,29 +132,29 @@ public class tempDBUtil {
 	
 	public static Game readGameByID(String ID) {
 		query = "SELECT * FROM games WHERE gameID = ?";
-    	Game readGame = null;
+    	Game game = null;
     	
     	try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(query)) {
 			pstmt.setString(1, ID);
 			ResultSet rs = pstmt.executeQuery();
     		if(rs.next() == true) {
-    			readGame = new Game();
-    			readGame.setGameID(rs.getString("gameID"));
-    			readGame.setName(rs.getString("name"));
-    			readGame.setThumbnailLink(rs.getString("thumbnailLink"));
-    			readGame.setScreenshotLink(rs.getString("screenshotLink"));
-    			readGame.setSteamID(rs.getString("steamID"));
-    			readGame.setGermanDescription(rs.getString("germanDescription"));
-    			readGame.setEnglishDescription(rs.getString("englishDescription"));
-    			readGame.setPath(rs.getString("path"));
-    			readGame.setLastTimeUsed(rs.getString("lastTimeUsed"));
+    			game = new Game();
+    			game.setID(rs.getString("gameID"));
+    			game.setName(rs.getString("name"));
+    			game.setThumbnailLink(rs.getString("thumbnailLink"));
+    			game.setScreenshotLink(rs.getString("screenshotLink"));
+    			game.setSteamID(rs.getString("steamID"));
+    			game.setGermanDescription(rs.getString("germanDescription"));
+    			game.setEnglishDescription(rs.getString("englishDescription"));
+    			game.setPath(rs.getString("path"));
+    			game.setLastTimeUsed(rs.getString("lastTimeUsed"));
     		}
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
     	
-    	readGame.setTaglistlist(readGameTagsByID(ID));
-    	return readGame;
+    	game.setTaglistlist(readGameTagsByID(ID));
+    	return game;
 	}
 	
 	private static ArrayList<ArrayList<String>> readGameTagsByID(String ID) {

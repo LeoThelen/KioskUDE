@@ -9,11 +9,11 @@ public class Game {
 	private String thumbnailLink;
 	private String screenshotLink;
 	private String steamID;
-	private String germanDescription;
-	private String englishDescription;
-	private String arabDescription;
-	private String path;
-	private String lastTimeUsed;
+	private String germanDescription="";
+	private String englishDescription="";
+	private String arabDescription="";
+	private String path="";
+	private String lastTimeUsed="";
 	
 	public Game(){
 		
@@ -21,7 +21,6 @@ public class Game {
 	
 	public Game(String steamID){//from SteamUtil
 		this.steamID=steamID;
-		this.gameID=steamID;//TODO: braucht man diese Zeile noch oder haben wir schon eine DB?
 		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
 	}
 	
@@ -122,7 +121,7 @@ public class Game {
 	}
 
 	public String getPath() {
-		return path;
+		return this.steamID==null ? this.path:"steam://run/"+steamID;
 	}
 
 	public void setPath(String path) {
