@@ -15,11 +15,9 @@ public class Game {
 	private String path;
 	private String lastTimeUsed;
 	
-	
-	
-	
-	
-	
+	public Game(){
+		
+	}
 	
 	public Game(String steamID){//from SteamUtil
 		this.steamID=steamID;
