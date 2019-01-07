@@ -29,7 +29,7 @@ public class DBUtil {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return conn;
+		return null;
 	}
 
 	public static void MySQLConnection_close(Connection conn) {
