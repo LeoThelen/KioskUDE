@@ -9,22 +9,17 @@ public class Game {
 	private String thumbnailLink;
 	private String screenshotLink;
 	private String steamID;
-	private String germanDescription;
-	private String englishDescription;
-	private String arabDescription;
-	private String path;
-	private String lastTimeUsed;
-	
-	
-	
+	private String germanDescription="";
+	private String englishDescription="";
+	private String arabDescription="";
+	private String path="";
+	private String lastTimeUsed="";
 	
 	public Game(){
 	}
-	
-	
+
 	public Game(String steamID){//from SteamUtil
 		this.steamID=steamID;
-		this.gameID=steamID;//TODO: braucht man diese Zeile noch oder haben wir schon eine DB?
 		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
 	}
 	
@@ -44,10 +39,10 @@ public class Game {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getId() {
+	public String getGameID() {
 		return gameID;
 	}
-	public void setId(String gameID) {
+	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
 	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
@@ -125,7 +120,7 @@ public class Game {
 	}
 
 	public String getPath() {
-		return path;
+		return this.steamID==null ? this.path:"steam://run/"+steamID;
 	}
 
 	public void setPath(String path) {

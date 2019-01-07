@@ -67,12 +67,23 @@ public class SteamUtil {
 		}
 		return g;
 	}
-	public static void main(String[] args) {
+	public static void addSteamGameToDB(String steamID) {
+		Game g = SteamUtil.getGameWithDetails(steamID);
+		DBUtil.addGame(g);
+	}
+	
+	@SuppressWarnings("unused")
+	private static void addAllSteamGamesToDB() {
 		LinkedList<Game> list = SteamUtil.getSteamGames();
 		for (Game game : list) {
 			//TODO if already in db, dont add
-			DBUtil.setGame(game);
+			game = SteamUtil.getGameWithDetails(game.getSteamID());
+			System.out.println(game.getName());
+			DBUtil.addGame(game);
 		}
-		//addtodb
+	}
+
+	public static void main(String[] args) {
+		addSteamGameToDB("400");
 	}
 }

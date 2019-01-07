@@ -39,21 +39,9 @@ public class tempDBUtil {
 		g1.setId("8");
 		g1.setName("TestDerTags");
 		
-		Tag t1 = new Tag();
-		t1.setID("1");
-		t1.setTagName("12");
-		t1.setTagCat("alter");
-		//addTag(t1)
-		Tag t2 = new Tag();
-		t2.setID("2");
-		t2.setTagName("16");
-		t2.setTagCat("alter");
-		//addTag(t2);
-		Tag t3 = new Tag();
-		t3.setID("3");
-		t3.setTagName("Entspannung");
-		t3.setTagCat("genre");
-		//addTag(t3);
+		Tag t1 = new Tag("1","12","alter");
+		Tag t2 = new Tag("2","16","alter");
+		Tag t3 = new Tag("3","Entspannung","genre");
 		
 		ArrayList<String> alter = new ArrayList();
 		alter.add(t1.getTagName());
@@ -97,11 +85,15 @@ public class tempDBUtil {
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try (Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)){
+<<<<<<< HEAD
 			pstmt.setString(1, g.getId());
+=======
+			pstmt.setString(1, g.getID());
+>>>>>>> refs/heads/L
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
 			pstmt.setString(4, g.getScreenshotLink());
-			pstmt.setString(5, g.getSteamID());
+			pstmt.setString(5, g.getSteamId());
 			pstmt.setString(6, g.getGermanDescription());
 			pstmt.setString(7, g.getEnglishDescription());
 			pstmt.setString(8, g.getPath());
@@ -113,7 +105,11 @@ public class tempDBUtil {
 		
 		for(int i = 0; i < g.getTaglistlist().size(); i++) {
 			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
+<<<<<<< HEAD
 				addGameTagByID(g.getId(), g.getTaglistlist().get(i).get(j));
+=======
+				addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
+>>>>>>> refs/heads/L
 			}
 		}
 	}
@@ -144,12 +140,13 @@ public class tempDBUtil {
 	
 	public static Game readGameByID(String ID) {
 		query = "SELECT * FROM games WHERE gameID = ?";
-    	Game readGame = null;
+    	Game game = null;
     	
     	try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(query)) {
 			pstmt.setString(1, ID);
 			ResultSet rs = pstmt.executeQuery();
     		if(rs.next() == true) {
+<<<<<<< HEAD
     			readGame = new Game();
     			readGame.setId(rs.getString("gameID"));
     			readGame.setName(rs.getString("name"));
@@ -160,13 +157,25 @@ public class tempDBUtil {
     			readGame.setEnglishDescription(rs.getString("englishDescription"));
     			readGame.setPath(rs.getString("path"));
     			readGame.setLastTimeUsed(rs.getString("lastTimeUsed"));
+=======
+    			game = new Game();
+    			game.setID(rs.getString("gameID"));
+    			game.setName(rs.getString("name"));
+    			game.setThumbnailLink(rs.getString("thumbnailLink"));
+    			game.setScreenshotLink(rs.getString("screenshotLink"));
+    			game.setSteamID(rs.getString("steamID"));
+    			game.setGermanDescription(rs.getString("germanDescription"));
+    			game.setEnglishDescription(rs.getString("englishDescription"));
+    			game.setPath(rs.getString("path"));
+    			game.setLastTimeUsed(rs.getString("lastTimeUsed"));
+>>>>>>> refs/heads/L
     		}
     	}catch(SQLException e) {
     		e.printStackTrace();
     	}
     	
-    	readGame.setTaglistlist(readGameTagsByID(ID));
-    	return readGame;
+    	game.setTaglistlist(readGameTagsByID(ID));
+    	return game;
 	}
 	
 	private static ArrayList<ArrayList<String>> readGameTagsByID(String ID) {

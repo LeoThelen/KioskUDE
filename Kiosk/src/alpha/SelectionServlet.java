@@ -1,6 +1,9 @@
 package alpha;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -11,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Game;
+import util.DBUtil;
 import util.SteamUtil;
 
 /**
@@ -32,11 +36,15 @@ public class SelectionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		try (Connection con = DBUtil.MariaDBConnection_connect()) {
+			DBUtil.MySQLConnection_close(con);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
-		LinkedList<Game> list = SteamUtil.getSteamGames();
-		System.out.println("Steam geladen...");
+		ArrayList<Game> list = DBUtil.getGameList();
 		request.setAttribute("gamelist", list);
-		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
+//		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
 	}
 

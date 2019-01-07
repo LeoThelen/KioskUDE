@@ -1,0 +1,37 @@
+CREATE TABLE games(
+	gameID INT PRIMARY KEY AUTO_INCREMENT,
+	name TEXT NOT NULL,
+	thumbnailLink TEXT,
+	screenshotLink TEXT,
+	steamID INT UNIQUE,
+	germanDescription TEXT,
+	englishDescription TEXT,
+	path TEXT,
+	lastTimeUsed TEXT
+);
+CREATE TABLE tagCats(
+	catID INT PRIMARY KEY AUTO_INCREMENT,
+	labelDE TEXT,
+	labelEN TEXT
+);
+CREATE TABLE tags(
+	tagID INT PRIMARY KEY AUTO_INCREMENT,
+	catID INT,
+	labelDE TEXT,
+	labelEN TEXT,
+		CONSTRAINT `fk_belongsToCat`
+		FOREIGN KEY (catID) REFERENCES tagCats (catID)
+		ON DELETE CASCADE
+);
+CREATE TABLE gametags(
+	gameID INT,
+	tagID INT,
+	PRIMARY KEY(gameID, tagID),
+	CONSTRAINT `fk_gameID`
+		FOREIGN KEY (gameID) REFERENCES games (gameID)
+		ON DELETE CASCADE,
+	CONSTRAINT `fk_tagID`
+		FOREIGN KEY (tagID) REFERENCES tags (tagID)
+		ON DELETE CASCADE
+
+);

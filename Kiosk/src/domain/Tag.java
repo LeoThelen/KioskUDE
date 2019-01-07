@@ -10,6 +10,12 @@ public class Tag {
 		
 	}
 	
+	public Tag(String tagID, String tagName, String tagCat) {
+		this.tagID = tagID;
+		this.tagName = tagName;
+		this.tagCat = tagCat;
+	}
+	
 	public String getTagID() {
 		return tagID;
 	}
