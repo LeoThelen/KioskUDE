@@ -39,21 +39,9 @@ public class tempDBUtil {
 		g1.setId("8");
 		g1.setName("TestDerTags");
 		
-		Tag t1 = new Tag();
-		t1.setID("1");
-		t1.setTagName("12");
-		t1.setTagCat("alter");
-		//addTag(t1)
-		Tag t2 = new Tag();
-		t2.setID("2");
-		t2.setTagName("16");
-		t2.setTagCat("alter");
-		//addTag(t2);
-		Tag t3 = new Tag();
-		t3.setID("3");
-		t3.setTagName("Entspannung");
-		t3.setTagCat("genre");
-		//addTag(t3);
+		Tag t1 = new Tag("1","12","alter");
+		Tag t2 = new Tag("2","16","alter");
+		Tag t3 = new Tag("3","Entspannung","genre");
 		
 		ArrayList<String> alter = new ArrayList();
 		alter.add(t1.getTagName());

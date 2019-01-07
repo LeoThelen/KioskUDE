@@ -1,0 +1,26 @@
+CREATE TABLE games(
+	gameID TEXT PRIMARY KEY AUTO_INCREMENT,
+	name TEXT,
+	thumbnailLink TEXT,
+	screenshotLink TEXT,
+	steamID TEXT UNIQUE,
+	germanDescription TEXT,
+	englishDescription TEXT,
+	path TEXT,
+	lastTimeUsed TEXT
+);
+CREATE TABLE tagCats(
+	catID TEXT,
+	labelDE TEXT,
+	labelEN TEXT
+);
+CREATE TABLE tags(
+	tagID TEXT,
+	catID TEXT,
+	labelDE TEXT,
+	labelEN TEXT
+);
+CREATE TABLE gametags(
+	gameID TEXT,
+	tagID TEXT
+);

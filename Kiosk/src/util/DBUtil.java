@@ -15,21 +15,20 @@ public class DBUtil {
 	static String dbUser = "root";
 	static String dbPassword = "";
 
-	private static Connection MySQLConnection_connect() {
+	private static Connection MariaDBConnection_connect() {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			DriverManager.setLogWriter(new PrintWriter(System.out));
 			// Verbindung zur Datenbank herstellen
 			conn = DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
-			System.out.println("Datenbankverbindung hat geklappt");
+			System.out.println("Datenbankverbindung aufgebaut");
 		} catch (SQLException e) {
 			System.out.println("Verbindung nicht moeglich");
 		}
 		return conn;
 	}
 
-	// Datenbearbeitung und Datenbankabfragen
 	private static void MySQLConnection_close(Connection conn) {
 		if (conn != null) {
 			try {
@@ -51,7 +50,7 @@ public class DBUtil {
 		Game g;
 		ArrayList<Game> gameList = new ArrayList<>();
 
-		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				g = new Game(rs.getString(1), rs.getString(2), rs.getString(3));
@@ -75,7 +74,7 @@ public class DBUtil {
 				+ " FROM games WHERE gameID=?";
 		Game g=null;
 
-		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
+		try (Connection con = MariaDBConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
 			stmt.setString(1, ID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
@@ -94,53 +93,47 @@ public class DBUtil {
 			e.printStackTrace();
 		}return null;
 	}
-	// public static void leerstellenEntfernen(){
-//			// Datenbankabfragen
-//			String myQuery = "UPDATE adb_wert "
-//					+ "SET txt = REPLACE(txt, ' ','') "
-//					+ "WHERE txt LIKE '% %' AND wert_nr IN (SELECT wert_nr FROM adb_mkm_kern WHERE merkmals_nr=72 AND aktion='I')";
-//			try (Connection con = MySQLConnection_connect();
-//					PreparedStatement stmt = con.prepareStatement(myQuery)) {
-//				System.out.println(stmt.executeUpdate() + " rows updated. ");
-//			} catch (SQLException ex) { // handle any errors
-//				System.out.println("SQLException: " + ex.getMessage());
-//				System.out.println("SQLState: " + ex.getSQLState());
-//				System.out.println("VendorError: " + ex.getErrorCode());
-//			}
-	// }
-//
-//	public static void merkmalRequest() {
-//		// Datenbankabfragen
-////		   List<Compound_iab>compound_iabList = new ArrayList<Compound_iab>();
-////		   Compound_iab c;
-//
-//		// fdb30.adb_mkm_liste_de.merkmals_nr
-//		String myQuery = "SELECT merkmals_nr AS merkmal" + " FROM fdb30.adb_mkm_liste_de" + " LIMIT 10";//noch zu tun: nach
-//																										// Test anpassen
-//		try (Connection con = MySQLConnection_connect(); PreparedStatement stmt = con.prepareStatement(myQuery)) {
-//			ResultSet rs = stmt.executeQuery();
-//			while (rs.next()) {
-//				System.out.println(rs.getString("merkmal"));
-////					c =new Compound_iab();
-////					c.setCasrn(rs.getString("casrn"));
-////					c.setInchi(rs.getString("inchi"));
-////					c.setSmiles_original(rs.getString("smiles_original"));
-////					
-////					//hier gibts noch was zu tun evtl[...]
-////					System.out.println(c.toString());
-////					compound_iabList.add(c);
-//			}
-//		} catch (SQLException ex) { // handle any errors
-//			System.out.println("SQLException: " + ex.getMessage());
-//			System.out.println("SQLState: " + ex.getSQLState());
-//			System.out.println("VendorError: " + ex.getErrorCode());
-//		}
-////			return compound_iabList;
-//	}
+	
+	public static void addGame(Game g) {
+		String insert = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
+				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+			pstmt.setString(1, g.getID());
+			pstmt.setString(2, g.getName());
+			pstmt.setString(3, g.getThumbnailLink());
+			pstmt.setString(4, g.getScreenshotLink());
+			pstmt.setString(5, g.getSteamID());
+			pstmt.setString(6, g.getGermanDescription());
+			pstmt.setString(7, g.getEnglishDescription());
+			pstmt.setString(8, g.getPath());
+			pstmt.setString(9, g.getLastTimeUsed());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		for(int i = 0; i < g.getTaglistlist().size(); i++) {
+			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
+				addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
+			}
+		}
+	}
+	private static void addGameTagByID(String gameID, String tagID) {
+		String insert = "INSERT INTO gametags(gameID, tagID) values(?,?)";
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+			pstmt.setString(1, gameID);
+			pstmt.setString(2, tagID);
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/** Mainmethode zum testen:
   */
 public static void main(String[] args) throws SQLException {
-	try(Connection con = MySQLConnection_connect()){
+	try(Connection con = MariaDBConnection_connect()){
 		MySQLConnection_close(con);
 	}
 }
