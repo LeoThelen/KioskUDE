@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Game;
+import util.DBUtil;
 import util.SteamUtil;
 
 /**
@@ -28,13 +29,10 @@ public class DescriptionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Game g = SteamUtil.getGameWithDetails(request.getParameter("id"));
-		System.out.println(g.getEnglishDescription());
-		response.getWriter().append(
-				"<h1>&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;"+g.getName()+
-				"</h1><br><div class=\"anima\"><a href=\"TEST\"><button type=\"button\" class=\"btn btn-warning btn-lg\">ID:"+request.getParameter("id")+"</button></a></div>" +
-				"<br><img src=\""+g.getScreenshotLink()+"\" alt=\"Screenshot\"><br>"
-						+ g.getEnglishDescription());
+		Game g = DBUtil.getGameDescriptionByID(request.getParameter("id"));
+		System.out.println(request.getParameter("id"));
+		request.setAttribute("game", g);
+		request.getRequestDispatcher("description.ftl").forward(request, response);
 	}
 
 	/**

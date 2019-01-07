@@ -9,27 +9,30 @@ import domain.Game;
 public class DBUtil {
 
 	static Connection conn = null;
-	static String dbHost = "localhost";
+	static String dbHost = "127.0.0.1";
 	static String database = "kiosk";
 	static String dbPort = "3306";
 	static String dbUser = "root";
-	static String dbPassword = "";
+	static String dbPassword = "123";
 
-	private static Connection MariaDBConnection_connect() {
+	public static Connection MariaDBConnection_connect() {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
+			Class.forName("org.mariadb.jdbc.Driver");
 			DriverManager.setLogWriter(new PrintWriter(System.out));
 			// Verbindung zur Datenbank herstellen
-			conn = DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
+			return DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
 //			System.out.println("Datenbankverbindung aufgebaut");
 		} catch (SQLException e) {
 			System.out.println("Verbindung nicht moeglich");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
 		}
 		return conn;
 	}
 
-	private static void MySQLConnection_close(Connection conn) {
+	public static void MySQLConnection_close(Connection conn) {
 		if (conn != null) {
 			try {
 				System.out.println("\n Verbindung wird getrennt \n");
@@ -54,7 +57,10 @@ public class DBUtil {
 		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				g = new Game(rs.getString(1), rs.getString(2), rs.getString(3));
+				g = new Game();
+				g.setGameID(rs.getString("gameID"));
+				g.setName(rs.getString("name"));
+				g.setThumbnailLink(rs.getString("thumbnailLink"));
 				gameList.add(g);
 			}
 			return gameList;
@@ -63,6 +69,7 @@ public class DBUtil {
 		}
 		return null;
 	}
+	
 
 	/**
 	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird, wuerde
@@ -72,7 +79,7 @@ public class DBUtil {
 	 * @return
 	 */
 	public static Game getGameDescriptionByID(String ID) {
-		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, arabDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
+		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
 		Game g = null;
 
@@ -80,11 +87,12 @@ public class DBUtil {
 			stmt.setString(1, ID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				g = new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"));
+				g = new Game();
+				g.setGameID(rs.getString("gameID"));
+				g.setName(rs.getString("name"));
 				g.setSteamID(rs.getString("SteamID"));
 				g.setGermanDescription(rs.getString("germanDescription"));
 				g.setEnglishDescription(rs.getString("englishDescription"));
-				g.setArabDescription(rs.getString("arabDescription"));
 				g.setThumbnailLink(rs.getString("thumbnailLink"));
 				g.setScreenshotLink(rs.getString("screenshotLink"));
 				g.setPath(rs.getString("path"));
@@ -102,7 +110,7 @@ public class DBUtil {
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)) {
-			pstmt.setString(1, g.getID());
+			pstmt.setString(1, g.getGameID());
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
 			pstmt.setString(4, g.getScreenshotLink());
@@ -119,7 +127,7 @@ public class DBUtil {
 		if (!(g.getTaglistlist() == null)) {
 			for (int i = 0; i < g.getTaglistlist().size(); i++) {
 				for (int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
-					addGameTagByID(g.getID(), g.getTaglistlist().get(i).get(j));
+					addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
 				}
 			}
 		}

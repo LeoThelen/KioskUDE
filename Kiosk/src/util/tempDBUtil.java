@@ -89,7 +89,7 @@ public class tempDBUtil {
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
 			pstmt.setString(4, g.getScreenshotLink());
-			pstmt.setString(5, g.getSteamID());
+			pstmt.setString(5, g.getSteamId());
 			pstmt.setString(6, g.getGermanDescription());
 			pstmt.setString(7, g.getEnglishDescription());
 			pstmt.setString(8, g.getPath());

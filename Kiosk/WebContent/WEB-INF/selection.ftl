@@ -36,7 +36,7 @@
 				<div class="grid">
 					<#list gamelist as game> <#if game?has_content>
 
-					<div class="grid-item <#if game.classtags?has_content>${game.classtags}</#if>" <#if game.id?has_content>id="${game.id}</#if>"
+					<div class="grid-item ${game.classtags!}" id="${game.gameID!}"
 						style="background-image: url(<#if game.thumbnailLink?has_content>${game.thumbnailLink}</#if>); background-repeat: no-repeat">
 						<br><br><br><br><br><br>&#x1F648;Epilepsie
 					</div>

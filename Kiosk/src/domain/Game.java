@@ -40,10 +40,10 @@ public class Game {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getID() {
+	public String getGameID() {
 		return gameID;
 	}
-	public void setID(String gameID) {
+	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
 	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
