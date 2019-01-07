@@ -97,7 +97,7 @@ public class tempDBUtil {
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		try (Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)){
-			pstmt.setString(1, g.getGameID());
+			pstmt.setString(1, g.getId());
 			pstmt.setString(2, g.getName());
 			pstmt.setString(3, g.getThumbnailLink());
 			pstmt.setString(4, g.getScreenshotLink());
@@ -113,7 +113,7 @@ public class tempDBUtil {
 		
 		for(int i = 0; i < g.getTaglistlist().size(); i++) {
 			for(int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
-				addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
+				addGameTagByID(g.getId(), g.getTaglistlist().get(i).get(j));
 			}
 		}
 	}
@@ -151,7 +151,7 @@ public class tempDBUtil {
 			ResultSet rs = pstmt.executeQuery();
     		if(rs.next() == true) {
     			readGame = new Game();
-    			readGame.setGameID(rs.getString("gameID"));
+    			readGame.setId(rs.getString("gameID"));
     			readGame.setName(rs.getString("name"));
     			readGame.setThumbnailLink(rs.getString("thumbnailLink"));
     			readGame.setScreenshotLink(rs.getString("screenshotLink"));
@@ -214,7 +214,7 @@ public class tempDBUtil {
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
 				g = new Game();
-				g.setGameID(rs.getString("gameID"));
+				g.setId(rs.getString("gameID"));
 				g.setName(rs.getString("name"));
 				g.setThumbnailLink(rs.getString("thumbnailLink"));
 				gameList.add(g);
@@ -229,14 +229,14 @@ public class tempDBUtil {
 	public static void deleteGame(Game g) {
 		insert = "DELETE FROM games WHERE gameID = ?";
 		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
-			pstmt.setString(1, g.getGameID());
+			pstmt.setString(1, g.getId());
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		insert = "DELETE FROM gametags WHERE gameID = ?";
 		try(Connection con = DriverManager.getConnection(connect); PreparedStatement pstmt = con.prepareStatement(insert)) {
-			pstmt.setString(1, g.getGameID());
+			pstmt.setString(1, g.getId());
 			pstmt.executeUpdate();
 		}catch(SQLException e) {
 			e.printStackTrace();
