@@ -35,14 +35,8 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		try (Connection con = DBUtil.MariaDBConnection_connect()) {
-			DBUtil.MySQLConnection_close(con);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		ArrayList<Game> list = DBUtil.getGameList();
+
 		request.setAttribute("gamelist", list);
 //		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
