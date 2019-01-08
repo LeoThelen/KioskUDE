@@ -1,4 +1,4 @@
-<h1>&#1575;&#1604;&#1604;&#1607; &#1571;&#1614;&#1603;&#1618;&#1576;&#1614;&#1585;${game.name}</h1>
+<h1>${game.name}</h1>
 <br><div class="anima">
 
 <#if game.steamID?has_content>
@@ -9,4 +9,4 @@
 
 </div>
 <br><img src="${game.screenshotLink}" alt="Screenshot">
-<br>${game.englishDescription}
+<br>${game.germanDescription}
