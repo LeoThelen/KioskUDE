@@ -21,7 +21,7 @@ VALUES
 	('19','5','Deutsch','German'),
 	('20','5','Englisch','English'),
 	('21','5','Andere','Other'),
-	('22','6','kurz (unter 30 Minuten)','short (under 30 min.)'),
+	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),
 	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),
 	('24','7','liegend','lying'),
 	('25','7','stehend','standing'),

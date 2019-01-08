@@ -8,5 +8,6 @@
 </#if>
 
 </div>
-<br><img src="${game.screenshotLink}" alt="Screenshot">
-<br>${game.germanDescription}
+<br>
+<img src="${game.screenshotLink}" onerror="if (this.src != 'screenshots/sample.png') this.src = 'screenshots/sample.png';">
+<br><h2>${game.germanDescription!"Keine Beschreibung"}</h2>

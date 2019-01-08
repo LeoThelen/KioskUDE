@@ -5,7 +5,6 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import domain.Game;
-
 public class DBUtil {
 
 	
@@ -144,12 +143,65 @@ public class DBUtil {
 		}
 	}
 
+	
+	private static void customInsert(String string) {
+		String insert = HTMLEntities.encode(string);
+
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)) {
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
-	 * Mainmethode zum testen:
+	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		try (Connection con = MariaDBConnection_connect()) {
-			MySQLConnection_close(con);
-		}
+//		try (Connection con = MariaDBConnection_connect()) {
+//			MySQLConnection_close(con);
+//		}
+		customInsert("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + 
+				"VALUES\r\n" + 
+				"	('1','VR-Brille','VR-System'),\r\n" + 
+				"	('2','Alter','Age'),\r\n" + 
+				"	('3','Genre','Genre'),\r\n" + 
+				"	('4','Warnhinweise','Warning'),\r\n" + 
+				"	('5','Sprache','Language'),\r\n" + 
+				"	('6','Spiellänge','Time'),\r\n" + 
+				"	('7','Bewegung','Movement')\r\n" + 
+				";");
+		customInsert("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + 
+				"VALUES\r\n" + 
+				"	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + 
+				"	('2','1','Oculus Go','Oculus Go'),\r\n" + 
+				"	('3','2','unter 12 Jahre','under 12'),\r\n" + 
+				"	('4','2','12 - 16 J.','12 - 16 years'),\r\n" + 
+				"	('5','2','16 und älter','16 and older'),\r\n" + 
+				"	('6','3','Film ','Movies'),\r\n" + 
+				"	('7','3','Wissen','Knowledge'),\r\n" + 
+				"	('8','3','Medizin','Medicine'),\r\n" + 
+				"	('9','3','Minispiele','Mini Games'),\r\n" + 
+				"	('10','3','Abenteuer','Adventure'),\r\n" + 
+				"	('11','3','Simulation','Simulation'),\r\n" + 
+				"	('12','3','Geschicklichkeit','Dexterity'),\r\n" + 
+				"	('13','3','Strategie','Strategy'),\r\n" + 
+				"	('14','3','Action','Action'),\r\n" + 
+				"	('15','3','Entspannung','Relaxation'),\r\n" + 
+				"	('16','4','körperlich anstrengend','exhausting'),\r\n" + 
+				"	('17','4','Dieses Spiel kann Schwindel / Übelkeit hervorrufen!','This game may cause dizziness / nausea!'),\r\n" + 
+				"	('18','4','Dieses Spiel wirkt möglicherweise beängstigend!','This game might frighten you!'),\r\n" + 
+				"	('19','5','Deutsch','German'),\r\n" + 
+				"	('20','5','Englisch','English'),\r\n" + 
+				"	('21','5','Andere','Other'),\r\n" + 
+				"	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n" + 
+				"	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),\r\n" + 
+				"	('24','7','liegend','lying'),\r\n" + 
+				"	('25','7','stehend','standing'),\r\n" + 
+				"	('26','7','sitzend','seated'),\r\n" + 
+				"	('27','7','interaktiv','interactive'),\r\n" + 
+				"	('28','7','raumfüllend','Room-Scale'),\r\n" + 
+				"	('29','7','passiv','passive')\r\n" + 
+				";");
 	}
 }
