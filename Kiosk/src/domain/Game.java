@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Game {
 	private String name;
 	private String gameID;
-	private ArrayList<ArrayList<String>> taglistlist=null;
+	private ArrayList<Tag> taglist = new ArrayList<>();
 	private String thumbnailLink;
 	private String screenshotLink;
 	private String steamID;
@@ -16,21 +16,18 @@ public class Game {
 	private String lastTimeUsed="";
 	
 	public Game(){
+
+	}
+	public Game(String gameID, String name, String thumbnailLink, ArrayList<Tag> taglist){
+		this.gameID=gameID;
+		this.name=name;
+		this.thumbnailLink=thumbnailLink;
+		this.taglist=taglist;
 	}
 
 	public Game(String steamID){//from SteamUtil
 		this.steamID=steamID;
 		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
-	}
-	
-	public Game(String name, String gameID, String altersfreigabe){
-		this.name=name;
-		this.gameID=gameID;
-		taglistlist=new ArrayList<>();
-		for (int i = 0; i < 1; i++) {	//Anzahl der Kategorien, erstmal nur Alter
-			taglistlist.add(new ArrayList<>());
-		}
-		taglistlist.get(0).add(altersfreigabe);
 	}
 	
 	public String getName() {
@@ -45,30 +42,26 @@ public class Game {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
-	public ArrayList<ArrayList<String>> getTaglistlist() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
-		return taglistlist;
+	public ArrayList<Tag> getTaglist() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+		return taglist;
 	}
-	public void setTaglistlist(ArrayList<ArrayList<String>> taglistlist) {
-		this.taglistlist = taglistlist;
+	public void setTaglist(ArrayList<Tag> taglist) {
+		this.taglist = taglist;
 	}
 	
-	public String getClasstags() {	//nur für die Übergabe an Freemarker oder zum kopieren von Kategorisierungen.
-		if(taglistlist==null) {
+	public String getClasstags() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+		if(taglist==null) {
 			return null;
 		}
 		String classtags="";
-		for (int i = 0; i < taglistlist.size(); i++) {
-			for (int j = 0; j < taglistlist.get(i).size(); j++) {
-				classtags+=taglistlist.get(i).get(j).replaceAll("\\s+","")+" "; //entfernt whitspace aus dem tag
-			}
+		for (int i = 0; i < taglist.size(); i++) {
+			classtags+=" tag"+taglist.get(i).getTagID();
 		}
 		return classtags;
 	}
-	public void addTagToCat(int catno, String tag) {
-		while (taglistlist.size()<=catno) {
-			taglistlist.add(new ArrayList<>());
-		}
-		taglistlist.get(catno).add(tag);
+
+	public void addTag(Tag tag) {
+		taglist.add(tag);
 	}
 
 	public String getThumbnailLink() {

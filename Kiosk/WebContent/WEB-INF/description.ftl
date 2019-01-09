@@ -9,5 +9,5 @@
 
 </div>
 <br>
-<img src="${game.screenshotLink}" onerror="if (this.src != 'screenshots/sample.png') this.src = 'screenshots/sample.png';">
+<img src="screenshots/screenshot_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';">
 <br><h2>${game.germanDescription!"Keine Beschreibung"}</h2>

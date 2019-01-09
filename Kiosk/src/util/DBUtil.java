@@ -5,9 +5,11 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import domain.Game;
+import domain.Tag;
+import domain.TagCategory;
+
 public class DBUtil {
 
-	
 	static String dbHost = "localhost";
 	static String database = "kiosk";
 	static String dbPort = "3306";
@@ -50,25 +52,42 @@ public class DBUtil {
 	 */
 	public static ArrayList<Game> getGameList() {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
-		Game g;
 		ArrayList<Game> gameList = new ArrayList<>();
 
 		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				g = new Game();
-				g.setGameID(rs.getString("gameID"));
-				g.setName(rs.getString("name"));
-				g.setThumbnailLink(rs.getString("thumbnailLink"));
-				gameList.add(g);
+				gameList.add(new Game(rs.getString("gameID"),
+					rs.getString("name"),
+					rs.getString("thumbnailLink"),
+					getGameTagsByID(rs.getString("gameID"))
+				));
 			}
-			return gameList;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return gameList;
 	}
 	
+	public static ArrayList<TagCategory> getTagList() {
+		String myQuery = "SELECT catID, labelDE, labelEN FROM tagCats";
+		ArrayList<TagCategory> tagCats = new ArrayList<>();
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				tagCats.add(new TagCategory(
+						rs.getString("catID"),
+						rs.getString("labelDE"),
+						rs.getString("labelEN"),
+						getAllTagsOfCat(rs.getString("catID"))
+				));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return tagCats;
+	}
 
 	/**
 	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird, wuerde
@@ -104,6 +123,59 @@ public class DBUtil {
 		return null;
 	}
 
+	private static ArrayList<Tag> getGameTagsByID(String gameID) {
+		String myQuery = "SELECT tagID FROM gametags WHERE gameID = ?";
+		ArrayList<Tag> taglist = new ArrayList<>();
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, gameID);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				taglist.add(new Tag(rs.getString("tagID")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return taglist;
+	}
+	
+	public static ArrayList<Tag> getAllTagsOfCat(String catID){
+		String myQuery = "SELECT tagID, catID, labelDE, labelEN FROM tags WHERE catID = ?";
+		ArrayList<Tag> taglist = new ArrayList<>();
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, catID);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				taglist.add(new Tag(rs.getString("tagID"),
+    					rs.getString("catID"),
+    					rs.getString("labelDE"),
+    					rs.getString("labelEN")
+    					));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return taglist;
+	}
+		
+	public static Tag getTagByID(String ID) {
+		String myQuery = "SELECT * FROM tags WHERE tagID = ?";
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(myQuery)) {			pstmt.setString(1, ID);
+			ResultSet rs = pstmt.executeQuery();
+    		if(rs.next() == true) {
+    			return new Tag(rs.getString("tagID"),
+    					rs.getString("catID"),
+    					rs.getString("labelDE"),
+    					rs.getString("labelEN")
+    					);
+    		}
+    	}catch(SQLException e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+	}
+
+	
 	public static void addGame(Game g) {
 		String insert = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -123,11 +195,9 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 
-		if (!(g.getTaglistlist() == null)) {
-			for (int i = 0; i < g.getTaglistlist().size(); i++) {
-				for (int j = 0; j < g.getTaglistlist().get(i).size(); j++) {
-					addGameTagByID(g.getGameID(), g.getTaglistlist().get(i).get(j));
-				}
+		if (!(g.getTaglist() == null)) {
+			for (int i = 0; i < g.getTaglist().size(); i++) {
+				addGameTagByID(g.getGameID(), g.getTaglist().get(i).getTagID());
 			}
 		}
 	}
@@ -143,6 +213,19 @@ public class DBUtil {
 		}
 	}
 
+	public static void addTag(Tag t) {
+		String insert = "INSERT INTO tags(tagID, catID, labelDE, labelEN) values(?,?,?)";
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+			pstmt.setString(1, t.getTagID());
+			pstmt.setString(2, t.getCatID());
+			pstmt.setString(3, t.getLabelDE());
+			pstmt.setString(3, t.getLabelEN());
+			pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	
 	private static void customInsert(String string) {
 		String insert = HTMLEntities.encode(string);
@@ -153,55 +236,35 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
+		ArrayList<TagCategory> tagList = DBUtil.getTagList();
+		System.out.println("hi");
 //		try (Connection con = MariaDBConnection_connect()) {
 //			MySQLConnection_close(con);
 //		}
-		customInsert("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + 
-				"VALUES\r\n" + 
-				"	('1','VR-Brille','VR-System'),\r\n" + 
-				"	('2','Alter','Age'),\r\n" + 
-				"	('3','Genre','Genre'),\r\n" + 
-				"	('4','Warnhinweise','Warning'),\r\n" + 
-				"	('5','Sprache','Language'),\r\n" + 
-				"	('6','Spiellänge','Time'),\r\n" + 
-				"	('7','Bewegung','Movement')\r\n" + 
-				";");
-		customInsert("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + 
-				"VALUES\r\n" + 
-				"	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + 
-				"	('2','1','Oculus Go','Oculus Go'),\r\n" + 
-				"	('3','2','unter 12 Jahre','under 12'),\r\n" + 
-				"	('4','2','12 - 16 J.','12 - 16 years'),\r\n" + 
-				"	('5','2','16 und älter','16 and older'),\r\n" + 
-				"	('6','3','Film ','Movies'),\r\n" + 
-				"	('7','3','Wissen','Knowledge'),\r\n" + 
-				"	('8','3','Medizin','Medicine'),\r\n" + 
-				"	('9','3','Minispiele','Mini Games'),\r\n" + 
-				"	('10','3','Abenteuer','Adventure'),\r\n" + 
-				"	('11','3','Simulation','Simulation'),\r\n" + 
-				"	('12','3','Geschicklichkeit','Dexterity'),\r\n" + 
-				"	('13','3','Strategie','Strategy'),\r\n" + 
-				"	('14','3','Action','Action'),\r\n" + 
-				"	('15','3','Entspannung','Relaxation'),\r\n" + 
-				"	('16','4','körperlich anstrengend','exhausting'),\r\n" + 
-				"	('17','4','Dieses Spiel kann Schwindel / Übelkeit hervorrufen!','This game may cause dizziness / nausea!'),\r\n" + 
-				"	('18','4','Dieses Spiel wirkt möglicherweise beängstigend!','This game might frighten you!'),\r\n" + 
-				"	('19','5','Deutsch','German'),\r\n" + 
-				"	('20','5','Englisch','English'),\r\n" + 
-				"	('21','5','Andere','Other'),\r\n" + 
-				"	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n" + 
-				"	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),\r\n" + 
-				"	('24','7','liegend','lying'),\r\n" + 
-				"	('25','7','stehend','standing'),\r\n" + 
-				"	('26','7','sitzend','seated'),\r\n" + 
-				"	('27','7','interaktiv','interactive'),\r\n" + 
-				"	('28','7','raumfüllend','Room-Scale'),\r\n" + 
-				"	('29','7','passiv','passive')\r\n" + 
-				";");
+//		customInsert("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
+//				+ "	('1','VR-Brille','VR-System'),\r\n" + "	('2','Alter','Age'),\r\n" + "	('3','Genre','Genre'),\r\n"
+//				+ "	('5','Sprache','Language'),\r\n"
+//				+ "	('6','Spiellänge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
+//		customInsert("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
+//				+ "	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + "	('2','1','Oculus Go','Oculus Go'),\r\n"
+//				+ "	('3','2','unter 12 Jahre','under 12'),\r\n" + "	('4','2','12 - 16 J.','12 - 16 years'),\r\n"
+//				+ "	('5','2','16 und älter','16 and older'),\r\n" + "	('6','3','Film ','Movies'),\r\n"
+//				+ "	('7','3','Wissen','Knowledge'),\r\n" + "	('8','3','Medizin','Medicine'),\r\n"
+//				+ "	('9','3','Minispiele','Mini Games'),\r\n" + "	('10','3','Abenteuer','Adventure'),\r\n"
+//				+ "	('11','3','Simulation','Simulation'),\r\n" + "	('12','3','Geschicklichkeit','Dexterity'),\r\n"
+//				+ "	('13','3','Strategie','Strategy'),\r\n" + "	('14','3','Action','Action'),\r\n"
+//				+ "	('15','3','Entspannung','Relaxation'),\r\n"
+//				+ "	('19','5','Deutsch','German'),\r\n" + "	('20','5','Englisch','English'),\r\n"
+//				+ "	('21','5','Andere','Other'),\r\n"
+//				+ "	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n"
+//				+ "	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),\r\n"
+//				+ "	('24','7','liegend','lying'),\r\n" + "	('25','7','stehend','standing'),\r\n"
+//				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
+//				+ "	('28','7','raumfüllend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
 	}
 }

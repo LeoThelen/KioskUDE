@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import domain.Game;
+import domain.TagCategory;
 import util.DBUtil;
 import util.SteamUtil;
 
@@ -35,10 +36,11 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Game> list = DBUtil.getGameList();
+		ArrayList<Game> gameList = DBUtil.getGameList();
+		ArrayList<TagCategory> tagList = DBUtil.getTagList();
 
-		request.setAttribute("gamelist", list);
-//		request.setAttribute("taglistlist", list.get(0).getTaglistlist());
+		request.setAttribute("gamelist", gameList);
+		request.setAttribute("tagCats", tagList);
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
 	}
 

@@ -11,14 +11,13 @@
 	<div class="row">
 		<div class="col-6">
 			<div class="filters">
-				<#if taglistlist?has_content> <#list taglistlist as taglist>
+				<#if tagCats?has_content> <#list tagCats as tagCat>
 				<div class="button-group js-radio-button-group"
-					data-filter-group="age">
-					<#if taglistlist?has_content>
-					<button class="button is-checked" data-filter="">Alter</button>
-					<#list taglist as tag>
-					<button class="button" data-filter=".${tag}">${tag}</button>
-					</#list> </#if>
+					data-filter-group="${tagCat.filterGroup}">
+					<button class="button is-checked" data-filter="">${tagCat.labelDE!"noCatLabel"}</button>
+					<#list tagCat.taglist as tag>
+					<button class="button" data-filter=".${tag.filter}">${tag.labelDE!"noTagLabel"}</button>
+					</#list>
 				</div>
 				</#list> </#if>
 
@@ -37,7 +36,8 @@
 					<#list gamelist as game> <#if game?has_content>
 
 					<div class="grid-item ${game.classtags!}" id="${game.gameID!}">
-						<#if game.thumbnailLink?has_content><img src="${game.thumbnailLink}" alt="${game.name}">
+						<#if game.thumbnailLink?has_content>
+						<img src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';" alt="${game.name}">
 						<#else>
 						
 						</#if>
