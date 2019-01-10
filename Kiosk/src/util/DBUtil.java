@@ -262,7 +262,7 @@ public class DBUtil {
 	}
 
     	//nimmt username und passwort entgegen und guckt ob es richtig ist
-	public static boolean passwordCorrect(String username, String enteredPassword){
+	public static boolean verifyLogin(String username, String enteredPassword){
 	    String query = "SELECT salt, password FROM login WHERE username = ?";
 	    String salt = "";
 	    String password = "";
@@ -288,17 +288,21 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		ArrayList<TagCategory> tagList = DBUtil.getTagList();
-		System.out.println("hi");
-		writePassword("admin", "passwort", "salt");
+		writePassword("admin", "0000", "allahuakbar");
+		System.out.println(verifyLogin("admin", "0000"));
+		System.out.println(verifyLogin("admin", "0001"));
+		
+//		ArrayList<TagCategory> tagList = DBUtil.getTagList();
+//		System.out.println("hi");
+//		writePassword("admin", "passwort", "salt");
 //		try (Connection con = MariaDBConnection_connect()) {
 //			MySQLConnection_close(con);
 //		}
-//		customInsert("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
+//		addCustom("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','VR-Brille','VR-System'),\r\n" + "	('2','Alter','Age'),\r\n" + "	('3','Genre','Genre'),\r\n"
 //				+ "	('5','Sprache','Language'),\r\n"
 //				+ "	('6','Spiellänge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
-//		customInsert("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
+//		addCustom("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + "	('2','1','Oculus Go','Oculus Go'),\r\n"
 //				+ "	('3','2','unter 12 Jahre','under 12'),\r\n" + "	('4','2','12 - 16 J.','12 - 16 years'),\r\n"
 //				+ "	('5','2','16 und älter','16 and older'),\r\n" + "	('6','3','Film ','Movies'),\r\n"

@@ -36,7 +36,8 @@ CREATE TABLE gametags(
 
 );
 CREATE TABLE login(
-	username TEXT PRIMARY KEY,
+	userID INT PRIMARY KEY AUTO_INCREMENT,
+	username VARCHAR(32) UNIQUE,
 	password TEXT,
 	salt TEXT
 );
