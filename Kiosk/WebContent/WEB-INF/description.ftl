@@ -1,5 +1,5 @@
 <h1>${game.name}</h1>
-<br><div class="anima">
+<br><div>
 
 <#if game.steamID?has_content>
 <a href="steam://run/${game.steamID}"><button type="button" class="btn btn-primary btn-lg">Steamspiel starten</button></a>

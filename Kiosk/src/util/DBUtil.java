@@ -233,7 +233,7 @@ public class DBUtil {
 	}
 
 	
-	private static void customInsert(String string) {
+	private static void addCustom(String string) {
 		String myQuery = HTMLEntities.encode(string);
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
 			pstmt.executeUpdate();

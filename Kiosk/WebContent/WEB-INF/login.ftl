@@ -10,6 +10,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
+    <link href="css/my.css" rel="stylesheet">
     <link href="css/login-template.css" rel="stylesheet">
   </head>
 
