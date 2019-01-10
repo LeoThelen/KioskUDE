@@ -45,13 +45,20 @@ public class LoginServlet extends HttpServlet {
 		}
 		if (!(user == null || password == null)) {
 			request.setAttribute("wrongpassword", true);
-			if (user.equals("admin@god") && password.equals("0000")) { // TODO increase security
+			/*if (user.equals("admin@god") && password.equals("0000")) { // TODO increase security
+				Cookie loginCookie = new Cookie("vrlogin", user);
+				loginCookie.setMaxAge(3600); // expires after 1h
+				response.addCookie(loginCookie);
+				request.setAttribute("loggedin", true);
+			}*/
+			if(DBUtil.passwordCorrect(user, password)) {
 				Cookie loginCookie = new Cookie("vrlogin", user);
 				loginCookie.setMaxAge(3600); // expires after 1h
 				response.addCookie(loginCookie);
 				request.setAttribute("loggedin", true);
 			}
 		}
+		
 		request.getRequestDispatcher("login.ftl").forward(request, response);
 	}
 
