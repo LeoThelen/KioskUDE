@@ -3,14 +3,48 @@
 <meta charset="utf-8">
 
 <title>Games</title>
+<link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
 </head>
 <body>
-	<div class="row">
-		<div class="col-6">
+ <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">VR Kiosk</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="main">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="login">Login</a>
+          </li>
+          <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          &Uuml;ber
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="https://github.com/LeoThelen/KioskUDE">Projekt auf GitHub</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="about.ftl">Impressum</a>
+        </div>
+      </li>
+            <li class="nav-item">
+            <a class="nav-link" href="DE">DE</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="EN">EN</a>
+            </li>
+
+        </ul>
+      </div>
+    </nav>
 			<div class="filters">
+			<!-- Hier sind die Filter. -->
 				<#if tagCats?has_content> <#list tagCats as tagCat>
 				<div class="button-group js-radio-button-group"
 					data-filter-group="${tagCat.filterGroup}">
@@ -20,17 +54,11 @@
 					</#list>
 				</div>
 				</#list> </#if>
-
-				<div class="button-group js-radio-button-group"
-					data-filter-group="genre">
-					<button class="button is-checked" data-filter="">Genre</button>
-					<button class="button" data-filter=".simulation">Simulation</button>
-				</div>
-
-
-
-
-
+			</div>
+<div class="hidden">Der Filterfilter filtert Filter!</div>
+	<div class="row">
+		<div class="col-6">
+			<!-- Hier sind die Spiele. -->
 				<#if gamelist?has_content> <br>
 				<div class="grid">
 					<#list gamelist as game> <#if game?has_content>
@@ -45,7 +73,7 @@
 					</#if> </#list>
 				</div>
 				<#else> Die Liste ist leer. Existieren wohl keine Games. </#if>
-			</div>
+
 		</div>
 		<div class="col-6" id="description">
 			<div style="text-align:center; font-size:120px"><br></div>
