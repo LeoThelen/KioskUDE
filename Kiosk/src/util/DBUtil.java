@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.sql.*;
 import java.util.ArrayList;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import domain.Game;
 import domain.Tag;
 import domain.TagCategory;
@@ -45,8 +47,8 @@ public class DBUtil {
 	}
 
 	/**
-	 * bekommt ein request.getParameter("...") übergeben und gibt eine
-	 * List<GameEntry> zurück.
+	 * bekommt ein request.getParameter("...") Ã¼bergeben und gibt eine
+	 * List<GameEntry> zurÃ¼ck.
 	 * 
 	 * @return
 	 */
@@ -92,7 +94,7 @@ public class DBUtil {
 	/**
 	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird, wuerde
 	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
-	 * Klasse schreiben, die gametags für jedes Spiel gettet.
+	 * Klasse schreiben, die gametags fÃ¼r jedes Spiel gettet.
 	 * 
 	 * @return
 	 */
@@ -236,24 +238,64 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	//Passwort Methoden
+	//Hashed und salted das passwort und trÃ¤gt alles in eine DB ein
+	//Beispiel salts: "*K&Jji" "rt%sH" "wwwQ*&%"
+	public static void writePassword(String username, String originalPasswort, String salt){
+		String insert = "INSERT INTO login(username, password, salt) values(?, ?, ?)";
+		String passwort = DigestUtils.sha256Hex(originalPasswort + salt);
+		try(PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)){
+			pstmt.setString(1, username);
+			pstmt.setString(2, passwort);
+			pstmt.setString(3, salt);
+			pstmt.executeUpdate();
+		}catch (SQLException e){
+			e.printStackTrace();
+		}
+	}
 
+    	//nimmt username und passwort entgegen und guckt ob es richtig ist
+	public static boolean passwordCorrect(String username, String enteredPassword){
+	    String query = "SELECT salt, password FROM login WHERE username = ?";
+	    String salt = "";
+	    String password = "";
+	    try(PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(query)){
+	        pstmt.setString(1, username);
+	        ResultSet rs = pstmt.executeQuery();
+	        while(rs.next() == true){
+	            salt = rs.getString("salt");
+	            password = rs.getString("password");
+	        }
+	    }catch (SQLException e){
+	        e.printStackTrace();
+	    }
+	
+	    enteredPassword = DigestUtils.sha256Hex(enteredPassword + salt);
+	    if(enteredPassword.equals(password)){
+	        return true;
+	    }else{
+	        return false;
+	    }
+	}
 	/**
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
 		ArrayList<TagCategory> tagList = DBUtil.getTagList();
 		System.out.println("hi");
+		writePassword("admin", "passwort", "salt");
 //		try (Connection con = MariaDBConnection_connect()) {
 //			MySQLConnection_close(con);
 //		}
 //		customInsert("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','VR-Brille','VR-System'),\r\n" + "	('2','Alter','Age'),\r\n" + "	('3','Genre','Genre'),\r\n"
 //				+ "	('5','Sprache','Language'),\r\n"
-//				+ "	('6','Spiellänge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
+//				+ "	('6','SpiellÃ¤nge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
 //		customInsert("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + "	('2','1','Oculus Go','Oculus Go'),\r\n"
 //				+ "	('3','2','unter 12 Jahre','under 12'),\r\n" + "	('4','2','12 - 16 J.','12 - 16 years'),\r\n"
-//				+ "	('5','2','16 und älter','16 and older'),\r\n" + "	('6','3','Film ','Movies'),\r\n"
+//				+ "	('5','2','16 und Ã¤lter','16 and older'),\r\n" + "	('6','3','FilmÂ ','Movies'),\r\n"
 //				+ "	('7','3','Wissen','Knowledge'),\r\n" + "	('8','3','Medizin','Medicine'),\r\n"
 //				+ "	('9','3','Minispiele','Mini Games'),\r\n" + "	('10','3','Abenteuer','Adventure'),\r\n"
 //				+ "	('11','3','Simulation','Simulation'),\r\n" + "	('12','3','Geschicklichkeit','Dexterity'),\r\n"
@@ -262,9 +304,9 @@ public class DBUtil {
 //				+ "	('19','5','Deutsch','German'),\r\n" + "	('20','5','Englisch','English'),\r\n"
 //				+ "	('21','5','Andere','Other'),\r\n"
 //				+ "	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n"
-//				+ "	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),\r\n"
+//				+ "	('23','6','lang (Ã¼ber 30 Minuten)','long (more than 30 min.)'),\r\n"
 //				+ "	('24','7','liegend','lying'),\r\n" + "	('25','7','stehend','standing'),\r\n"
 //				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
-//				+ "	('28','7','raumfüllend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
+//				+ "	('28','7','raumfÃ¼llend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
 	}
 }
