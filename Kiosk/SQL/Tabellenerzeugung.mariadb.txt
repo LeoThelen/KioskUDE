@@ -35,3 +35,8 @@ CREATE TABLE gametags(
 		ON DELETE CASCADE
 
 );
+CREATE TABLE login(
+	username TEXT PRIMARY KEY,
+	password TEXT,
+	salt TEXT
+);
