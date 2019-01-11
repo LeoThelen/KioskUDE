@@ -45,7 +45,8 @@ public class LoginServlet extends HttpServlet {
 				}
 			}
 		}
-		if (!(user == null || password == null)) {
+		if (user != null && password != null) {
+			System.out.println(user+"<user password>"+password);
 			request.setAttribute("wrongpassword", true);
 			/*if (user.equals("admin@god") && password.equals("0000")) { // TODO increase security
 				Cookie loginCookie = new Cookie("vrlogin", user);
@@ -53,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 				response.addCookie(loginCookie);
 				request.setAttribute("loggedin", true);
 			}*/
-			if(DBUtil.passwordCorrect(user, password)) {
+			if(DBUtil.verifyLogin(user, password)) {
 				Cookie loginCookie = new Cookie("vrlogin", user);
 				loginCookie.setMaxAge(3600); // expires after 1h
 				response.addCookie(loginCookie);
