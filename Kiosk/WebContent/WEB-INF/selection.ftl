@@ -3,10 +3,11 @@
 <meta charset="utf-8">
 
 <title>Games</title>
-<link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
+<link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
+
 </head>
 <body>
  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">

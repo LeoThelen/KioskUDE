@@ -1,27 +1,6 @@
 @charset "ISO-8859-1";
 /*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
 
-/**
- * 1. Change the default font family in all browsers (opinionated).
- * 2. Correct the line height in all browsers.
- * 3. Prevent adjustments of font size after orientation changes in IE and iOS.
- */
-
-html {
-  font-family: sans-serif; /* 1 */
-  line-height: 1.15; /* 2 */
-  -ms-text-size-adjust: 100%; /* 3 */
-  -webkit-text-size-adjust: 100%; /* 3 */
-}
-
-/**
- * Remove the margin in all browsers (opinionated).
- */
-
-body {
-  margin: 0;
-}
-
 /* HTML5 display definitions
    ========================================================================== */
 
@@ -130,14 +109,7 @@ strong {
   font-weight: inherit;
 }
 
-/**
- * Add the correct font weight in Chrome, Edge, and Safari.
- */
 
-b,
-strong {
-  font-weight: bolder;
-}
 
 /**
  * Add the correct font style in Android 4.3-.
@@ -145,16 +117,6 @@ strong {
 
 dfn {
   font-style: italic;
-}
-
-/**
- * Correct the font size and margin on `h1` elements within `section` and
- * `article` contexts in Chrome, Firefox, and Safari.
- */
-
-h1 {
-  font-size: 2em;
-  margin: 0.67em 0;
 }
 
 /**
@@ -547,90 +509,6 @@ textarea {
   vertical-align: top;
 }
 
-@media screen and (min-width: 768px) {
-
-  /* ---- buy-button-trio ---- */
-
-  .buy-button-trio {
-    margin-top: 40px;
-    margin-bottom: 50px;
-  }
-
-  .buy-button-trio:after {
-    content: '';
-    display: block;
-    clear: both;
-  }
-
-  /* ---- buy-button-trio buy-button ---- */
-
-  .buy-button-trio .buy-button {
-    float: left;
-    width: 31.33%;
-    margin-right: 3%;
-  }
-
-  .buy-button-trio .buy-button:nth-child(3) {
-    margin-right: 0;
-  }
-
-  .buy-button-trio .buy-button {
-    transition: transform 0.2s;
-    padding: 20px 0 0;
-  }
-
-  .buy-button-trio .buy-button > span {
-    display: block;
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-
-  .buy-button-trio .buy-button__project,
-  .buy-button-trio .buy-button__license {
-    font-size: 1.1rem;
-  }
-
-  .buy-button-trio .buy-button__title {
-    font-size: 1.9rem;
-    line-height: 1.2;
-  }
-
-  .buy-button-trio .buy-button__license {
-    margin-bottom: 15px;
-  }
-
-  .buy-button-trio .buy-button__for {
-    margin-bottom: 20px;
-    font-size: 1.1rem;
-  }
-
-  .buy-button-trio .buy-button__price {
-    position: relative;
-    width: auto;
-    font-size: 2.4rem;
-    line-height: 1.3;
-    padding-top: 15px;
-    padding-bottom: 10px;
-    border-radius: 0 0 8px 8px;
-  }
-
-  .buy-button-trio .buy-button__was-price {
-    display: block;
-    padding-bottom: 10px;
-  }
-
-  .buy-button-trio .buy-button__price__dollar {
-    position: relative;
-    top: 8px;
-  }
-
-
-  .buy-button-trio .buy-button:hover {
-    transform: translateY(-5px);
-  }
-
-}
-
 /* call out
 ------------------------- */
 
@@ -698,29 +576,6 @@ textarea {
 
 .quick-start-list {
   list-style: none;
-}
-
-@media screen and (min-width: 768px) {
-
-  .call-out {
-    border: 2px solid #ED2;
-    padding: 10px 20px 10px 80px;
-    border-radius: 6px;
-    position: relative;
-    margin: 20px 0;
-  }
-
-  .call-out--chill { border-color: #8C8; }
-
-  .call-out:before {
-    width: 40px;
-    height: 40px;
-    left: 20px;
-    top: 30px;
-    font-size: 1.9rem;
-    line-height: 46px;
-  }
-
 }
 
 /* chunky-buttons
@@ -852,20 +707,7 @@ two columns for large devices
 }
 
 
-@media screen and ( min-width: 768px ) {
 
-  .duo__cell {
-    float: left;
-    width: 48.5%;
-  }
-
-  .duo__cell:first-child {
-    margin-right: 3%;
-  }
-
-  .duo__cell--license-option p { margin-top: 0; }
-
-}
 
 /* edit-demo
 ------------------------- */
@@ -874,15 +716,6 @@ two columns for large devices
   clear: both;
   font-size: 0.92rem;
 }
-
-/* example
-------------------------- */
-
-.example {
-  margin: 40px 0;
-}
-
-.example__code pre { margin: 0 0 20px; }
 
 /* gh-button
 ------------------------- */
@@ -1006,35 +839,6 @@ two columns for large devices
   margin: 0;
 }
 
-@media screen and ( min-width: 768px ) {
-
-  .showcase-item {
-    float: left;
-    width: 48.5%;
-  }
-
-  .showcase-item:nth-child(2n+1) {
-    margin-right: 3%;
-  }
-
-  .showcase-item__image {
-    width: 120px;
-  }
-
-  .showcase-item__text {
-    padding-left: 20px;
-  }
-
-  .showcase-item__title {
-    font-size: 2.0rem;
-  }
-
-  .showcase-item__description {
-    font-size: 1.2rem;
-    line-height: 1.2;
-  }
-
-}
 
 /* showcase
 ------------------------- */
@@ -1078,21 +882,6 @@ two columns for large devices
   height: 1.3rem;
   vertical-align: middle;
 }
-
-/* socks-promo
-------------------------- */
-
-.socks-promo {
-  margin: 40px 0;
-}
-
-.socks-promo__image {
-  display: block;
-  max-width: 100%;
-  border-radius: 5px;
-}
-
-.socks-promo .duo__cell { margin-bottom: 0; }
 
 /* flickity-illo
 ------------------------- */
@@ -1138,22 +927,6 @@ green #1FB
           box-sizing: border-box;
 }
 
-/* font-size on html for rem*/
-html {
-  font-family: Texta, sans-serif;
-  font-size: 17px;
-  line-height: 1.5;
-}
-
-html.export {
-  font-family: sans-serif;
-  font-size: 15px;
-}
-
-body {
-  color: #EEE;
-  background: #262524;
-}
 
 /* ---- links ---- */
 
@@ -1172,44 +945,6 @@ a:active,
 a:active code {
   color: #1FB;
   background: #161615;
-}
-
-/* ---- headers ---- */
-
-h1, h2, h3, h4 {
-  line-height: 1.25;
-}
-
-h1 {
-  font-weight: bold;
-  font-size: 2.65em;
-  margin-bottom: 0.2em;
-  margin-top: 2.0em;
-}
-
-h1:first-child { margin-top: 0; }
-
-h2 {
-  font-weight: bold;
-}
-
-h3 {
-  font-weight: normal;
-  font-size: 1.4em;
-  margin-top: 2.0em;
-  margin-bottom: 0.8em;
-}
-
-h4 {
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  font-size: 1.1em;
-}
-
-/* ---- lists ---- */
-
-ul, ol {
-  padding-left: 1.8em;
 }
 
 /* ---- code ---- */

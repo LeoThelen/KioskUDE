@@ -4,13 +4,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Login">
 	<meta name="author" content="Leonhard Thelen">
-
 	<title>Login - VR Kiosk</title>
-
-	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.min.css" rel="stylesheet">
-
-	<!-- Custom styles for this template -->
 	<link href="css/my.css" rel="stylesheet">
 	<link href="css/login-template.css" rel="stylesheet">
 </head>
