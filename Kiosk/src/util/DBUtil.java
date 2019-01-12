@@ -180,6 +180,24 @@ public class DBUtil {
     	}
     	return null;
 	}
+	
+	public static Tag getTagBLabelEN(String labelEN) {
+		String myQuery = "SELECT * FROM tags WHERE  labelEN = ?";
+		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(myQuery)) {			
+			pstmt.setString(1, labelEN);
+			ResultSet rs = pstmt.executeQuery();
+    			if(rs.next() == true) {
+    			return new Tag(rs.getString("tagID"),
+    					rs.getString("catID"),
+    					rs.getString("labelDE"),
+    					rs.getString("labelEN")
+    					);
+    			}
+    		}catch(SQLException e) {
+    			e.printStackTrace();
+    		}
+    		return null;
+	}
 
 	
 	//angepasst mit checkSteamID
@@ -310,6 +328,8 @@ public class DBUtil {
 	        return false;
 	    }
 	}
+	
+	
 	/**
 	 * Mainmethode zum Datenbanksetup:
 	 */
