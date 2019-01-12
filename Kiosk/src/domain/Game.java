@@ -81,7 +81,7 @@ public class Game {
 	}
 
 	public String getSteamID() {
-		return steamID;
+		return steamID==null?"":steamID;
 	}
 
 	public void setSteamID(String steamID) {

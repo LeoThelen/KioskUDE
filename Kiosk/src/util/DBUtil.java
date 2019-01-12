@@ -5,6 +5,7 @@ import java.sql.*;
 import java.util.ArrayList;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import javax.swing.JOptionPane;
 
 import domain.Game;
 import domain.Tag;
@@ -181,31 +182,56 @@ public class DBUtil {
 	}
 
 	
+	//angepasst mit checkSteamID
 	public static void addGame(Game g) {
-		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
+		String insert = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		if(checkSteamID(g.getSteamID())) {
+			try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(insert)) {
+				pstmt.setString(1, g.getGameID());
+				pstmt.setString(2, g.getName());
+				pstmt.setString(3, g.getThumbnailLink());
+				pstmt.setString(4, g.getScreenshotLink());
+				pstmt.setString(5, g.getSteamID());
+				pstmt.setString(6, g.getGermanDescription());
+				pstmt.setString(7, g.getEnglishDescription());
+				pstmt.setString(8, g.getPath());
+				pstmt.setString(9, g.getLastTimeUsed());
+				pstmt.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
-			pstmt.setString(1, g.getGameID());
-			pstmt.setString(2, g.getName());
-			pstmt.setString(3, g.getThumbnailLink());
-			pstmt.setString(4, g.getScreenshotLink());
-			pstmt.setString(5, g.getSteamID());
-			pstmt.setString(6, g.getGermanDescription());
-			pstmt.setString(7, g.getEnglishDescription());
-			pstmt.setString(8, g.getPath());
-			pstmt.setString(9, g.getLastTimeUsed());
-			pstmt.executeUpdate();
-			MySQLConnection_close(conn);
+			if (!(g.getTaglist() == null)) {
+				for (int i = 0; i < g.getTaglist().size(); i++) {
+					addGameTagByID(g.getGameID(), g.getTaglist().get(i).getTagID());
+				}
+			}
+		}else {
+	        	JOptionPane.showMessageDialog(null, "SteamID already in Database");
+		}
+	}
+	
+	//returns true wenn nicht schon in der Datenbank
+	private static boolean checkSteamID(String steamID) {
+		String myQuery = "SELECT steamID FROM games WHERE steamID=?";
+		ArrayList<String> steamIDs = new ArrayList<>();
+
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, steamID);
+			ResultSet rs = stmt.executeQuery();
+			while (rs.next()) {
+				steamIDs.add(rs.getString("steamID"));
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
-		if (!(g.getTaglist() == null)) {
-			for (int i = 0; i < g.getTaglist().size(); i++) {
-				addGameTagByID(g.getGameID(), g.getTaglist().get(i).getTagID());
+		for(int i = 0; i < steamIDs.size(); i++) {
+			if(steamIDs.get(i).equals(steamID)) {
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private static void addGameTagByID(String gameID, String tagID) {
