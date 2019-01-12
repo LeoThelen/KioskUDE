@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String user = request.getParameter("user");
 		String password = request.getParameter("password");
-		System.out.println(user + password);
 		Cookie cookies[] = request.getCookies();
 		request.setAttribute("loggedin", false);
 		if (cookies != null) {
@@ -48,6 +47,8 @@ public class LoginServlet extends HttpServlet {
 		if (user != null && password != null) {
 			System.out.println(user+"<user password>"+password);
 			request.setAttribute("wrongpassword", true);
+			request.setAttribute("lastmail", user);
+			
 			/*if (user.equals("admin@god") && password.equals("0000")) { // TODO increase security
 				Cookie loginCookie = new Cookie("vrlogin", user);
 				loginCookie.setMaxAge(3600); // expires after 1h
