@@ -6,8 +6,10 @@ import java.util.LinkedList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 import domain.Game;
+import domain.Tag;
 
 
 
@@ -81,6 +83,34 @@ public class SteamUtil {
 			System.out.println(game.getName());
 			DBUtil.addGame(game);
 		}
+	}
+	
+	public static void getSteamTags(Game g) {
+		//gets tags from steamspy
+		List<String> taglist = new ArrayList<String>();
+		try {
+			JSONObject j = new JSONObject(getHTML("http://steamspy.com/api.php?request=appdetails&appid="+g.getSteamID()));
+				String[] genres = j.getString("genre").split(", ");
+				j=j.getJSONObject("tags");
+				Iterator keysToCopyIterator = j.keys();
+				while(keysToCopyIterator.hasNext()) {
+				    String key = (String) keysToCopyIterator.next();
+				    taglist.add(key);
+				}
+				for(int i = 0; i < genres.length; i++) {
+					taglist.add(genres[i]);
+				}
+		}catch(JSONException e) {
+			e.printStackTrace();
+		}
+		//checks for tags in tags database
+		for(int i = 0; i < taglist.size(); i++) {
+			Tag newTag = DBUtil.getTagBLabelEN(taglist.get(i));
+			if(newTag != null) {
+				g.getTaglist().add(newTag);
+			}
+		}
+		
 	}
 
 	public static void main(String[] args) {
