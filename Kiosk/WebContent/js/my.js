@@ -38,17 +38,53 @@ function concatValues(obj) {
 
 // resize grid-items on click
 var $grid = $('.grid').isotope({
-	itemSelector : '.grid-item',
+	 itemSelector: '.grid-item',
 
 });
 
+//load description page
 $grid.on('click', '.grid-item', function() {
 	// change size of item by toggling gigante class
-	$('.gigante').toggleClass('gigante');
-	$(this).toggleClass('gigante');
+	$('.grid-item-active').toggleClass('grid-item-active');
+	$(this).toggleClass('grid-item-active');
 	$.get('description?id='+$(this).attr('id'), function(data) {
 		$('#description').html(data);	
 	})
 	$grid.isotope('layout');
 });
 
+
+//down-scroll
+$(document).ready(function () {
+    $(window).scroll(function () {
+        if ($(document).scrollTop() > 100) {
+        	$("body").addClass("down-scrolled");
+        	$("#description").addClass("down-scrolled");
+        	$("::-webkit-scrollbar").addClass("down-scrolled");
+        } else {
+        	$("body").removeClass("down-scrolled");
+        	$("#description").removeClass("down-scrolled");
+        }
+    });
+});
+
+//use value of search field to filter
+var $quicksearch = $('.quicksearch').keyup( debounce( function() {
+  qsRegex = new RegExp( $quicksearch.val(), 'gi' );
+  $grid.isotope();
+}) );
+
+// debounce so filtering doesn't happen every millisecond
+function debounce( fn, threshold ) {
+  var timeout;
+  threshold = threshold || 100;
+  return function debounced() {
+    clearTimeout( timeout );
+    var args = arguments;
+    var _this = this;
+    function delayed() {
+      fn.apply( _this, args );
+    }
+    timeout = setTimeout( delayed, threshold );
+  };
+}

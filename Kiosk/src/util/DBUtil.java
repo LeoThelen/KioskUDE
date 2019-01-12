@@ -215,51 +215,88 @@ public class DBUtil {
 	//returns true wenn nicht schon in der Datenbank
 	private static boolean checkSteamID(String steamID) {
 		String myQuery = "SELECT steamID FROM games WHERE steamID=?";
-		ArrayList<String> steamIDs = new ArrayList<>();
-
+		
 		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
 			stmt.setString(1, steamID);
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
-				steamIDs.add(rs.getString("steamID"));
+				if(rs.getString("steamID").equals(steamID)) {
+					return false;
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		for(int i = 0; i < steamIDs.size(); i++) {
-			if(steamIDs.get(i).equals(steamID)) {
-				return false;
-			}
 		}
 		return true;
 	}
 
 	private static void addGameTagByID(String gameID, String tagID) {
 		String myQuery = "INSERT INTO gametags(gameID, tagID) values(?,?)";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
-			pstmt.setString(1, gameID);
-			pstmt.setString(2, tagID);
-			pstmt.executeUpdate();
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, gameID);
+			stmt.setString(2, tagID);
+			stmt.executeUpdate();
 			MySQLConnection_close(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-
+	public static void addTagCategory(TagCategory tc) {
+		String myQuery = "INSERT INTO tagCats(catID, labelDE, labelEN) values(?,?,?)";
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, tc.getCatID());
+			stmt.setString(2, tc.getLabelDE());
+			stmt.setString(3, tc.getLabelEN());
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void addTag(Tag t) {
 		String myQuery = "INSERT INTO tags(tagID, catID, labelDE, labelEN) values(?,?,?)";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement pstmt = conn.prepareStatement(myQuery)) {
-			pstmt.setString(1, t.getTagID());
-			pstmt.setString(2, t.getCatID());
-			pstmt.setString(3, t.getLabelDE());
-			pstmt.setString(3, t.getLabelEN());
-			pstmt.executeUpdate();
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, t.getTagID());
+			stmt.setString(2, t.getCatID());
+			stmt.setString(3, t.getLabelDE());
+			stmt.setString(3, t.getLabelEN());
+			stmt.executeUpdate();
 			MySQLConnection_close(conn);
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
+	public static void updateTag(Tag t) {
+		String myQuery="UPDATE tags SET catID=?,labelDE=?,labelEN=? WHERE tagID=?";
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, t.getCatID());
+			stmt.setString(2, t.getLabelDE());
+			stmt.setString(3, t.getLabelEN());
+			stmt.setString(4, t.getTagID());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void deleteTag(Tag t) {
+		String myQuery="DELETE FROM tags WHERE tagID = ?";
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, t.getTagID());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		myQuery = "DELETE FROM gametags WHERE tagID = ?";
+		try (PreparedStatement stmt = MariaDBConnection_connect().prepareStatement(myQuery)) {
+			stmt.setString(1, t.getTagID());
+			stmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	private static void addCustom(String string) {
 		String myQuery = HTMLEntities.encode(string);
@@ -310,13 +347,23 @@ public class DBUtil {
 	        return false;
 	    }
 	}
+	
+	
+	private Boolean testIntegrity() {
+		ArrayList<Tag> taglist = new ArrayList<>();
+		taglist.add(new Tag("9999", "9998", "testLabelDE", "testLabelEN"));
+		TagCategory tagCategory = new TagCategory("9998", "testCatDE", "testCatEN", taglist);
+		Game g = new Game("9997", "testGame", "https://openclipart.org/image/300px/svg_to_png/281016/monoscopio.png", taglist);
+		//TODO test
+		return false;
+	}
 	/**
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		writePassword("admin", "0000", "allahuakbar");
-		System.out.println(verifyLogin("admin", "0000"));
-		System.out.println(verifyLogin("admin", "0001"));
+//		writePassword("admin", "0000", "allahuakbar");
+//		System.out.println(verifyLogin("admin", "0000"));
+//		System.out.println(verifyLogin("admin", "0001"));
 		
 //		ArrayList<TagCategory> tagList = DBUtil.getTagList();
 //		System.out.println("hi");

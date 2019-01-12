@@ -53,7 +53,8 @@ Login schlug fehl.
 <br>Bitte nochmal versuchen.
 </div>
 </#if>
-<a href="#" id="forgot-pw-badge" class="badge badge-light" data-toggle="modal" data-target="#passwortVergessen">Passwort vergessen?</a>
+<br>
+<a href="#" id="forgot-pw-badge" class="badge badge-light transition2" data-toggle="modal" data-target="#passwortVergessen">Passwort vergessen?</a>
 </form>
 </#if>
 

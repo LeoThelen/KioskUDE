@@ -15,11 +15,6 @@ public class Tag {
 		this.tagID = tagID;
 	}
 
-	public Tag(String tagID, String catID, String labelDE) {
-		this.tagID = tagID;
-		this.catID = catID;
-		this.labelDE = labelDE;
-	}
 	public Tag(String tagID, String catID, String labelDE, String labelEN) {
 		this.tagID = tagID;
 		this.catID = catID;

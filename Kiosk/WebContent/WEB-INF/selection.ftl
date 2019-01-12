@@ -56,6 +56,8 @@
 <div class="hidden">Der Filterfilter filtert Filter!</div>
 	<div class="row">
 		<div class="col-6">
+		<input class="form-control mr-sm-2" type="quicksearch" placeholder="Suchen" aria-label="Search">
+
 			<!-- Hier sind die Spiele. -->
 				<#if gamelist?has_content> <br>
 				<div class="grid">

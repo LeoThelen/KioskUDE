@@ -45,3 +45,9 @@ body {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+a.badge-light:hover {
+    color: #212529;
+    background-color: #eec0c5;
+}
+.transition2 {transition: all ease 2s; }
+.transition2:hover {transition: none; }  
