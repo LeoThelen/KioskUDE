@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
-
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
@@ -53,17 +53,18 @@
 				</div>
 				</#list> </#if>
 			</div>
-<div class="hidden">Der Filterfilter filtert Filter!</div>
 	<div class="row">
-		<div class="col-6">
-		<input class="form-control mr-sm-2" type="quicksearch" placeholder="Suchen" aria-label="Search">
-
+		<div id="left" class="col-6">
+		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>
+		<div class="filters">
+		<input class="form-control mr-sm-2 quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+		</div>
 			<!-- Hier sind die Spiele. -->
 				<#if gamelist?has_content> <br>
 				<div class="grid">
 					<#list gamelist as game> <#if game?has_content>
 
-					<div class="grid-item ${game.classtags!}" id="${game.gameID!}">
+					<div class="grid-item ${game.classtags!}" id="${game.gameID!}" gametitle="${game.name}">
 						<#if game.thumbnailLink?has_content>
 						<img src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';" alt="${game.name}">
 						<#else>
@@ -76,12 +77,11 @@
 
 		</div>
 		<div class="col-6" id="description">
-			<div style="text-align:center; font-size:120px"><br></div>
-			<div style="text-align:center; font-size:200px;color:#666" id="anima">UKE<br>VR
+			<div style="text-align:center; font-size:200px;color:#222">UKE<br>VR
 			</div>
 		</div>
 	</div>
-
+	<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 	<script>
 		window.jQuery

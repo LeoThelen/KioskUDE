@@ -1,11 +1,11 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Game {
 	private String name;
 	private String gameID;
-	private ArrayList<Tag> taglist = new ArrayList<>();
+	private LinkedList<Tag> taglist = new LinkedList<>();
 	private String thumbnailLink;
 	private String screenshotLink;
 	private String steamID;
@@ -18,7 +18,7 @@ public class Game {
 	public Game(){
 
 	}
-	public Game(String gameID, String name, String thumbnailLink, ArrayList<Tag> taglist){
+	public Game(String gameID, String name, String thumbnailLink, LinkedList<Tag> taglist){
 		this.gameID=gameID;
 		this.name=name;
 		this.thumbnailLink=thumbnailLink;
@@ -42,10 +42,10 @@ public class Game {
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
-	public ArrayList<Tag> getTaglist() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	public LinkedList<Tag> getTaglist() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
 		return taglist;
 	}
-	public void setTaglist(ArrayList<Tag> taglist) {
+	public void setTaglist(LinkedList<Tag> taglist) {
 		this.taglist = taglist;
 	}
 	

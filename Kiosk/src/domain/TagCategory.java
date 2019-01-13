@@ -1,14 +1,14 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TagCategory {
 	private String catID;
 	private String labelDE;
 	private String labelEN;
-	private ArrayList<Tag> taglist = new ArrayList<>();
+	private LinkedList<Tag> taglist = new LinkedList<>();
 
-	public TagCategory(String catID, String labelDE, String labelEN, ArrayList<Tag> taglist) {
+	public TagCategory(String catID, String labelDE, String labelEN, LinkedList<Tag> taglist) {
 		this.catID = catID;
 		this.labelDE = labelDE;
 		this.labelEN = labelEN;
@@ -43,11 +43,11 @@ public class TagCategory {
 		this.labelEN = labelEN;
 	}
 
-	public ArrayList<Tag> getTaglist() {
+	public LinkedList<Tag> getTaglist() {
 		return taglist;
 	}
 
-	public void setTaglist(ArrayList<Tag> taglist) {
+	public void setTaglist(LinkedList<Tag> taglist) {
 		this.taglist = taglist;
 	}
 

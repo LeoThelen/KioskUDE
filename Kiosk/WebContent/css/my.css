@@ -1,6 +1,9 @@
 body{
 	font-family:sans-serif;
 }
+.invisible{
+	visibility:hidden;
+}
 .hidden{
 	display:none;
 }

@@ -3,7 +3,7 @@
 }
 
 body {
-	background: #999;
+	background: #6c757d;
 	transition: background-color 1s ease;
 }
 
@@ -58,12 +58,12 @@ body {
 	background: #999;
 }
 
-/* ---- grid ---- */
+/* ---- grid 215 430 645 860 ---- */
 .grid {
 	border: 0px;
 	overflow-y: scroll;
 	max-width: 950px;
-	max-height: 645px;
+	max-height: 860px;
 	text-shadow: 0px 0px 10px #000;
 	top: -15;
 }
@@ -94,6 +94,11 @@ body {
 	width: 460px;
 	height: 215px;
 	background: #F80;
+}
+
+#back-to-top{
+	color:#fff;
+	box-shadow:none;
 }
 
 /* ---- down-scrolled ---- */

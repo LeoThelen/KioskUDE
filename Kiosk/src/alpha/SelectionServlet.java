@@ -1,9 +1,6 @@
 package alpha;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -36,8 +33,8 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ArrayList<Game> gameList = DBUtil.getGameList();
-		ArrayList<TagCategory> tagList = DBUtil.getTagList();
+		LinkedList<Game> gameList = DBUtil.getGameList();
+		LinkedList<TagCategory> tagList = DBUtil.getTagList();
 
 		request.setAttribute("gamelist", gameList);
 		request.setAttribute("tagCats", tagList);

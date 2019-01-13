@@ -2,7 +2,7 @@
 <br><div>
 
 <#if game.steamID?has_content>
-<a href="steam://run/${game.steamID}"><button type="button" class="btn btn-primary btn-lg">Steamspiel starten</button></a>
+<a href="steam://run/${game.steamID}"><button type="button" class="btn btn-secondary btn-lg">Steamspiel starten</button></a>
 <#else>
 <a href="TEST?gameid=${game.gameID}"><button type="button" class="btn btn-warning btn-lg">ID:${game.gameID}</button></a>
 </#if>
