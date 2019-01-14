@@ -8,7 +8,7 @@ public class Game {
 	private LinkedList<Tag> taglist = new LinkedList<>();
 	private String thumbnailLink;
 	private String screenshotLink;
-	private String steamID;
+	private String steamID=null;
 	private String germanDescription="";
 	private String englishDescription="";
 	private String arabDescription="";
@@ -81,7 +81,7 @@ public class Game {
 	}
 
 	public String getSteamID() {
-		return steamID==null?"":steamID;
+		return steamID==null?null:steamID;
 	}
 
 	public void setSteamID(String steamID) {
@@ -121,7 +121,7 @@ public class Game {
 	}
 
 	public String getLastTimeUsed() {
-		return lastTimeUsed;
+		return this.lastTimeUsed==null?this.lastTimeUsed:Long.toString(System.currentTimeMillis());
 	}
 
 	public void setLastTimeUsed(String lastTimeUsed) {

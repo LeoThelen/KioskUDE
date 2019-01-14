@@ -66,7 +66,7 @@
 
 					<div class="grid-item ${game.classtags!}" id="${game.gameID!}" gametitle="${game.name}">
 						<#if game.thumbnailLink?has_content>
-						<img src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';" alt="${game.name}">
+						<img src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.thumbnailLink}') this.src = '${game.thumbnailLink}';" alt="${game.name}">
 						<#else>
 						
 						</#if>
@@ -82,11 +82,11 @@
 		</div>
 	</div>
 	<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 		window.jQuery
 				|| document
-						.write('<script src="js/jquery-3.1.1.min.js"><\/script>')
+						.write('<script src="js/jquery-3.3.1.min.js"><\/script>')
 	</script>
 	<script	src="js/isotope.pkgd.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
