@@ -1,2 +1,2 @@
 # KioskUDE
-Kiosksystem fuer das UKE
+Filter-your-game-Kiosksystem
