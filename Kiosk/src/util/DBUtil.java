@@ -48,8 +48,8 @@ public class DBUtil {
 	}
 
 	/**
-	 * bekommt ein request.getParameter("...") übergeben und gibt eine
-	 * List<GameEntry> zurück.
+	 * bekommt ein request.getParameter("...") uebergeben und gibt eine
+	 * List<GameEntry> zurueck.
 	 * 
 	 * @return
 	 */
@@ -396,11 +396,11 @@ public class DBUtil {
 //		addCustom("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','VR-Brille','VR-System'),\r\n" + "	('2','Alter','Age'),\r\n" + "	('3','Genre','Genre'),\r\n"
 //				+ "	('5','Sprache','Language'),\r\n"
-//				+ "	('6','Spiellänge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
+//				+ "	('6','Spiell&auml;nge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
 //		addCustom("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
 //				+ "	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + "	('2','1','Oculus Go','Oculus Go'),\r\n"
 //				+ "	('3','2','unter 12 Jahre','under 12'),\r\n" + "	('4','2','12 - 16 J.','12 - 16 years'),\r\n"
-//				+ "	('5','2','16 und älter','16 and older'),\r\n" + "	('6','3','Film ','Movies'),\r\n"
+//				+ "	('5','2','16 und &auml;lter','16 and older'),\r\n" + "	('6','3','Film','Movies'),\r\n"
 //				+ "	('7','3','Wissen','Knowledge'),\r\n" + "	('8','3','Medizin','Medicine'),\r\n"
 //				+ "	('9','3','Minispiele','Mini Games'),\r\n" + "	('10','3','Abenteuer','Adventure'),\r\n"
 //				+ "	('11','3','Simulation','Simulation'),\r\n" + "	('12','3','Geschicklichkeit','Dexterity'),\r\n"
@@ -409,9 +409,9 @@ public class DBUtil {
 //				+ "	('19','5','Deutsch','German'),\r\n" + "	('20','5','Englisch','English'),\r\n"
 //				+ "	('21','5','Andere','Other'),\r\n"
 //				+ "	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n"
-//				+ "	('23','6','lang (über 30 Minuten)','long (more than 30 min.)'),\r\n"
+//				+ "	('23','6','lang (&uuml;ber 30 Minuten)','long (more than 30 min.)'),\r\n"
 //				+ "	('24','7','liegend','lying'),\r\n" + "	('25','7','stehend','standing'),\r\n"
 //				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
-//				+ "	('28','7','raumfüllend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
+//				+ "	('28','7','raumf&uuml;llend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
 	}
 }
