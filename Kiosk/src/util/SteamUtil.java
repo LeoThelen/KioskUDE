@@ -61,6 +61,7 @@ public class SteamUtil {
 
 	public static Game getGameWithDetails(String steamID) {
 		Game g = new Game(steamID);
+		g.setGameID(steamID);//TODO diese Zeile evtl wieder entfernen.
 		JSONObject j = new JSONObject(getHTML("https://store.steampowered.com/api/appdetails?appids="+steamID));
 		if(j.getJSONObject(steamID).get("success").equals(true)) {
 			j=j.getJSONObject(steamID).getJSONObject("data");//geht in die Verschachtelung des JSON-Objektes
@@ -120,6 +121,19 @@ public class SteamUtil {
 	}
 
 	public static void main(String[] args) {
-		addSteamGameToDB("400");
+		addSteamGameToDB("451520");
+		addSteamGameToDB("397750");
+		addSteamGameToDB("450390");
+		addSteamGameToDB("620980");
+		addSteamGameToDB("548010");
+		addSteamGameToDB("550520");
+		addSteamGameToDB("566580");
+		addSteamGameToDB("531990");
+		addSteamGameToDB("348250");
+		addSteamGameToDB("490840");
+		addSteamGameToDB("787790");
+		addSteamGameToDB("804490");
+		addSteamGameToDB("406860");
+		addSteamGameToDB("448280");
 	}
 }

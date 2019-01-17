@@ -10,6 +10,7 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
+<div class="background-image"></div>
  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <a class="navbar-brand" href="#">VR Kiosk</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -41,7 +42,7 @@
         </ul>
       </div>
     </nav>
-			<div class="filters">
+			<div class="filters mt-5">
 			<!-- Hier sind die Filter. -->
 				<#if tagCats?has_content> <#list tagCats as tagCat>
 				<div class="button-group js-radio-button-group"

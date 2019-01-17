@@ -80,7 +80,10 @@ $("#back-to-top").on('click', function() {
 });
 
 $grid.on('click', '.grid-item', function() {
-    //scroll description into view
+	var thumblink= $(this).children().attr('src');
+	$(".background-image").css("background-image", "url("+thumblink+")");
+    
+	//scroll description into view
 	var sTop=$("#left").offset().top;
 	$('html, body').animate({scrollTop:sTop}, 330);
     //set active only currently clicked item
