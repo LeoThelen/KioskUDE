@@ -2,9 +2,9 @@ INSERT INTO tagCats (catID,labelDE, labelEN)
 VALUES
 	('1','VR-Brille','VR-System'),
 	('2','Alter','Age'),
-	('3','Genre','Genre'),
+	('3','Sprache','Language'),
 	('4','Warnhinweise','Warning'),
-	('5','Sprache','Language'),
-	('6','Spiellänge','Time'),
-	('7','Bewegung','Movement')
+	('5','Genre','Genre'),
+	('6','Spiell&auml;nge','Time'),
+	('7','Bewegung','Play Area')
 ;

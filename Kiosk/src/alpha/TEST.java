@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import util.MiscUtil;
+
 /**
  * Servlet implementation class TEST
  */
@@ -43,7 +45,8 @@ public class TEST extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Runtime.getRuntime().exec("C:\\games\\icytower151\\icytower15.exe");
+//		Runtime.getRuntime().exec("C:\\games\\icytower151\\icytower15.exe");
+		MiscUtil.printCurrentDir();
 		new SelectionServlet().doGet(request, response);
 	}
 

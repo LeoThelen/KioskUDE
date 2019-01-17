@@ -181,7 +181,7 @@ public class DBUtil {
     	return null;
 	}
 	
-	public static Tag getTagBLabelEN(String labelEN) {
+	public static Tag getTagByLabelEN(String labelEN) {
 		String myQuery = "SELECT * FROM tags WHERE  labelEN = ?";
 		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(myQuery)) {			
 			pstmt.setString(1, labelEN);
@@ -228,7 +228,7 @@ public class DBUtil {
 				}
 			}
 		}else {
-	        	JOptionPane.showMessageDialog(null, "SteamID already in Database");
+			System.out.println("Spiel ist schon in DB.");
 		}
 	}
 

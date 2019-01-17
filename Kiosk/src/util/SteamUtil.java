@@ -72,8 +72,10 @@ public class SteamUtil {
 		}
 		return g;
 	}
+	
 	public static void addSteamGameToDB(String steamID) {
 		Game g = SteamUtil.getGameWithDetails(steamID);
+		g = SteamUtil.getSteamTags(g);
 		DBUtil.addGame(g);
 	}
 	
@@ -88,7 +90,7 @@ public class SteamUtil {
 		}
 	}
 	
-	public static void getSteamTags(Game g) {
+	public static Game getSteamTags(Game g) {
 		//gets tags from steamspy
 		List<String> taglist = new ArrayList<String>();
 		try {
@@ -106,14 +108,15 @@ public class SteamUtil {
 		}catch(JSONException e) {
 			e.printStackTrace();
 		}
-		//checks for tags in tags database
+		//if Tag exists in DB then AddGameTag
 		for(int i = 0; i < taglist.size(); i++) {
-			Tag newTag = DBUtil.getTagBLabelEN(taglist.get(i));
+			Tag newTag = DBUtil.getTagByLabelEN(taglist.get(i));
 			if(newTag != null) {
+				System.out.println("Tag von Steamspy: "+newTag.getLabelEN());
 				g.getTaglist().add(newTag);
 			}
 		}
-		
+		return g;
 	}
 
 	public static void main(String[] args) {
