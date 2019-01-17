@@ -3,8 +3,8 @@ VALUES
 	('1','VR-Brille','VR-System'),
 	('2','Alter','Age'),
 	('3','Sprache','Language'),
-	('4','Warnhinweise','Warning'),
-	('5','Genre','Genre'),
+	('4','Genre','Genre'),
+	('5','Bewegung','Play Area'),
 	('6','Spiell&auml;nge','Time'),
-	('7','Bewegung','Play Area')
+	('7','Schwierigkeitsgrad','Difficulty')
 ;

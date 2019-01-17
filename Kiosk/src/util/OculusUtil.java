@@ -7,9 +7,9 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.By;
+//import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.chrome.ChromeDriver;
 
 import domain.Game;
 
@@ -41,21 +41,21 @@ public class OculusUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.setProperty("webdriver.chrome.driver","C:/xampp/chromedriver.exe");
-		WebDriver webDriver = new ChromeDriver();
-		webDriver.navigate().to("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=de_DE");
-		// Waiting a little bit before closing
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//TODO: tagSetzen:
-//		webDriver.findElement(By.className("app-age-rating-icon__text")).getText());
-		// Closing the browser and webdriver
-		webDriver.close();
-		webDriver.quit();
+//		System.setProperty("webdriver.chrome.driver","C:/xampp/chromedriver.exe");
+//		WebDriver webDriver = new ChromeDriver();
+//		webDriver.navigate().to("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=de_DE");
+//		// Waiting a little bit before closing
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+////TODO: tagSetzen:
+////		webDriver.findElement(By.className("app-age-rating-icon__text")).getText());
+//		// Closing the browser and webdriver
+//		webDriver.close();
+//		webDriver.quit();
 		return g;
 	}
 	
