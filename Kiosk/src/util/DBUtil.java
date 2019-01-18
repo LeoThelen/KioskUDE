@@ -1,5 +1,9 @@
 package util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.LinkedList;
@@ -23,7 +27,13 @@ public class DBUtil {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			DriverManager.setLogWriter(new PrintWriter(System.out));
+			try {
+				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File("tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			// Verbindung zur Datenbank herstellen
 			return DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
@@ -39,10 +49,10 @@ public class DBUtil {
 	public static void MySQLConnection_close(Connection conn) {
 		if (conn != null) {
 			try {
-				System.out.println("\n Verbindung wird getrennt \n");
+//				System.out.println("\n Verbindung wird getrennt \n");
 				conn.close();
 			} catch (Exception e) {
-				System.out.println("\n Fehler beim Trennen der Verbindung aufgetreten \n");
+				System.out.println("\n Fehler beim Trennen der Verbindung aufgetreten. Siehe db.log. \n");
 			}
 		}
 	}

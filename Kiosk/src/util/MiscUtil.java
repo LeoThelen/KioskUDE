@@ -25,33 +25,38 @@ public class MiscUtil {
 
 	}
 
-	private static void saveResizedThumbnail(Game g) {
-		BufferedImage img = null;
-		try {
-			img = ImageIO.read(new URL(g.getThumbnailLink()).openStream());
-			img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.AUTOMATIC, 460, 215);
-			ImageIO.write(img, "png", new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_"
-					+ g.getGameID() + ".jpg"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static void saveResizedThumbnail(Game g) {
+		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
+			BufferedImage img = null;
+			try {
+				img = ImageIO.read(new URL(g.getThumbnailLink()).openStream());
+				img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.AUTOMATIC, 460, 215);
+				ImageIO.write(img, "png",
+						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"));
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
 	public static void saveAllResizedThumbnails() {
-		LinkedList<Game> gamelist = DBUtil.getGameList(-1);
-		for(Game g:gamelist) {
-		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_"
-				+ g.getGameID() + ".jpg");
-		if(!f.exists())
-		saveResizedThumbnail(gamelist.getLast());
+		LinkedList<Game> gamelist = DBUtil.getGameList();
+		for (Game g : gamelist) {
+			File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+			if (!f.exists())
+				if (g.getSteamID() == null) {
+					saveResizedThumbnail(g);
+				} else {
+					saveThumbnail(g);
+				}
 		}
 	}
 
-	private static void screenshotsRunterladen() {
-		LinkedList<Game> list = DBUtil.getGameList();
-		for (Game g : list) {
-			// TODO check if already exists: if(Files.exists(Paths.get(".")))
+	public static void saveThumbnail(Game g) {
+		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
 			try (InputStream in = new URL(g.getThumbnailLink()).openStream()) {
 				Files.copy(in, Paths.get("C:\\Users\\Leo\\git\\KioskUDE\\Kiosk\\WebContent\\screenshots\\thumb_"
 						+ g.getGameID() + ".jpg"));
@@ -60,15 +65,15 @@ public class MiscUtil {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			g = DBUtil.getGameDescriptionByID(g.getGameID());
-			try (InputStream in = new URL(g.getScreenshotLink()).openStream()) {
-				Files.copy(in, Paths.get("C:\\Users\\Leo\\git\\KioskUDE\\Kiosk\\WebContent\\screenshots\\screenshot_"
-						+ g.getGameID() + ".jpg"));
-			} catch (MalformedURLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+		}
+		g = DBUtil.getGameDescriptionByID(g.getGameID());
+		try (InputStream in = new URL(g.getScreenshotLink()).openStream()) {
+			Files.copy(in, Paths.get("C:\\Users\\Leo\\git\\KioskUDE\\Kiosk\\WebContent\\screenshots\\screenshot_"
+					+ g.getGameID() + ".jpg"));
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
