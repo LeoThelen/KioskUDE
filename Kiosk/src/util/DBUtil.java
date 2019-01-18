@@ -46,15 +46,23 @@ public class DBUtil {
 			}
 		}
 	}
-
+	public static LinkedList<Game> getGameList() {
+		return getGameList(0);
+	}
 	/**
 	 * bekommt ein request.getParameter("...") uebergeben und gibt eine
 	 * List<GameEntry> zurueck.
 	 * 
 	 * @return
 	 */
-	public static LinkedList<Game> getGameList() {
+	public static LinkedList<Game> getGameList(int librarySpecifier) {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
+		switch(librarySpecifier){ 
+		case 1: myQuery+=" WHERE steamID IS NOT NULL"; break;
+        case 2: myQuery+=" WHERE oculusID IS NOT NULL"; break;
+        case -1: myQuery+=" WHERE steamID IS NULL"; break;
+        case -2: myQuery+=" WHERE oculusID IS NULL"; break;
+		}
 		LinkedList<Game> gameList = new LinkedList<>();
 
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -202,7 +210,7 @@ public class DBUtil {
 	
 	//angepasst mit checkSteamID
 	public static void addGame(Game g) {
-		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
+		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		if(checkSteamID(g.getSteamID())) {
 			try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -212,6 +220,7 @@ public class DBUtil {
 				stmt.setString(c++, g.getThumbnailLink());
 				stmt.setString(c++, g.getScreenshotLink());
 				stmt.setString(c++, g.getSteamID());
+				stmt.setString(c++, g.getOculusID());
 				stmt.setString(c++, g.getGermanDescription());
 				stmt.setString(c++, g.getEnglishDescription());
 				stmt.setString(c++, g.getPath());

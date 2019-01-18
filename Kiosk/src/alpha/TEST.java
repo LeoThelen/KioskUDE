@@ -46,7 +46,7 @@ public class TEST extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Runtime.getRuntime().exec("C:\\games\\icytower151\\icytower15.exe");
-		MiscUtil.printCurrentDir();
+		MiscUtil.saveAllResizedThumbnails();
 		new SelectionServlet().doGet(request, response);
 	}
 

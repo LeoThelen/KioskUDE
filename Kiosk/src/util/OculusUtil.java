@@ -22,16 +22,17 @@ public class OculusUtil {
 		
 		g.setThumbnailLink(images.getString(0));
 		g.setScreenshotLink(images.getString(1));
-//		for (Object imglink : images) {
+//		for (Object imglink : images) {//purge first one bc it's just the title image.
 //			System.out.println(imglink);
 //		}
 		g.setName(jsonObj.get("name").toString());
 		return g;
 	}
-	
+
 	public static Game getGameWithDetails(int gameID, String oculusID) {
 		Game g = new Game();
 		g.setGameID(Integer.toString(gameID));
+		g.setOculusID(oculusID);
 		try {
 			Document doc = Jsoup.connect("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=en_US").get();
 			System.out.println(doc.title());
