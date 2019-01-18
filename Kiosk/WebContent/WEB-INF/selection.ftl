@@ -58,7 +58,15 @@
 		<div id="left" class="col-6">
 		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>
 		<div class="filters">
-		<input class="form-control mr-sm-2 quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+		
+		
+		<div class="input-group mb-3">
+			<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+			<div class="input-group-append">
+	    		<span class="input-group-text"><i class="icon-search"></i></span>
+	  		</div>
+  		</div>
+  		
 		</div>
 			<!-- Hier sind die Spiele. -->
 				<#if gamelist?has_content> <br>
