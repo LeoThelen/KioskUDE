@@ -150,13 +150,25 @@ window.onscroll = function() {scrollfunction()};
 }*/
 window.onscroll = function() {scrollfunction()};
 function scrollfunction() {
-	if($(document).scrollTop() > 50){
+	if($(document).scrollTop() > 5){
 		document.getElementById("quickSearch").style.width = "60%";
-    	$("#allFilters").hide();
-    	$("#back-to-top").show();
+    	$("#allFilters").fadeOut();
+    	$("#back-to-top").fadeIn();
 	}else{
 		document.getElementById("quickSearch").style.width = "100%";
-		$("#allFilters").show();
+		$("#allFilters").fadeIn();
     	$("#back-to-top").hide();
 	}
+}
+
+document.getElementById('DE').onclick = function () {switchLanguageToDE()};
+function switchLanguageToDE () {
+		$('.DE').show();
+		$('.EN').hide();
+}
+
+document.getElementById('EN').onclick = function () {switchLanguageToEN()};	
+function switchLanguageToEN () {
+		$('.EN').show();
+		$('.DE').hide();	
 }
