@@ -92,7 +92,7 @@ $grid.on('click', '.grid-item', function() {
 	//load description page
 	$.get('description?id='+$(this).attr('id'), function(data) {
 		$('#description').html(data);	
-	})
+	});
 	$grid.isotope('layout');
 });
 
