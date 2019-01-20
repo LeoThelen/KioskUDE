@@ -349,8 +349,7 @@ public class DBUtil {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void addCustom(String string) {
-		String myQuery = HTMLEntities.encode(string);
+	private static void addCustom(String myQuery) {
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);

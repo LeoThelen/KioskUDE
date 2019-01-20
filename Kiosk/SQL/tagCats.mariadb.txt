@@ -5,6 +5,6 @@ VALUES
 	('3','Sprache','Language'),
 	('4','Genre','Genre'),
 	('5','Bewegung','Play Area'),
-	('6','Spiell&auml;nge','Time'),
+	('6','Spiellänge','Time'),
 	('7','Schwierigkeitsgrad','Difficulty')
 ;
