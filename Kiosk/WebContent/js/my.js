@@ -108,7 +108,7 @@ $(document).ready(function () {
         	
         	$("body").addClass("down-scrolled");
         	$("#description").addClass("down-scrolled");
-        	
+         	$("#back-to-top").removeClass("invisible");
         	var $styleB = $('<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #ac0;}</style>');
         	$('#dynamicStyle').replaceWith($styleB);
         	
@@ -116,7 +116,8 @@ $(document).ready(function () {
         	$("body").removeClass("down-scrolled");
         	var $styleA = $('<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>');
         	$('#dynamicStyle').replaceWith($styleA);
-        	$("#description").removeClass("down-scrolled");	
+        	$("#description").removeClass("down-scrolled");
+        	$("#back-to-top").addClass("invisible");
         }
     });
 });
