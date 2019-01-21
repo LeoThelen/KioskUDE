@@ -81,6 +81,7 @@ body {
 	max-height: 860px;
 	text-shadow: 0px 0px 10px #000;
 	top: -15;
+	z-index:1;
 }
 
 /* clear fix */
@@ -118,6 +119,9 @@ body {
 #back-to-top{
 	color:#fff;
 	box-shadow:none;
+	width: 20%;
+	float: right;
+	display:none;
 }
 
 /* ---- down-scrolled ---- */
@@ -136,4 +140,31 @@ body.down-scrolled {
 img.screenshot{
     width:600px;
     height: auto;
+}
+
+#header{
+	background-color: #f1f1f1;
+	padding: 50px 10 px;
+	color: black;
+	text-align: center;
+	font-size: 10px;
+	font-weight: bold;
+	position: fixed;
+	top: 2.5rem;
+	width: 100%;
+	transition: 0.2s;
+	z-index:2;
+}
+
+#quickSearch{
+	width: 100%;
+	float: left;
+}
+
+.DE {
+	display: inline-block;
+}
+
+.EN {
+	display: none;
 }
