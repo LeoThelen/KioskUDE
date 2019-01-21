@@ -116,10 +116,10 @@ public class DBUtil {
 	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
 	 * Klasse schreiben, die gametags für jedes Spiel gettet.
 	 * 
-	 * @return
+	 * @return <b>Game</b> Object with all Information except Tags
 	 */
 	public static Game getGameDescriptionByID(String ID) {
-		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
+		String myQuery = "SELECT gameID, steamID, oculusID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
 		Game g = null;
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -131,6 +131,7 @@ public class DBUtil {
 				g.setGameID(rs.getString("gameID"));
 				g.setName(rs.getString("name"));
 				g.setSteamID(rs.getString("SteamID"));
+				g.setOculusID(rs.getString("oculusID"));
 				g.setGermanDescription(rs.getString("germanDescription"));
 				g.setEnglishDescription(rs.getString("englishDescription"));
 				g.setThumbnailLink(rs.getString("thumbnailLink"));

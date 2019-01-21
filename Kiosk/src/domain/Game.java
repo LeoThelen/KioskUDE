@@ -89,15 +89,14 @@ public class Game {
 	public void setSteamID(String steamID) {
 		this.steamID = steamID;
 	}
-
-	public String getGermanDescription() {
-		return germanDescription;
-	}
 	public String getOculusID() {
-		return oculusID;
+		return oculusID==null?null:oculusID;
 	}
 	public void setOculusID(String oculusID) {
 		this.oculusID = oculusID;
+	}
+	public String getGermanDescription() {
+		return germanDescription;
 	}
 	public void setGermanDescription(String germanDescription) {
 		this.germanDescription = germanDescription;

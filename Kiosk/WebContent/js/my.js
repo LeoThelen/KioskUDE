@@ -29,7 +29,7 @@ $('.filters').on( 'click', '.button', function() {
   $grid.isotope();
 });
 
-// use value of search field to filter
+// use value of search field to filter the grid items
 var $quicksearch = $('.quicksearch').keyup( debounce( function() {
   qsRegex = new RegExp( $quicksearch.attr('gametitle'), 'gi' );
   $grid.isotope();

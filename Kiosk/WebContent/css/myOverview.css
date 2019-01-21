@@ -48,6 +48,10 @@ body {
 	overflow-y: scroll;
 	transition: text-shadow 1s ease;
 }
+.modal-content{
+	text-shadow: 0px 0px 4px #fff;
+	opacity:0.95;
+}
 
 /* Scrollbar styles */
 ::-webkit-scrollbar {
@@ -74,7 +78,7 @@ body {
 	border: 0px;
 	overflow-y: scroll;
 	max-width: 950px;
-	max-height: 1075px;
+	max-height: 860px;
 	text-shadow: 0px 0px 10px #000;
 	top: -15;
 }

@@ -5,7 +5,7 @@ public class Tag {
 	private String tagID;
 	private String catID;
 	private String labelDE;
-	private String labelEN="";
+	private String labelEN;
 
 	public Tag() {
 

@@ -1,10 +1,28 @@
 <h1>${game.name}</h1>
-<br><div>
-
+<br>
+<div>
 <#if game.steamID?has_content>
-<a href="steam://run/${game.steamID}"><button type="button" class="btn btn-secondary btn-lg">Steamspiel starten</button></a>
+<a href="steam://run/${game.steamID}">
+	<button type="button" class="btn btn-secondary btn-lg">Steamspiel starten</button>
+</a>
 <#else>
-<a href="TEST?gameid=${game.gameID}"><button type="button" class="btn btn-warning btn-lg">Oculus Go-Spiel</button></a>
+	<button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#oculusGoHowToStart">Oculus Go-Spiel</button>
+	<div class="modal fade" id="oculusGoHowToStart" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+				<h5 class="modal-title">Diese App ist für die Oculus Go!</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				</div>
+				<div class="modal-body">
+					Um diese App zu starten, <br><br>[...]
+				</div>
+			</div>
+		</div>
+	</div>
+
 </#if>
 
 </div>
