@@ -160,6 +160,10 @@ img.screenshot{
 	display:none;
 }
 
+.DE {
+	display: inline-block;
+}
+
 .EN {
 	display: none;
 }

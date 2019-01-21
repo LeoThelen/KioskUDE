@@ -163,12 +163,12 @@ function scrollfunction() {
 
 document.getElementById('DE').onclick = function () {switchLanguageToDE()};
 function switchLanguageToDE () {
-		$('.DE').show();
-		$('.EN').hide();
+		$('.DE').css('display', 'inline-block');
+		$('.EN').css('display', 'none');
 }
 
 document.getElementById('EN').onclick = function () {switchLanguageToEN()};	
 function switchLanguageToEN () {
-		$('.EN').show();
-		$('.DE').hide();	
+		$('.EN').css('display', 'inline-block');
+		$('.DE').css('display', 'none');	
 }
