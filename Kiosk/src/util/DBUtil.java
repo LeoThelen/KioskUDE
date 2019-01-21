@@ -66,7 +66,7 @@ public class DBUtil {
 	 * @return
 	 */
 	public static LinkedList<Game> getGameList(int librarySpecifier) {
-		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
+		String myQuery = "SELECT gameID, name, thumbnailLink FROM games ORDER BY lastTimeUsed DESC";
 		switch(librarySpecifier){ 
 		case 1: myQuery+=" WHERE steamID IS NOT NULL"; break;
         case 2: myQuery+=" WHERE oculusID IS NOT NULL"; break;
@@ -116,10 +116,10 @@ public class DBUtil {
 	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
 	 * Klasse schreiben, die gametags für jedes Spiel gettet.
 	 * 
-	 * @return
+	 * @return <b>Game</b> Object with all Information except Tags
 	 */
 	public static Game getGameDescriptionByID(String ID) {
-		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
+		String myQuery = "SELECT gameID, steamID, oculusID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
 		Game g = null;
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -131,6 +131,7 @@ public class DBUtil {
 				g.setGameID(rs.getString("gameID"));
 				g.setName(rs.getString("name"));
 				g.setSteamID(rs.getString("SteamID"));
+				g.setOculusID(rs.getString("oculusID"));
 				g.setGermanDescription(rs.getString("germanDescription"));
 				g.setEnglishDescription(rs.getString("englishDescription"));
 				g.setThumbnailLink(rs.getString("thumbnailLink"));
@@ -349,8 +350,7 @@ public class DBUtil {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void addCustom(String string) {
-		String myQuery = HTMLEntities.encode(string);
+	private static void addCustom(String myQuery) {
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
@@ -419,8 +419,7 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		testIntegrity();
-
+//		testIntegrity();
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
 //		System.out.println(verifyLogin("admin", "0001"));
