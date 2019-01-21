@@ -1,5 +1,9 @@
 package util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.*;
 import java.util.LinkedList;
@@ -23,7 +27,13 @@ public class DBUtil {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			DriverManager.setLogWriter(new PrintWriter(System.out));
+			try {
+				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File("tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			// Verbindung zur Datenbank herstellen
 			return DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
@@ -39,22 +49,30 @@ public class DBUtil {
 	public static void MySQLConnection_close(Connection conn) {
 		if (conn != null) {
 			try {
-				System.out.println("\n Verbindung wird getrennt \n");
+//				System.out.println("\n Verbindung wird getrennt \n");
 				conn.close();
 			} catch (Exception e) {
-				System.out.println("\n Fehler beim Trennen der Verbindung aufgetreten \n");
+				System.out.println("\n Fehler beim Trennen der Verbindung aufgetreten. Siehe db.log. \n");
 			}
 		}
 	}
-
+	public static LinkedList<Game> getGameList() {
+		return getGameList(0);
+	}
 	/**
 	 * bekommt ein request.getParameter("...") uebergeben und gibt eine
 	 * List<GameEntry> zurueck.
 	 * 
 	 * @return
 	 */
-	public static LinkedList<Game> getGameList() {
-		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
+	public static LinkedList<Game> getGameList(int librarySpecifier) {
+		String myQuery = "SELECT gameID, name, thumbnailLink FROM games ORDER BY lastTimeUsed DESC";
+		switch(librarySpecifier){ 
+		case 1: myQuery+=" WHERE steamID IS NOT NULL"; break;
+        case 2: myQuery+=" WHERE oculusID IS NOT NULL"; break;
+        case -1: myQuery+=" WHERE steamID IS NULL"; break;
+        case -2: myQuery+=" WHERE oculusID IS NULL"; break;
+		}
 		LinkedList<Game> gameList = new LinkedList<>();
 
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -98,10 +116,10 @@ public class DBUtil {
 	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
 	 * Klasse schreiben, die gametags für jedes Spiel gettet.
 	 * 
-	 * @return
+	 * @return <b>Game</b> Object with all Information except Tags
 	 */
 	public static Game getGameDescriptionByID(String ID) {
-		String myQuery = "SELECT gameID, steamID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
+		String myQuery = "SELECT gameID, steamID, oculusID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
 		Game g = null;
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -113,6 +131,7 @@ public class DBUtil {
 				g.setGameID(rs.getString("gameID"));
 				g.setName(rs.getString("name"));
 				g.setSteamID(rs.getString("SteamID"));
+				g.setOculusID(rs.getString("oculusID"));
 				g.setGermanDescription(rs.getString("germanDescription"));
 				g.setEnglishDescription(rs.getString("englishDescription"));
 				g.setThumbnailLink(rs.getString("thumbnailLink"));
@@ -202,7 +221,7 @@ public class DBUtil {
 	
 	//angepasst mit checkSteamID
 	public static void addGame(Game g) {
-		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, germanDescription, englishDescription, path, lastTimeUsed)"
+		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		if(checkSteamID(g.getSteamID())) {
 			try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -212,6 +231,7 @@ public class DBUtil {
 				stmt.setString(c++, g.getThumbnailLink());
 				stmt.setString(c++, g.getScreenshotLink());
 				stmt.setString(c++, g.getSteamID());
+				stmt.setString(c++, g.getOculusID());
 				stmt.setString(c++, g.getGermanDescription());
 				stmt.setString(c++, g.getEnglishDescription());
 				stmt.setString(c++, g.getPath());
@@ -330,8 +350,7 @@ public class DBUtil {
 	}
 	
 	@SuppressWarnings("unused")
-	private static void addCustom(String string) {
-		String myQuery = HTMLEntities.encode(string);
+	private static void addCustom(String myQuery) {
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
@@ -400,8 +419,7 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		testIntegrity();
-
+//		testIntegrity();
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
 //		System.out.println(verifyLogin("admin", "0001"));

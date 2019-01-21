@@ -35,13 +35,31 @@ public class AddGameFormularServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		LinkedList<TagCategory> tagList = DBUtil.getTagList();
-
+		request.setAttribute("filterOffen", false);
 		request.setAttribute("tagCats", tagList);
+		
+		String titel = request.getParameter("gameTitle");
+		String path = request.getParameter("gamePath");
+		String germanDescription = request.getParameter("germanDescription");
+		String englishDescription = request.getParameter("englishDescription");
+		if (titel != null && path != null) {
+			System.out.println(titel);
+			System.out.println(path);
+			System.out.println(englishDescription);
+			System.out.println(germanDescription);
+			// TODO Spiel in Datenbank schreiben
+			request.setAttribute("filterOffen", true);
+			//Teil zum auswählen der Tags öffnet sich
+			//Tags auswählen
+			//TODO Tags in DB speichern
+		}
+		
 		request.getRequestDispatcher("entwurfAddGame.ftl").forward(request, response);
+
 	}
 
 	/**
-	 * TODO doPostMethode, falls Spiel schon durch Steam oder Oculus vorverarbeitet wurde oder ge�ndert werden soll. 
+	 * TODO doPostMethode, falls Spiel schon durch Steam oder Oculus vorverarbeitet wurde oder ge�ndert werden soll. 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

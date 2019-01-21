@@ -9,6 +9,8 @@ public class Game {
 	private String thumbnailLink;
 	private String screenshotLink;
 	private String steamID=null;
+	private String oculusID=null;
+	
 	private String germanDescription="";
 	private String englishDescription="";
 	private String arabDescription="";
@@ -87,11 +89,15 @@ public class Game {
 	public void setSteamID(String steamID) {
 		this.steamID = steamID;
 	}
-
+	public String getOculusID() {
+		return oculusID==null?null:oculusID;
+	}
+	public void setOculusID(String oculusID) {
+		this.oculusID = oculusID;
+	}
 	public String getGermanDescription() {
 		return germanDescription;
 	}
-
 	public void setGermanDescription(String germanDescription) {
 		this.germanDescription = germanDescription;
 	}
@@ -127,5 +133,6 @@ public class Game {
 	public void setLastTimeUsed(String lastTimeUsed) {
 		this.lastTimeUsed = lastTimeUsed;
 	}
+
 	
 }

@@ -29,7 +29,7 @@ $('.filters').on( 'click', '.button', function() {
   $grid.isotope();
 });
 
-// use value of search field to filter
+// use value of search field to filter the grid items
 var $quicksearch = $('.quicksearch').keyup( debounce( function() {
   qsRegex = new RegExp( $quicksearch.attr('gametitle'), 'gi' );
   $grid.isotope();
@@ -91,9 +91,14 @@ $grid.on('click', '.grid-item', function() {
 	$(this).toggleClass('grid-item-active');
 	//load description page
 	$.get('description?id='+$(this).attr('id'), function(data) {
-		$('#description').html(data);	
-	})
+		var currentEN = $(".EN").css("display");
+		var currentDE = $(".DE").css("display");
+		$('#description').html(data);
+		$('.EN').css('display', currentEN);
+		$('.DE').css('display', currentDE);
+	});
 	$grid.isotope('layout');
+
 });
 
 //add classes when down-scrolled
@@ -103,8 +108,7 @@ $(document).ready(function () {
         	
         	$("body").addClass("down-scrolled");
         	$("#description").addClass("down-scrolled");
-
-        	$("#back-to-top").removeClass("invisible");
+        	
         	var $styleB = $('<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #ac0;}</style>');
         	$('#dynamicStyle').replaceWith($styleB);
         	
@@ -112,9 +116,7 @@ $(document).ready(function () {
         	$("body").removeClass("down-scrolled");
         	var $styleA = $('<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>');
         	$('#dynamicStyle').replaceWith($styleA);
-        	$("#description").removeClass("down-scrolled");
-        	$("#back-to-top").addClass("invisible");
-        	
+        	$("#description").removeClass("down-scrolled");	
         }
     });
 });
@@ -128,7 +130,7 @@ var $quicksearch = $('.quicksearch').keyup( debounce( function() {
 // debounce so filtering doesn't happen every millisecond
 function debounce( fn, threshold ) {
   var timeout;
-  threshold = threshold || 100;
+  threshold = threshold || 200;
   return function debounced() {
     clearTimeout( timeout );
     var args = arguments;
@@ -138,4 +140,41 @@ function debounce( fn, threshold ) {
     }
     timeout = setTimeout( delayed, threshold );
   };
+}
+
+//Header Funktion
+window.onscroll = function() {scrollfunction()};
+/*function scrollfunction() {
+	if(document.body.scrollTop > 50 || document.documentElement.scrollTop > 50){
+		document.getElementById("header").style.fontSize = "10px";
+    	$("#allFilters").addClass("invisible");
+	}else{
+		document.getElementById("header").style.fontSize = "30px";
+		$("#allFilters").removeClass("invisible");
+	}
+}*/
+/**
+window.onscroll = function() {scrollfunction()};
+function scrollfunction() {
+	if($(document).scrollTop() > 5){
+		document.getElementById("quickSearch").style.width = "60%";
+    	$("#allFilters").fadeOut();
+    	$("#back-to-top").fadeIn();
+	}else{
+		document.getElementById("quickSearch").style.width = "100%";
+		$("#allFilters").fadeIn();
+    	$("#back-to-top").hide();
+	}
+}
+*/
+document.getElementById('DE').onclick = function () {switchLanguageToDE()};
+function switchLanguageToDE () {
+		$('.DE').css('display', 'inline-block');
+		$('.EN').css('display', 'none');
+}
+
+document.getElementById('EN').onclick = function () {switchLanguageToEN()};	
+function switchLanguageToEN () {
+		$('.EN').css('display', 'inline-block');
+		$('.DE').css('display', 'none');	
 }

@@ -4,6 +4,7 @@ CREATE TABLE games(
 	thumbnailLink TEXT,
 	screenshotLink TEXT,
 	steamID INT UNIQUE,
+	oculusID VARCHAR(32) UNIQUE,
 	germanDescription TEXT,
 	englishDescription TEXT,
 	path TEXT,
