@@ -66,7 +66,7 @@ public class DBUtil {
 	 * @return
 	 */
 	public static LinkedList<Game> getGameList(int librarySpecifier) {
-		String myQuery = "SELECT gameID, name, thumbnailLink FROM games";
+		String myQuery = "SELECT gameID, name, thumbnailLink FROM games ORDER BY lastTimeUsed DESC";
 		switch(librarySpecifier){ 
 		case 1: myQuery+=" WHERE steamID IS NOT NULL"; break;
         case 2: myQuery+=" WHERE oculusID IS NOT NULL"; break;
@@ -419,8 +419,7 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		testIntegrity();
-
+//		testIntegrity();
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
 //		System.out.println(verifyLogin("admin", "0001"));
