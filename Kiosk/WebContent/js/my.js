@@ -91,9 +91,14 @@ $grid.on('click', '.grid-item', function() {
 	$(this).toggleClass('grid-item-active');
 	//load description page
 	$.get('description?id='+$(this).attr('id'), function(data) {
-		$('#description').html(data);	
+		var currentEN = $(".EN").css("display");
+		var currentDE = $(".DE").css("display");
+		$('#description').html(data);
+		$('.EN').css('display', currentEN);
+		$('.DE').css('display', currentDE);
 	});
 	$grid.isotope('layout');
+
 });
 
 //add classes when down-scrolled
@@ -125,7 +130,7 @@ var $quicksearch = $('.quicksearch').keyup( debounce( function() {
 // debounce so filtering doesn't happen every millisecond
 function debounce( fn, threshold ) {
   var timeout;
-  threshold = threshold || 100;
+  threshold = threshold || 200;
   return function debounced() {
     clearTimeout( timeout );
     var args = arguments;
@@ -148,6 +153,7 @@ window.onscroll = function() {scrollfunction()};
 		$("#allFilters").removeClass("invisible");
 	}
 }*/
+/**
 window.onscroll = function() {scrollfunction()};
 function scrollfunction() {
 	if($(document).scrollTop() > 5){
@@ -160,7 +166,7 @@ function scrollfunction() {
     	$("#back-to-top").hide();
 	}
 }
-
+*/
 document.getElementById('DE').onclick = function () {switchLanguageToDE()};
 function switchLanguageToDE () {
 		$('.DE').css('display', 'inline-block');
