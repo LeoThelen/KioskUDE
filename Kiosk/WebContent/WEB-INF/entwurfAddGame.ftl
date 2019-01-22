@@ -62,7 +62,7 @@
 				<small id="englishHelp" class="form-text text-muted">max. 240 Zeichen</small>
 			</div>
 		
-			div class="form-group">
+			<div class="form-group">
 			  <div class="file-field">
 			    <div class="z-depth-1-half mb-4">
 			      <img src="https://mdbootstrap.com/img/Photos/Others/placeholder.jpg" class="img-fluid" alt="example placeholder">
