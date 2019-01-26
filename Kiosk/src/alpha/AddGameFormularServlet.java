@@ -33,7 +33,6 @@ public class AddGameFormularServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		LinkedList<TagCategory> tagList = DBUtil.getTagList();
 		request.setAttribute("filterOffen", false);
 		request.setAttribute("tagCats", tagList);
@@ -42,15 +41,19 @@ public class AddGameFormularServlet extends HttpServlet {
 		String path = request.getParameter("gamePath");
 		String germanDescription = request.getParameter("germanDescription");
 		String englishDescription = request.getParameter("englishDescription");
+		String thumbnailPath = request.getParameter("thumbnail");
+		String screenshotPath = request.getParameter("screenshot");
 		if (titel != null && path != null) {
-			System.out.println(titel);
-			System.out.println(path);
-			System.out.println(englishDescription);
-			System.out.println(germanDescription);
-			// TODO Spiel in Datenbank schreiben
+			Game g = new Game();
+			g.setName(titel);
+			g.setPath(path);
+			g.setEnglishDescription(englishDescription);
+			g.setGermanDescription(germanDescription);
+			g.setThumbnailLink(thumbnailPath);
+			g.setScreenshotLink(screenshotPath);
+			//DBUtil.addGame(g);
 			request.setAttribute("filterOffen", true);
-			//Teil zum auswählen der Tags öffnet sich
-			//Tags auswählen
+			//request.setAttribute("game", g);
 			//TODO Tags in DB speichern
 		}
 		
