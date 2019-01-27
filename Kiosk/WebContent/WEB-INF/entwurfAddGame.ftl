@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width" = device-width, initial-scale = 1">
-<meta charset="utf-16">
+<meta charset="utf-8">
 <title>Spiel hinzufügen</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
@@ -137,6 +137,7 @@
 	$('.tagaddbutton').on('click', function(){
 		var tag = $(this).val();
 		$('#tagtext').append(" " + tag);
+		$(this).parent().parent().toggleClass("tagaddbutton tagdeletebutton");
 		$(this).toggleClass("tagaddbutton tagdeletebutton");
 	});
 	</script>

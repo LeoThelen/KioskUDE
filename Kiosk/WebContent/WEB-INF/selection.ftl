@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="background-image"></div>
@@ -72,7 +72,7 @@
 			
 	<div class="row">
 		<div id="left" class="col-6">
-		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>
+		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="fas fa-chevron-up"></i> Filter <i class="fas fa-chevron-up"></i></button>
 		<div class="filters">
 		
 		

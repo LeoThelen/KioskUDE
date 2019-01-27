@@ -8,6 +8,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/my.css" rel="stylesheet">
 	<link href="css/login-template.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 
 <body>
@@ -37,45 +38,104 @@
 	</nav>
 
 <main role="main" class="container">
-<form class="form-signin" method="post">
-<#if loggedin==true><h1>Sie sind eingeloggt.</h1>
-<a href="logout"><button type="button" class="btn btn-warning btn-lg">Ausloggen</button></a>
+
+<#if loggedin==true>
+<div class="form-signin">
+<h2 class="mb-5">Sie sind eingeloggt.</h2>
+
+<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#SteamAdder"><div class="row"><i class="col-1 fab fa-steam text-left" aria-hidden="true"></i><div class="col text-right">Steam App hinzufügen</div></div> </a>
+<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#oculusGoAdder"><div class="row"><i class="col-1 fas fa-eye text-left" aria-hidden="true"></i><div class="col text-right">Oculus Go App hinzufügen</div></div></a>
+<a href="import" class="btn btn-outline-primary btn-lg btn-block text-right" role="button"><div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen</a>
+<a href="logout" class="btn btn-warning btn-lg mt-5" role="button">Ausloggen</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="SteamAdder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Steam App hinzufügen</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin" action="import_steam" method="post">
+					<input type="text" class="form-control" style="visibility:hidden" id="id" name="importTyp" value="steam">
+					<input type="text" id="steamID" class="form-control" placeholder="Steam App ID" name="steamID" required>
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="oculusGoAdder" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Oculus Go App hinzufügen</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin" action="import_oculusgo" method="post">
+					<input type="text" class="form-control" style="visibility:hidden" id="id" name="importTyp" value="oculusgo">
+					<input type="text" id="oculusID" class="form-control" placeholder="Oculus App ID" name="oculusID" required>
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
 <#else>
+<form class="form-signin" method="post">
+
 <h1 class="h3 font-weight-normal">Bitte einloggen</h1>
 
 <input type="text" id="inputUser" class="form-control" placeholder="E-Mail-Adresse" name="user" required autofocus>
 <label for="inputPassword" class="sr-only">Password</label>
 <input type="password" id="inputPassword" class="form-control" placeholder="Passwort" name="password" required>
 <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
-<#if wrongpassword??>
-<div class="alert alert-secondary" role="alert">
-Login schlug fehl.
-<br>Bitte nochmal versuchen.
-</div>
-</#if>
+	<#if wrongpassword??>
+	<div class="alert alert-secondary" role="alert">
+	Login schlug fehl.
+	<br>Bitte nochmal versuchen.
+	</div>
+	</#if>
 <br>
 <a href="#" id="forgot-pw-badge" class="badge badge-light transition2" data-toggle="modal" data-target="#passwortVergessen">Passwort vergessen?</a>
 </form>
-</#if>
-
 <div class="modal fade" id="passwortVergessen" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
-	<div class="modal-content">
-	<div class="modal-header">
-	<h5 class="modal-title">Passwort zur&uuml;cksetzen</h5>
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-	<span aria-hidden="true">&times;</span>
-	</button>
-	</div>
-	<div class="modal-body">
-	<form class="form-signin" action="/resetPassword" method="post">
-	<input type="text" id="inputUserForgotPW" class="form-control" placeholder="E-Mail-Adresse" name="user" required>
-	<button class="btn btn-lg btn-primary btn-block" type="submit">Zur&uuml;cksetzen</button>
-	</form>
-	</div>
-	</div>
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Passwort zur&uuml;cksetzen</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin" action="/resetPassword" method="post">
+					<input type="text" id="inputUserForgotPW" class="form-control" placeholder="E-Mail-Adresse" name="user" required>
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Zur&uuml;cksetzen</button>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
+</#if>
 </main>
 <!-- /.container -->
 <!-- Placed at the end of the document so the pages load faster -->

@@ -16,7 +16,7 @@ import util.DBUtil;
 /**
  * Servlet implementation class AddGameFormularServlet
  */
-@WebServlet("/addGameFormular")
+@WebServlet({"/addGameFormular","/import_oculusgo","/import_steam"})
 public class AddGameFormularServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -66,7 +66,13 @@ public class AddGameFormularServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String importTyp = request.getParameter("importTyp");
+		System.out.println(importTyp);
+		System.out.println(request.getParameter("steamID"));
+		System.out.println(request.getParameter("oculusID"));
+
 		// TODO request.setAttribute(game und gametags) oder so, evtl. nochmal eigene DB-Methode notwendig...
+
 		doGet(request, response);
 	}
 }

@@ -181,9 +181,10 @@ public class DBUtil {
 		return taglist;
 	}
 		
-	public static Tag getTagByID(String ID) {
+	public static Tag getTagByID(String tagID) {
 		String myQuery = "SELECT * FROM tags WHERE tagID = ?";
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, tagID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
     		if(rs.next()) {
