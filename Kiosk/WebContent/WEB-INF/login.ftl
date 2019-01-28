@@ -70,7 +70,6 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-signin" action="import_steam" method="post">
-					<input type="text" class="form-control" style="visibility:hidden" id="id" name="importTyp" value="steam">
 					<input type="text" id="steamID" class="form-control" placeholder="Steam App ID" name="steamID" required>
 					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
 				</form>
@@ -90,7 +89,6 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-signin" action="import_oculusgo" method="post">
-					<input type="text" class="form-control" style="visibility:hidden" id="id" name="importTyp" value="oculusgo">
 					<input type="text" id="oculusID" class="form-control" placeholder="Oculus App ID" name="oculusID" required>
 					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
 				</form>

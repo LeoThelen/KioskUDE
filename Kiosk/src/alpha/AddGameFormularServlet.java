@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import domain.TagCategory;
 import util.DBUtil;
+import util.OculusUtil;
+import util.SteamUtil;
 
 /**
  * Servlet implementation class AddGameFormularServlet
@@ -62,15 +64,26 @@ public class AddGameFormularServlet extends HttpServlet {
 	}
 
 	/**
-	 * TODO doPostMethode, falls Spiel schon durch Steam oder Oculus vorverarbeitet wurde oder ge�ndert werden soll. 
+	 * TODO doPostMethode, falls Spiel schon durch Steam oder Oculus vorverarbeitet wurde oder geändert werden soll. 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String importTyp = request.getParameter("importTyp");
-		System.out.println(importTyp);
-		System.out.println(request.getParameter("steamID"));
-		System.out.println(request.getParameter("oculusID"));
-
+		String steamID = request.getParameter("steamID");
+		String oculusID = request.getParameter("oculusID");
+		System.out.println("steamGameID:\t"+steamID);
+		System.out.println("oculusGameID:\t"+oculusID);
+		
+		if (steamID!=null) {
+			Game g = SteamUtil.getSteamGameWithAllDetails(steamID);
+			request.setAttribute("game", g);
+			
+		}else {
+			if (oculusID != null) {
+				Game g = OculusUtil.getGameWithDetails(oculusID);
+				request.setAttribute("game", g);
+			}
+		}
+		
 		// TODO request.setAttribute(game und gametags) oder so, evtl. nochmal eigene DB-Methode notwendig...
 
 		doGet(request, response);
