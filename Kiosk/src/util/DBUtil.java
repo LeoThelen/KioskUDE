@@ -203,9 +203,9 @@ public class DBUtil {
 	
 	public static Tag getTagByLabelEN(String labelEN) {
 		String myQuery = "SELECT * FROM tags WHERE  labelEN = ?";
-		try (PreparedStatement pstmt = MariaDBConnection_connect().prepareStatement(myQuery)) {			
-			pstmt.setString(1, labelEN);
-			ResultSet rs = pstmt.executeQuery();
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, labelEN);
+			ResultSet rs = stmt.executeQuery();
     			if(rs.next() == true) {
     			return new Tag(rs.getString("tagID"),
     					rs.getString("catID"),
@@ -219,15 +219,57 @@ public class DBUtil {
     		return null;
 	}
 
+	@Deprecated
+	public static int reserveGameID() {
+		String myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; //This game will never exist.
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+    			if(rs.next() == true) {
+    			return rs.getInt("gameID");
+    			}
+    		}catch(SQLException e) {
+    			e.printStackTrace();
+    		}
+
+		myQuery = "INSERT INTO games(name) VALUES('Half Life 3 Gaben Deluxe Edition')"; //This game will never exist.
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			MySQLConnection_close(conn);
+			stmt.executeUpdate();
+    		}catch(SQLException e) {
+    			e.printStackTrace();
+    		}
+		myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; //This game will never exist.
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+    			if(rs.next() == true) {
+    			return rs.getInt("gameID");
+    			}
+    		}catch(SQLException e) {
+    			e.printStackTrace();
+    		}
+		return -1;
+	}
 	
 	//angepasst mit checkSteamID
 	public static void addGame(Game g) {
-		String myQuery = "INSERT INTO GAMES(gameID, name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
-				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		String myQuery = "INSERT INTO GAMES(";
+		if(g.getGameID()!=null) {
+			myQuery+="gameID,";
+		}
+		myQuery+="name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
+				+ " values(";
+		if(g.getGameID()!=null) {
+			myQuery+="?,";
+		}
+		myQuery+="?, ?, ?, ?, ?, ?, ?, ?)";
 		if(checkSteamID(g.getSteamID())) {
 			try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 				int c=1;
-				stmt.setString(c++, g.getGameID());
+				if(g.getGameID()!=null) {
+					stmt.setString(c++, g.getGameID());
+				}
 				stmt.setString(c++, g.getName());
 				stmt.setString(c++, g.getThumbnailLink());
 				stmt.setString(c++, g.getScreenshotLink());
