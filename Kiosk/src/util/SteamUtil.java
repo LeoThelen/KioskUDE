@@ -63,11 +63,17 @@ public class SteamUtil {
 	}
 
 	public static void addSteamGameToDB(String steamID) {
+		Game g = SteamUtil.getSteamGameWithAllDetails(steamID);
+		DBUtil.addGame(g);
+	}
+
+	public static Game getSteamGameWithAllDetails(String steamID) {
 		Game g = SteamUtil.getGameWithDetails(steamID);
 		g = SteamUtil.getSteamGenreTags(g);
 		g= SteamUtil.getHMDAgeAndPlayAreaTags(g);
-		DBUtil.addGame(g);
+		return g;
 	}
+
 	
 	private static Game getHMDAgeAndPlayAreaTags(Game game) {//TODO this is hardcoded
 		Elements elements = null;
@@ -112,19 +118,9 @@ public class SteamUtil {
 		}
 		return game;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 	public static Game getGameWithDetails(String steamID) {
 		Game g = new Game(steamID);
-		g.setGameID(steamID);//TODO diese Zeile evtl wieder entfernen.
 		JSONObject j = new JSONObject(getHTML("https://store.steampowered.com/api/appdetails?appids="+steamID));
 		if(j.getJSONObject(steamID).get("success").equals(true)) {
 			j=j.getJSONObject(steamID).getJSONObject("data");//geht in die Verschachtelung des JSON-Objektes
