@@ -37,52 +37,41 @@
 	</div>
 	</nav>
 <main role="main" class="container">
+
+<div id="warnung" class="alert alert-warning" role="alert">
+</div>
 	<div class="row top-buffer">
-	<form action="addGame" method="post">
-		<div class="page-header">
-			<h1>Spiel hinzuf&uuml;gen</h1>
+		<div id="filter"> 
+		<form action="/insert" method="get">
+			<div class="table-responsive">
+			<table class="table">
+			<tbody>
+				<#if tagCats?has_content>
+				<tr><#list tagCats as tagCat>
+				<td class="">${tagCat.labelDE!"noCatLabel"}
+				<#list tagCat.taglist as tag>
+					<div class="input-group input-group-sm">
+						<div class="input-group-append">
+							<div class="input-group-text">
+								<input type="checkbox" class="tagaddbutton" value="${tag.tagID}" aria-label="Checkbox f&uuml;r ${tag.labelDE!" eine Option ohneNamen."}">
+							</div>
+								<span class="input-group-text">${tag.labelDE!"noTagLabel"}</span>
+						</div>
+					</div>
+				</#list></td>
+				</#list></tr>
+				</#if>
+			</tbody>
+			</table>
+			</div>
 		</div>
-			<div class="form-group">
-				<label for="gameTitle">Titel</label>
-				<input type="text" class="form-control" id="gameTitle" name="gameTitle" placeholder="Titel eingeben" required>
+		</form>
+		<form method="get">
+			<input type="text" id="tagtext" name="test">
+			<div class="form-group" id="buttons">
+				<button id="tagButton" type ="submit" class="btn btn-primary" role="button">Fertig</button>
 			</div>
-			<div class="form-group">
-				<label for="gamePath">Pfad</label>
-				<input type="text" class="form-control" id="gamePath" name="gamePath" placeholder="Pfad eingeben" required>
-			</div>
-			<div class="form-group">
-				<label for="germanDescription">Deutsche Beschreibung</label>
-				<textarea class="form-control" id="germanDescription" name="germanDescription" aria-describedby="germanHelp" rows="3"></textarea>
-				<small id="germanHelp" class="form-text text-muted">max. 240 Zeichen</small>
-			</div>
-			<div class = "form-group">
-				<label for="englishDescription">Englische Beschreibung</label>
-				<textarea class="form-control" id="englishDescription" name="englishDescription" aria-describedby="englishHelp" rows="3"></textarea>
-				<small id="englishHelp" class="form-text text-muted">max. 240 Zeichen</small>
-			</div>
-		
-			<div class="form-group">
-				<div class="custom-file" id="customFile" lang="es">
-					<input type="file" class="custom-file-input" name="thumbnail" aria-describedby="fileHelp">
-					<label class="custom-file-label" for="exampleInputFile">
-						Thumbnail auswählen...
-					</label>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="custom-file" id="customFile" lang="es">
-					<input type="file" class="custom-file-input" name="screenshot" aria-describedby="fileHelp">
-					<label class="custom-file-label" for="exampleInputFile">
-						Screenshot auswählen...
-					</label>
-				</div>
-			</div>
-		<div class="form-group" id="buttons">
-			<button id="submitButton" type ="submit" class="btn btn-primary" role="button">Fertig</button>
-			<button type ="cancel" class="btn btn-primary" role="button">Abbrechen</button>
-		</div>
-		
-	</form>
+		</form>
 	</div>
 </main>				
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -95,5 +84,23 @@
 	<script src="js/isotope.pkgd.js"></script>
 	<script src="js/bootstrap.bundle.min.js"></script>
 	<script src="js/my.js"></script>
+	<script>
+	$('.tagaddbutton').on('click', function() {
+		var tagid = $(this).val();
+		$('#tagtext').val(tagid);
+		if($(this).hasClass('tagaddbutton'))
+		{
+			$.post('addTag', {tagid:tagid, action:'add', gameID:'${game.gameID}'}, function(data) {
+			$('#warnung').html(data);
+			});
+		}else{
+			$.post('addTag', {tagid:tagid, action:'delete', gameID:'${game.gameID}'}, function(data) {
+			$('#warnung').html(data);
+			});
+		}
+		$(this).toggleClass("tagaddbutton tagdelete");
+		
+	});
+	</script>
 </body>
 </html>
