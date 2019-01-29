@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Game {
 	private String name;
-	private String gameID;
+	private String gameID=null;
 	private LinkedList<Tag> taglist = new LinkedList<>();
 	private String thumbnailLink;
 	private String screenshotLink;

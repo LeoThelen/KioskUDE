@@ -29,9 +29,8 @@ public class OculusUtil {
 		return g;
 	}
 
-	public static Game getGameWithDetails(int gameID, String oculusID) {
+	public static Game getGameWithDetails(String oculusID) {
 		Game g = new Game();
-		g.setGameID(Integer.toString(gameID));
 		g.setOculusID(oculusID);
 		try {
 			Document doc = Jsoup.connect("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=en_US").get();
@@ -62,15 +61,14 @@ public class OculusUtil {
 	}
 	
 	public static void main(String[] args) {
-		int c=10001;
-		DBUtil.addGame(getGameWithDetails(c++,"890562797701371"));
-		DBUtil.addGame(getGameWithDetails(c++,"2252817104759749"));
-		DBUtil.addGame(getGameWithDetails(c++,"2084588764916379"));
-		DBUtil.addGame(getGameWithDetails(c++,"1152440564774310"));
-		DBUtil.addGame(getGameWithDetails(c++,"1064866736899927"));
-		DBUtil.addGame(getGameWithDetails(c++,"967457083325115"));
-		DBUtil.addGame(getGameWithDetails(c++,"1092021544167262"));
-		DBUtil.addGame(getGameWithDetails(c++,"1692021557498395"));
-		DBUtil.addGame(getGameWithDetails(c++,"878262692296965"));
+		DBUtil.addGame(getGameWithDetails("890562797701371"));
+		DBUtil.addGame(getGameWithDetails("2252817104759749"));
+		DBUtil.addGame(getGameWithDetails("2084588764916379"));
+		DBUtil.addGame(getGameWithDetails("1152440564774310"));
+		DBUtil.addGame(getGameWithDetails("1064866736899927"));
+		DBUtil.addGame(getGameWithDetails("967457083325115"));
+		DBUtil.addGame(getGameWithDetails("1092021544167262"));
+		DBUtil.addGame(getGameWithDetails("1692021557498395"));
+		DBUtil.addGame(getGameWithDetails("878262692296965"));
 	}
 }

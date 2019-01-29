@@ -7,10 +7,11 @@
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
-<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="background-image"></div>
+	<!-- Navbar -->
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 		<a class="navbar-brand" href="#">VR Kiosk</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
@@ -48,27 +49,30 @@
         </ul>
       </div>
     </nav>
-			<!-- Hier sind die Filter. -->
-			<div class="filters mt-5">
-				<#if tagCats?has_content> <#list tagCats as tagCat>
-				<div class="button-group js-radio-button-group"
-					data-filter-group="${tagCat.filterGroup}">
-					<button class="button is-checked" data-filter="">
-						<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
-						<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
-					</button>
-					<#list tagCat.taglist as tag>
-					<button class="button" data-filter=".${tag.filter}">
-						<div class="DE">${tag.labelDE!"noTagLabel"}</div>
-						<div class="EN">${tag.labelEN!"noTagLabel"}</div>
-					</button>
-					</#list>
+			<!-- Filter -->
+			<div class="row justify-content-start">
+				<div class="filters mt-5 col-6">
+					<#if tagCats?has_content> <#list tagCats as tagCat>
+					<div class="button-group js-radio-button-group row mb-3"
+						data-filter-group="${tagCat.filterGroup}">
+						<button class="button is-checked col-3" data-filter="">
+							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
+							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
+						</button>
+						<#list tagCat.taglist as tag>
+						<button class="button col-3" data-filter=".${tag.filter}">
+							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
+							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
+						</button>
+						</#list>
+					</div>
+					</#list> </#if>
 				</div>
-				</#list> </#if>
 			</div>
+			
 	<div class="row">
 		<div id="left" class="col-6">
-		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>
+		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="fas fa-chevron-up"></i> Filter <i class="fas fa-chevron-up"></i></button>
 		<div class="filters">
 		
 		
@@ -100,8 +104,8 @@
 				</#if>
 
 		</div>
-		<div class="col-6" id="description">
-			<div style="text-align:center; font-size:200px;color:#222">UKE<br>VR
+		<div class="col-6 pt-60" id="description">
+			<div style="text-align:center; font-size:200px;">UKE<br>VR
 			</div>
 		</div>
 	</div>
