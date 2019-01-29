@@ -49,12 +49,12 @@ public class MiscUtil {
 				if (g.getSteamID() == null) {
 					saveResizedThumbnail(g);
 				} else {
-					saveThumbnail(g);
+					saveThumbnailAndScreenshot(g);
 				}
 		}
 	}
 
-	public static void saveThumbnail(Game g) {
+	public static void saveThumbnailAndScreenshot(Game g) {
 		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 		if (!f.exists()) {
 			try (InputStream in = new URL(g.getThumbnailLink()).openStream()) {
