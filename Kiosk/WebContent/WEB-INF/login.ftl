@@ -12,6 +12,7 @@
 </head>
 
 <body>
+	<header>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 	<a class="navbar-brand" href="main">VR Kiosk</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,7 +37,7 @@
 	</ul>
 	</div>
 	</nav>
-
+</header>
 <main role="main" class="container">
 
 <#if loggedin==true>

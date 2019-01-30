@@ -253,7 +253,8 @@ public class DBUtil {
 	}
 	
 	//angepasst mit checkSteamID
-	public static void addGame(Game g) {
+	/*adds game, returns Gameobject with GameID from DB*/
+	public static Game addGame(Game g) {
 		String myQuery = "INSERT INTO GAMES(";
 		if(g.getGameID()!=null) {
 			myQuery+="gameID,";
@@ -263,9 +264,11 @@ public class DBUtil {
 		if(g.getGameID()!=null) {
 			myQuery+="?,";
 		}
-		myQuery+="?, ?, ?, ?, ?, ?, ?, ?)";
+		myQuery+="?, ?, ?, ?, ?, ?, ?, ?, ?);"
+				+ "";
 		if(checkSteamID(g.getSteamID())) {
-			try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			try (Connection conn=MariaDBConnection_connect()) {
+				PreparedStatement stmt = conn.prepareStatement(myQuery);
 				int c=1;
 				if(g.getGameID()!=null) {
 					stmt.setString(c++, g.getGameID());
@@ -280,11 +283,18 @@ public class DBUtil {
 				stmt.setString(c++, g.getPath());
 				stmt.setString(c++, g.getLastTimeUsed());
 				stmt.executeUpdate();
+				stmt=conn.prepareStatement("SELECT LAST_INSERT_ID() AS gameID;");
+				ResultSet rs = stmt.executeQuery();
 				MySQLConnection_close(conn);
+				while (rs.next()) {
+						g.setGameID(rs.getString("gameID"));
+				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			
 
+			//TODO Tags woanders machen
 			if (!(g.getTaglist() == null)) {
 				for (int i = 0; i < g.getTaglist().size(); i++) {
 					addGameTagByID(g.getGameID(), g.getTaglist().get(i).getTagID());
@@ -293,6 +303,7 @@ public class DBUtil {
 		}else {
 			System.out.println("Spiel ist schon in DB.");
 		}
+		return g;
 	}
 
 	//returns true wenn nicht schon in der Datenbank
@@ -462,6 +473,10 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
+		Game g =new Game("12345131"); 
+		g.setName("ILOVEASDF");
+		addGame(g);
+		
 //		testIntegrity();
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
