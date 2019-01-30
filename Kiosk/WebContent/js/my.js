@@ -54,6 +54,7 @@ function concatValues( obj ) {
 }
 
 // debounce so filtering doesn't happen every millisecond
+//doppelt???
 function debounce( fn, threshold ) {
   var timeout;
   threshold = threshold || 100;

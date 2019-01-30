@@ -161,3 +161,17 @@ img.screenshot{
 .EN {
 	display: none;
 }
+
+.filters-select{
+	color:#E6E6E6;
+	background-color:#610B21;
+	border: none;
+	-moz-appearance: none;
+	text-align: center;
+	width: 10%;
+	cursor: pointer;
+}
+.filters-select > option{
+	align: center;
+}
+}

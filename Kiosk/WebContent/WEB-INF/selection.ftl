@@ -29,7 +29,7 @@
 					class="nav-link dropdown-toggle" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">
-						<div class="DE">Über</div>
+						<div class="DE">&Uuml;ber</div>
 						<div class="EN">About</div>
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -53,20 +53,38 @@
 	    		<span class="input-group-text"><i class="icon-search"></i></span>
 	  		</div>
     </nav>
-    <div id="header">
+    <div id="header" class="DE">
 			<!-- Filter -->
 				<div class="row justify-content-start">
-				<div class="filters col-12">
+				<div class="filters col-12 roterHintergrund">
 					<#if tagCats?has_content> <#list tagCats as tagCat>
 					<select class="filters-select"
 						data-filter-group="${tagCat.filterGroup}">
 						<option data-filter="">
 							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
-							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
 						</option>
 						<#list tagCat.taglist as tag>
 						<option data-filter=".${tag.filter}">
 							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
+						</option>
+						</#list>
+					</select>
+					</#list> </#if>
+				</div>
+				</div>
+	</div>
+	<div id="header" class="EN">
+			<!-- Filter -->
+				<div class="row justify-content-start">
+				<div class="filters col-12 roterHintergrund">
+					<#if tagCats?has_content> <#list tagCats as tagCat>
+					<select class="filters-select"
+						data-filter-group="${tagCat.filterGroup}">
+						<option data-filter="">
+							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
+						</option>
+						<#list tagCat.taglist as tag>
+						<option data-filter=".${tag.filter}">
 							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
 						</option>
 						</#list>
