@@ -49,9 +49,11 @@
         </ul>
       </div>
       <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+			<button class="input-group-append icon-search" id="searchie" />
+			<!-- <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
 			<div class="input-group-append">
-	    		<span class="input-group-text"><i class="icon-search"></i></span>
-	  		</div>
+	    		<span class="input-group-text"><i class="icon-search" /></span>
+	  		</div> -->
     </nav>
     <div id="header" class="DE">
 			<!-- Filter -->
@@ -125,11 +127,11 @@
 
 		</div>
 		<div class="col-6 pt-60" id="description">
-			<div style="text-align:center; font-size:200px;">UKE<br>VR
+			<div style="text-align:center; font-size:200px; color:white;">UKE<br>VR
 			</div>
 		</div>
 	</div>
-	<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>
+	<style id="dynamicStyle">::-webkit-scrollbar-thumb</style>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
 		window.jQuery
