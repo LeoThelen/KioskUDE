@@ -1,13 +1,13 @@
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="utf-16">
 
 <title>Games</title>
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link href="css/my.css" rel="stylesheet">
 <link rel="stylesheet" href="css/myOverview.css" media="screen">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 </head>
 <body>
 <div class="background-image"></div>
@@ -29,7 +29,7 @@
 					class="nav-link dropdown-toggle" id="navbarDropdown"
 					role="button" data-toggle="dropdown" aria-haspopup="true"
 					aria-expanded="false">
-						<div class="DE">Ãœber</div>
+						<div class="DE">Über</div>
 						<div class="EN">About</div>
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -48,39 +48,41 @@
 				<li class="nav-item" id="EN"><a class="nav-link">EN</a></li>
         </ul>
       </div>
-    </nav>
-			<!-- Filter -->
-			<div class="row justify-content-start">
-				<div class="filters mt-5 col-6">
-					<#if tagCats?has_content> <#list tagCats as tagCat>
-					<div class="button-group js-radio-button-group row mb-3"
-						data-filter-group="${tagCat.filterGroup}">
-						<button class="button is-checked col-3" data-filter="">
-							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
-							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
-						</button>
-						<#list tagCat.taglist as tag>
-						<button class="button col-3" data-filter=".${tag.filter}">
-							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
-							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
-						</button>
-						</#list>
-					</div>
-					</#list> </#if>
-				</div>
-			</div>
-			
-	<div class="row">
-		<div id="left" class="col-6">
-		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="fas fa-chevron-up"></i> Filter <i class="fas fa-chevron-up"></i></button>
-		<div class="filters">
-		
-		
-		<div class="input-group mb-3">
-			<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+      <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
 			<div class="input-group-append">
 	    		<span class="input-group-text"><i class="icon-search"></i></span>
 	  		</div>
+    </nav>
+    <div id="header">
+			<!-- Filter -->
+				<div class="row justify-content-start">
+				<div class="filters col-12">
+					<#if tagCats?has_content> <#list tagCats as tagCat>
+					<select class="filters-select"
+						data-filter-group="${tagCat.filterGroup}">
+						<option data-filter="">
+							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
+							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
+						</option>
+						<#list tagCat.taglist as tag>
+						<option data-filter=".${tag.filter}">
+							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
+							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
+						</option>
+						</#list>
+					</select>
+					</#list> </#if>
+				</div>
+				</div>
+	</div>
+	<div class="row">
+		<div id="left" class="col-6">
+		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>
+		<div class="filters">
+	
+		
+		<div class="input-group mb-3">
+			
   		</div>
   		
 		</div>

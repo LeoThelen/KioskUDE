@@ -81,7 +81,6 @@ $("#back-to-top").on('click', function() {
 
 $grid.on('click', '.grid-item', function() {
 	var thumblink= $(this).children().attr('src');
-	$(".background-image").css("background-image", "url("+thumblink+")");
     
 	//scroll description into view
 	var sTop=$("#left").offset().top;
