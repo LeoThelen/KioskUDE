@@ -63,17 +63,25 @@ public class SteamUtil {
 	}
 
 	public static void addSteamGameToDB(String steamID) {
-		Game g = SteamUtil.getSteamGameWithAllDetails(steamID);
+		Game g = SteamUtil.getSteamGameWithDetailsAndTags(steamID);
 		DBUtil.addGame(g);
 	}
 
-	public static Game getSteamGameWithAllDetails(String steamID) {
+
+	public static Game getSteamGameWithDetailsAndTags(String steamID) {
 		Game g = SteamUtil.getGameWithDetails(steamID);
-		g = SteamUtil.getSteamGenreTags(g);
-		g= SteamUtil.getHMDAgeAndPlayAreaTags(g);
+//		g = SteamUtil.getSteamGenreTags(g); //TODO
+		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
 		return g;
 	}
 
+	public static Game getSteamGameWithTags(String steamID) {
+		Game g = new Game(steamID);
+//		g = SteamUtil.getSteamGenreTags(g);	//TODO
+		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
+		return g;
+	}
+	
 	
 	private static Game getHMDAgeAndPlayAreaTags(Game game) {//TODO this is hardcoded
 		Elements elements = null;

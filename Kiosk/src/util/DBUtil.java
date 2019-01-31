@@ -27,13 +27,16 @@ public class DBUtil {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			try {
-				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File("tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			DriverManager.setLogWriter(new PrintWriter(System.out));
+			
+//			try {
+//				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File(".\\tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
+//			} catch (FileNotFoundException e) {
+//				
+//				e.printStackTrace();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
 			// Verbindung zur Datenbank herstellen
 			return DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
@@ -145,7 +148,7 @@ public class DBUtil {
 		return g;
 	}
 
-	private static LinkedList<Tag> getGameTagsByID(String gameID) {
+	public static LinkedList<Tag> getGameTagsByID(String gameID) {
 		String myQuery = "SELECT tagID FROM gametags WHERE gameID = ?";
 		LinkedList<Tag> taglist = new LinkedList<>();
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -253,7 +256,7 @@ public class DBUtil {
 	}
 	
 	//angepasst mit checkSteamID
-	/*adds game, returns Gameobject with GameID from DB*/
+	/**adds game, returns Gameobject with GameID from DB*/
 	public static Game addGame(Game g) {
 		String myQuery = "INSERT INTO GAMES(";
 		if(g.getGameID()!=null) {
@@ -264,8 +267,7 @@ public class DBUtil {
 		if(g.getGameID()!=null) {
 			myQuery+="?,";
 		}
-		myQuery+="?, ?, ?, ?, ?, ?, ?, ?, ?);"
-				+ "";
+		myQuery+="?, ?, ?, ?, ?, ?, ?, ?, ?);";
 		if(checkSteamID(g.getSteamID())) {
 			try (Connection conn=MariaDBConnection_connect()) {
 				PreparedStatement stmt = conn.prepareStatement(myQuery);
@@ -292,13 +294,14 @@ public class DBUtil {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			
-
-			//TODO Tags woanders machen
-			if (!(g.getTaglist() == null)) {
-				for (int i = 0; i < g.getTaglist().size(); i++) {
-					addGameTagByID(g.getGameID(), g.getTaglist().get(i).getTagID());
-				}
+			System.out.println("GameID:\t"+g.getGameID());
+			if(g.getSteamID()!=null) {
+				System.out.println("SteamID:\t"+g.getSteamID());
+				g.setTaglist(SteamUtil.getSteamGameWithTags(g.getSteamID()).getTaglist());
+			}
+			//TODO oculusTags hinzufügen?
+			if(!g.getTaglist().isEmpty()) {
+				addGameTagsByGame(g);
 			}
 		}else {
 			System.out.println("Spiel ist schon in DB.");
@@ -306,7 +309,7 @@ public class DBUtil {
 		return g;
 	}
 
-	//returns true wenn nicht schon in der Datenbank
+	/**returns true wenn nicht schon in der Datenbank*/
 	private static boolean checkSteamID(String steamID) {
 		String myQuery = "SELECT steamID FROM games WHERE steamID=?";
 		
@@ -328,9 +331,10 @@ public class DBUtil {
 
 
 	
-	private static void addGameTagByID(String gameID, String tagID) {
+	public static void addGameTagByID(String gameID, String tagID) {
 		String myQuery = "INSERT INTO gametags(gameID, tagID) values(?,?)";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn=MariaDBConnection_connect();) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
 			stmt.setString(1, gameID);
 			stmt.setString(2, tagID);
 			stmt.executeUpdate();
@@ -339,6 +343,27 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void addGameTagsByGame(Game g) {
+		String myQuery = "INSERT INTO gametags(gameID, tagID) VALUES ";
+		for (Tag t : g.getTaglist()) {
+			myQuery += "(?,?),";
+		}
+		myQuery=myQuery.substring(0, myQuery.length()-1);
+		try (Connection conn=MariaDBConnection_connect();) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
+			int c = 1;
+			for (Tag t : g.getTaglist()) {
+				stmt.setString(c++, g.getGameID());
+				stmt.setString(c++, t.getTagID());
+			}
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static void addTagCategory(TagCategory tagCategory) {
 		String myQuery = "INSERT INTO tagCats(catID, labelDE, labelEN) values(?,?,?)";
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -365,7 +390,12 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void updateGame(Game g) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 	public static void updateTag(Tag t) {
 		String myQuery="UPDATE tags SET catID=?,labelDE=?,labelEN=? WHERE tagID=?";
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -402,7 +432,20 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
+	public static void deleteGameTagByID(String gameID, String tagID) {
+		String myQuery="DELETE FROM gametags WHERE gameID = ? AND tagID = ?";
+		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			int c=1;
+			stmt.setString(c++, gameID);
+			stmt.setString(c++, tagID);
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@SuppressWarnings("unused")
 	private static void addCustom(String myQuery) {
 		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -474,9 +517,13 @@ public class DBUtil {
 	 */
 	public static void main(String[] args) throws SQLException {
 		Game g =new Game("12345131"); 
-		g.setName("ILOVEASDF");
-		addGame(g);
-		
+		g.setGameID("804495");
+		g.addTag(new Tag("2"));
+		g.addTag(new Tag("11"));
+		g.addTag(new Tag("12"));
+		g.addTag(new Tag("13"));
+		addGameTagsByGame(g);
+//		addGame(g);		
 //		testIntegrity();
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
@@ -509,4 +556,6 @@ public class DBUtil {
 //				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
 //				+ "	('28','7','raumf&uuml;llend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
 	}
+
+
 }

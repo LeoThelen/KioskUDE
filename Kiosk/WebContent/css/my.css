@@ -14,3 +14,7 @@ body{
   }
 }
 
+.navbar{
+	padding:0rem 1rem;
+	z-index:1061;
+}

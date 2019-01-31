@@ -7,7 +7,7 @@
 	<title>Login - VR Kiosk</title>
 	<link href="css/bootstrap.min.css" rel="stylesheet">
 	<link href="css/my.css" rel="stylesheet">
-	<link href="css/login-template.css" rel="stylesheet">
+	<link href="css/myLogin.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 
@@ -46,7 +46,7 @@
 
 <a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#SteamAdder"><div class="row"><i class="col-1 fab fa-steam text-left" aria-hidden="true"></i><div class="col text-right">Steam App hinzufügen</div></div> </a>
 <a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#oculusGoAdder"><div class="row"><i class="col-1 fas fa-eye text-left" aria-hidden="true"></i><div class="col text-right">Oculus Go App hinzufügen</div></div></a>
-<a href="import" class="btn btn-outline-primary btn-lg btn-block text-right" role="button"><div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen</a>
+<a href="gameFormular" class="btn btn-outline-primary btn-lg btn-block text-right" role="button"><div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen</a>
 <a href="logout" class="btn btn-warning btn-lg mt-5" role="button">Ausloggen</a>
 </div>
 

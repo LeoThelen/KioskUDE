@@ -6,7 +6,8 @@ public class Tag {
 	private String catID;
 	private String labelDE;
 	private String labelEN;
-
+	private boolean checked=false;
+	
 	public Tag() {
 
 	}
@@ -55,6 +56,18 @@ public class Tag {
 
 	public void setLabelEN(String labelEN) {
 		this.labelEN = labelEN;
+	}
+
+	public boolean isChecked() {
+		return checked;
+	}
+
+	public String getCheckedString() {
+		return checked?"checked":"";
+	}
+
+	public void setChecked(boolean checked) {
+		this.checked = checked;
 	}
 
 }

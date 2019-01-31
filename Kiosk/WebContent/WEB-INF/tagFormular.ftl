@@ -8,8 +8,7 @@
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" href="css/my.css">
-<link rel="stylesheet" href="css/login-template.css">
-<link rel="stylesheet" href="css/addNewGame.css">
+<link rel="stylesheet" href="css/myGameFormular.css">
 <link
 	href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
 	rel="stylesheet">
@@ -36,7 +35,7 @@
 	</ul>
 	</div>
 	</nav>
-<main role="main" class="container">
+<main role="main" class="container mt-5">
 
 <div id="warnung" class="alert alert-warning" role="alert">
 </div>
@@ -53,7 +52,11 @@
 					<div class="input-group input-group-sm">
 						<div class="input-group-append">
 							<div class="input-group-text">
-								<input type="checkbox" class="tagaddbutton" value="${tag.tagID}" aria-label="Checkbox f&uuml;r ${tag.labelDE!" eine Option ohneNamen."}">
+							<#if tag.checkedString=="checked">
+								<input type="checkbox" class="tagdeletebutton" value="${tag.tagID}" aria-label="Checkbox f&uuml;r ${tag.labelDE!" eine Option ohneNamen."}" ${tag.checkedString}>
+							<#else>
+								<input type="checkbox" class="tagaddbutton" value="${tag.tagID}" aria-label="Checkbox f&uuml;r ${tag.labelDE!" eine Option ohneNamen."}" ${tag.checkedString}>
+							</#if>
 							</div>
 								<span class="input-group-text">${tag.labelDE!"noTagLabel"}</span>
 						</div>
@@ -90,11 +93,11 @@
 		$('#tagtext').val(tagid);
 		if($(this).hasClass('tagaddbutton'))
 		{
-			$.post('addTag', {tagid:tagid, action:'add', gameID:'${game.gameID}'}, function(data) {
+			$.post('addTag', {tagID:tagid, action:'add', gameID:'${game.gameID}'}, function(data) {
 			$('#warnung').html(data);
 			});
 		}else{
-			$.post('addTag', {tagid:tagid, action:'delete', gameID:'${game.gameID}'}, function(data) {
+			$.post('addTag', {tagID:tagid, action:'delete', gameID:'${game.gameID}'}, function(data) {
 			$('#warnung').html(data);
 			});
 		}

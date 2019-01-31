@@ -5,8 +5,8 @@
 <title>Games</title>
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-<link href="css/my.css" rel="stylesheet">
-<link rel="stylesheet" href="css/myOverview.css" media="screen">
+<link rel="stylesheet" href="css/my.css" >
+<link rel="stylesheet" href="css/mySelection.css" media="screen">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 <body>
