@@ -70,14 +70,14 @@ public class SteamUtil {
 
 	public static Game getSteamGameWithDetailsAndTags(String steamID) {
 		Game g = SteamUtil.getGameWithDetails(steamID);
-//		g = SteamUtil.getSteamGenreTags(g); //TODO
+		g = SteamUtil.getSteamGenreTags(g);
 		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
 		return g;
 	}
 
 	public static Game getSteamGameWithTags(String steamID) {
 		Game g = new Game(steamID);
-//		g = SteamUtil.getSteamGenreTags(g);	//TODO
+		g = SteamUtil.getSteamGenreTags(g);
 		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
 		return g;
 	}
@@ -177,7 +177,7 @@ public class SteamUtil {
 			Tag newTag = DBUtil.getTagByLabelEN(taglist.get(i));
 			if(newTag != null) {
 				System.out.println("Tag von Steamspy: "+newTag.getLabelEN());
-				g.getTaglist().add(newTag);
+				g.addTag(newTag);
 			}
 		}
 		return g;

@@ -44,9 +44,18 @@
 <div class="form-signin">
 <h2 class="mb-5">Sie sind eingeloggt.</h2>
 
-<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#SteamAdder"><div class="row"><i class="col-1 fab fa-steam text-left" aria-hidden="true"></i><div class="col text-right">Steam App hinzufügen</div></div> </a>
-<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#oculusGoAdder"><div class="row"><i class="col-1 fas fa-eye text-left" aria-hidden="true"></i><div class="col text-right">Oculus Go App hinzufügen</div></div></a>
-<a href="gameFormular" class="btn btn-outline-primary btn-lg btn-block text-right" role="button"><div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen</a>
+<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#SteamAdder">
+	<div class="row"><i class="col-1 fab fa-steam text-left" aria-hidden="true"></i><div class="col text-right">Steam App hinzufügen</div></div>
+</a>
+<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#oculusGoAdder">
+	<div class="row"><i class="col-1 fas fa-eye text-left" aria-hidden="true"></i><div class="col text-right">Oculus Go App hinzufügen</div></div>
+</a>
+<a href="gameFormular" class="btn btn-outline-primary btn-lg btn-block text-right" role="button">
+	<div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen
+</a>
+<a href="main" class="btn btn-outline-primary btn-lg btn-block text-right" role="button">
+	<div class="text-left"><i class="fas fa-edit text-left" aria-hidden="true"></i></div>Spiele Bearbeiten
+</a>
 <a href="logout" class="btn btn-warning btn-lg mt-5" role="button">Ausloggen</a>
 </div>
 

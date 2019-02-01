@@ -26,7 +26,6 @@ public class AddGame2Servlet extends HttpServlet {
 	 */
 	public AddGame2Servlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
@@ -45,7 +44,10 @@ public class AddGame2Servlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		Game g = new Game();
+		request.setCharacterEncoding("UTF-8"); //Sonderzeichen und Umlaute
 		g.setName(request.getParameter("gameTitle"));
+		System.out.println("Name von Seite:\t"+request.getParameter("gameTitle"));
+		
 		if(request.getParameter("steamID") != null) {
 			g.setSteamID(request.getParameter("steamID"));
 			System.out.println("SteamID von Seite:\t"+request.getParameter("steamID"));
@@ -59,8 +61,8 @@ public class AddGame2Servlet extends HttpServlet {
 		}
 		g.setGermanDescription(request.getParameter("germanDescription"));
 		g.setEnglishDescription(request.getParameter("englishDescription"));
-		g.setThumbnailLink(request.getParameter("thumbnail"));
-		g.setScreenshotLink(request.getParameter("screenshot"));
+		g.setThumbnailLink(request.getParameter("thumbnailLink"));
+		g.setScreenshotLink(request.getParameter("screenshotLink"));
 		System.out.println("62");
 		if(request.getParameter("gameID") != null) {
 			g.setGameID(request.getParameter("gameID"));

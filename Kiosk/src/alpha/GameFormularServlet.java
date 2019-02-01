@@ -27,7 +27,6 @@ public class GameFormularServlet extends HttpServlet {
      */
     public GameFormularServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -59,10 +58,14 @@ public class GameFormularServlet extends HttpServlet {
 			g = OculusUtil.getGameWithDetails(oculusID);
 			request.setAttribute("game", g);
 		}
-		if (editID != null) {
+		request.setAttribute("action", "addGame");
+ 		if (editID != null) {
 			g = DBUtil.getGameDescriptionByID(editID);
 			request.setAttribute("game", g);
+			request.setAttribute("action", "editGame");
+
 		}
+		
 		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
 	}
 }

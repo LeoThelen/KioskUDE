@@ -85,16 +85,24 @@
   		
 		</div>
 			<!-- Hier sind die Spiele. -->
+			
 				<#if gamelist?has_content> <br>
 				<div class="grid">
 					<#list gamelist as game> <#if game?has_content>
 
 					<div class="grid-item ${game.classtags!}" id="${game.gameID!}" gametitle="${game.name}">
-						<#if game.thumbnailLink?has_content>
-						<img src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.thumbnailLink}') this.src = '${game.thumbnailLink}';" alt="${game.name}">
-						<#else>
-						
+						<#if loggedin??>
+							<div class="container-btn-admin">
+							<button type="button" class="btn btn-semitransparent-warning btn-lg">Bearbeiten</button>
+							<button type="button" class="btn btn-semitransparent-danger btn-lg">Löschen</button>
+							</div>
 						</#if>
+						<#if game.thumbnailLink?has_content>
+						<img class="thumbnail" src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.thumbnailLink}') this.src = '${game.thumbnailLink}';" alt="${game.name}">
+						<#else>
+									
+						</#if>
+						
 					</div>
 					</#if> </#list>
 				</div>

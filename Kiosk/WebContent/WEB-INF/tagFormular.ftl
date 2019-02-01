@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width" = device-width, initial-scale = 1">
-<meta charset="utf-16">
+<meta charset="utf-8">
 <title>Spiel hinzufügen</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
@@ -22,6 +22,9 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 	<ul class="navbar-nav mr-auto">
+	<li class="nav-item">
+	<a class="nav-link" href="login">Login</a>
+	</li>
 	<li class="nav-item dropdown">
 	<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	&Uuml;ber
@@ -41,7 +44,7 @@
 </div>
 	<div class="row top-buffer">
 		<div id="filter"> 
-		<form action="/insert" method="get">
+		<form>
 			<div class="table-responsive">
 			<table class="table">
 			<tbody>
@@ -69,10 +72,9 @@
 			</div>
 		</div>
 		</form>
-		<form method="get">
-			<input type="text" id="tagtext" name="test">
+		<form action="main" method="get">
 			<div class="form-group" id="buttons">
-				<button id="tagButton" type ="submit" class="btn btn-primary" role="button">Fertig</button>
+				<button type="submit" id="tagButton" class="btn btn-primary" role="button">OK</button>
 			</div>
 		</form>
 	</div>
@@ -90,7 +92,6 @@
 	<script>
 	$('.tagaddbutton').on('click', function() {
 		var tagid = $(this).val();
-		$('#tagtext').val(tagid);
 		if($(this).hasClass('tagaddbutton'))
 		{
 			$.post('addTag', {tagID:tagid, action:'add', gameID:'${game.gameID}'}, function(data) {

@@ -123,13 +123,40 @@ body {
 .grid-item img {
 	width: 460px;
 	height: 215px;
+	position:relative;
+	top:-56px;
 }
+
+
+.container-btn-admin{
+	z-index: 2;
+	position:relative;
+}
+
 
 #back-to-top{
 	color:#fff;
 	box-shadow:none;
 	width: 100%;
 	float: right;
+}
+
+.btn-semitransparent-danger{
+	color: #fff;
+	background-color: rgba(220,53,69,0.5);
+	border-color: #dc3545;
+}
+.btn-semitransparent-danger:hover{
+	background-color: rgba(220,53,69,1);
+}
+
+.btn-semitransparent-warning{
+	color: #212529;
+    background-color: rgba(255,193,7,0.5);
+    border-color: #ffc107;
+}
+.btn-semitransparent-warning:hover{
+    background-color: rgba(255,193,7,1);
 }
 
 /* ---- down-scrolled ---- */
@@ -147,8 +174,8 @@ body.down-scrolled {
 }
 
 img.screenshot{
-    width:600px;
-    height: auto;
+    width:auto;
+    height: 337px;
 }
 
 #header{

@@ -24,7 +24,6 @@ public class TagHandlerServlet extends HttpServlet {
      */
     public TagHandlerServlet() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -34,7 +33,6 @@ public class TagHandlerServlet extends HttpServlet {
 //		LinkedList<TagCategory> tagList = DBUtil.getTagList();
 //		request.setAttribute("tagCats", tagList);
 
-		// TODO Auto-generated method stub
 		request.getRequestDispatcher("tagFormular.ftl").forward(request, response);
 	}
 
@@ -42,7 +40,6 @@ public class TagHandlerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 	
 		String tagID = request.getParameter("tagID");
 		String action = request.getParameter("action");

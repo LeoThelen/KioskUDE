@@ -28,7 +28,7 @@ public class DBUtil {
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
 			DriverManager.setLogWriter(new PrintWriter(System.out));
-			
+
 //			try {
 //				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File(".\\tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
 //			} catch (FileNotFoundException e) {
@@ -59,9 +59,11 @@ public class DBUtil {
 			}
 		}
 	}
+
 	public static LinkedList<Game> getGameList() {
 		return getGameList(0);
 	}
+
 	/**
 	 * bekommt ein request.getParameter("...") uebergeben und gibt eine
 	 * List<GameEntry> zurueck.
@@ -70,23 +72,28 @@ public class DBUtil {
 	 */
 	public static LinkedList<Game> getGameList(int librarySpecifier) {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games ORDER BY lastTimeUsed DESC";
-		switch(librarySpecifier){ 
-		case 1: myQuery+=" WHERE steamID IS NOT NULL"; break;
-        case 2: myQuery+=" WHERE oculusID IS NOT NULL"; break;
-        case -1: myQuery+=" WHERE steamID IS NULL"; break;
-        case -2: myQuery+=" WHERE oculusID IS NULL"; break;
+		switch (librarySpecifier) {
+		case 1:
+			myQuery += " WHERE steamID IS NOT NULL";
+			break;
+		case 2:
+			myQuery += " WHERE oculusID IS NOT NULL";
+			break;
+		case -1:
+			myQuery += " WHERE steamID IS NULL";
+			break;
+		case -2:
+			myQuery += " WHERE oculusID IS NULL";
+			break;
 		}
 		LinkedList<Game> gameList = new LinkedList<>();
 
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				gameList.add(new Game(rs.getString("gameID"),
-					rs.getString("name"),
-					rs.getString("thumbnailLink"),
-					getGameTagsByID(rs.getString("gameID"))
-				));
+				gameList.add(new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"),
+						getGameTagsByID(rs.getString("gameID"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -94,19 +101,44 @@ public class DBUtil {
 		return gameList;
 	}
 	
+	public static Game getGameIDBy(Game g) {
+		String myQuery = "SELECT gameID FROM games WHERE "; 
+		if(g.getSteamID()!=null) {
+			myQuery+="steamID=?";
+		}
+		if(g.getOculusID()!=null) {
+			myQuery+="oculusID=?";
+		}
+		try (Connection conn = MariaDBConnection_connect()) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
+			if(g.getSteamID()!=null) {
+				stmt.setString(1, g.getSteamID());
+			}
+			if(g.getOculusID()!=null) {
+				stmt.setString(1, g.getOculusID());
+			}
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+			if (rs.next() == true) {
+				String gameID= Integer.toString(rs.getInt("gameID"));
+				g.setGameID(gameID);
+				return g;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return g;
+	}
+
 	public static LinkedList<TagCategory> getTagList() {
 		String myQuery = "SELECT catID, labelDE, labelEN FROM tagCats";
 		LinkedList<TagCategory> tagCats = new LinkedList<>();
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				tagCats.add(new TagCategory(
-						rs.getString("catID"),
-						rs.getString("labelDE"),
-						rs.getString("labelEN"),
-						getAllTagsOfCat(rs.getString("catID"))
-				));
+				tagCats.add(new TagCategory(rs.getString("catID"), rs.getString("labelDE"), rs.getString("labelEN"),
+						getAllTagsOfCat(rs.getString("catID"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -125,7 +157,7 @@ public class DBUtil {
 		String myQuery = "SELECT gameID, steamID, oculusID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
 		Game g = null;
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, ID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
@@ -151,7 +183,7 @@ public class DBUtil {
 	public static LinkedList<Tag> getGameTagsByID(String gameID) {
 		String myQuery = "SELECT tagID FROM gametags WHERE gameID = ?";
 		LinkedList<Tag> taglist = new LinkedList<>();
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, gameID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
@@ -163,116 +195,168 @@ public class DBUtil {
 		}
 		return taglist;
 	}
-	
-	public static LinkedList<Tag> getAllTagsOfCat(String catID){
+
+	public static LinkedList<Tag> getAllTagsOfCat(String catID) {
 		String myQuery = "SELECT tagID, catID, labelDE, labelEN FROM tags WHERE catID = ?";
 		LinkedList<Tag> taglist = new LinkedList<>();
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, catID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				taglist.add(new Tag(rs.getString("tagID"),
-    					rs.getString("catID"),
-    					rs.getString("labelDE"),
-    					rs.getString("labelEN")
-    					));
+				taglist.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
+						rs.getString("labelEN")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return taglist;
 	}
-		
+
 	public static Tag getTagByID(String tagID) {
 		String myQuery = "SELECT * FROM tags WHERE tagID = ?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, tagID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
-    		if(rs.next()) {
-    			return new Tag(rs.getString("tagID"),
-    					rs.getString("catID"),
-    					rs.getString("labelDE"),
-    					rs.getString("labelEN")
-    					);
-    		}
-    		
-    	}catch(SQLException e) {
-    		e.printStackTrace();
-    	}
-    	return null;
+			if (rs.next()) {
+				return new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
+						rs.getString("labelEN"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
+
 	public static Tag getTagByLabelEN(String labelEN) {
 		String myQuery = "SELECT * FROM tags WHERE  labelEN = ?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, labelEN);
 			ResultSet rs = stmt.executeQuery();
-    			if(rs.next() == true) {
-    			return new Tag(rs.getString("tagID"),
-    					rs.getString("catID"),
-    					rs.getString("labelDE"),
-    					rs.getString("labelEN")
-    					);
-    			}
-    		}catch(SQLException e) {
-    			e.printStackTrace();
-    		}
-    		return null;
+			if (rs.next() == true) {
+				return new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
+						rs.getString("labelEN"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Deprecated
 	public static int reserveGameID() {
-		String myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; //This game will never exist.
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		String myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; // This game will
+																									// never exist.
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
-    			if(rs.next() == true) {
-    			return rs.getInt("gameID");
-    			}
-    		}catch(SQLException e) {
-    			e.printStackTrace();
-    		}
+			if (rs.next() == true) {
+				return rs.getInt("gameID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
-		myQuery = "INSERT INTO games(name) VALUES('Half Life 3 Gaben Deluxe Edition')"; //This game will never exist.
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		myQuery = "INSERT INTO games(name) VALUES('Half Life 3 Gaben Deluxe Edition')"; // This game will never exist.
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			MySQLConnection_close(conn);
 			stmt.executeUpdate();
-    		}catch(SQLException e) {
-    			e.printStackTrace();
-    		}
-		myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; //This game will never exist.
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		myQuery = "SELECT id FROM games WHERE  name = 'Half Life 3 Gaben Deluxe Edition'"; // This game will never
+																							// exist.
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
-    			if(rs.next() == true) {
-    			return rs.getInt("gameID");
-    			}
-    		}catch(SQLException e) {
-    			e.printStackTrace();
-    		}
+			if (rs.next() == true) {
+				return rs.getInt("gameID");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return -1;
 	}
-	
-	//angepasst mit checkSteamID
-	/**adds game, returns Gameobject with GameID from DB*/
+
+	public static void updateGame(Game g) {
+		// TODO Auto-generated method stub
+		String myQuery = "UPDATE games SET ";
+		if (g.getName() != null) {
+			myQuery += "name=?, ";
+		}
+		if (g.getThumbnailLink() != null) {
+			myQuery += "thumbnailLink=?, ";
+		}
+		if (g.getScreenshotLink() != null) {
+			myQuery += "screenshotLink=?, "; // TODO screenshots und Thumbnails bei veränderung löschen.
+		}
+//		if(g.getSteamID()!=null) {
+//			myQuery+="steamID=?, ";
+//		}
+//		if(g.getOculusID()!=null) {
+//			myQuery+="oculusID=?, ";
+//		}
+		if (g.getGermanDescription() != null) {
+			myQuery += "germanDescription=?, ";
+		}
+		if (g.getEnglishDescription() != null) {
+			myQuery += "englishDescription=?, ";
+		}
+		if (g.getPath() != null) {
+			myQuery += "path=? "; // kein Komma beim letzten Eintrag
+		}
+		myQuery += " WHERE gameID=?";
+		try (Connection conn = MariaDBConnection_connect()) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
+			int c = 1;
+			if (g.getName() != null)
+				stmt.setString(c++, g.getName());
+			if (g.getThumbnailLink() != null)
+				stmt.setString(c++, g.getThumbnailLink());
+			if (g.getScreenshotLink() != null)
+				stmt.setString(c++, g.getScreenshotLink());
+//			if(g.getSteamID()!=null)
+//				stmt.setString(c++, g.getSteamID());
+//			if(g.getOculusID()!=null)
+//				stmt.setString(c++, g.getOculusID());
+			if (g.getGermanDescription() != null)
+				stmt.setString(c++, g.getGermanDescription());
+			if (g.getEnglishDescription() != null)
+				stmt.setString(c++, g.getEnglishDescription());
+			if (g.getPath() != null)
+				stmt.setString(c++, g.getPath());
+//			if(g.getLastTimeUsed()!=null)
+//				stmt.setString(c++, g.getLastTimeUsed());
+			if (g.getGameID() != null)
+				stmt.setString(c++, g.getGameID());
+			if (g.getGameID() != null)
+				stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// angepasst mit checkSteamID
+	/** adds game, returns Gameobject with GameID from DB */
 	public static Game addGame(Game g) {
 		String myQuery = "INSERT INTO GAMES(";
-		if(g.getGameID()!=null) {
-			myQuery+="gameID,";
+		if (g.getGameID() != null) {
+			myQuery += "gameID,";
 		}
-		myQuery+="name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
+		myQuery += "name, thumbnailLink, screenshotLink, steamID, oculusID, germanDescription, englishDescription, path, lastTimeUsed)"
 				+ " values(";
-		if(g.getGameID()!=null) {
-			myQuery+="?,";
+		if (g.getGameID() != null) {
+			myQuery += "?,";
 		}
-		myQuery+="?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		if(checkSteamID(g.getSteamID())) {
-			try (Connection conn=MariaDBConnection_connect()) {
+		myQuery += "?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		if (checkSteamID(g.getSteamID())) {		//TODO Oculus-Check
+			try (Connection conn = MariaDBConnection_connect()) {
 				PreparedStatement stmt = conn.prepareStatement(myQuery);
-				int c=1;
-				if(g.getGameID()!=null) {
+				int c = 1;
+				if (g.getGameID() != null) {
 					stmt.setString(c++, g.getGameID());
 				}
 				stmt.setString(c++, g.getName());
@@ -285,55 +369,55 @@ public class DBUtil {
 				stmt.setString(c++, g.getPath());
 				stmt.setString(c++, g.getLastTimeUsed());
 				stmt.executeUpdate();
-				stmt=conn.prepareStatement("SELECT LAST_INSERT_ID() AS gameID;");
+				stmt = conn.prepareStatement("SELECT LAST_INSERT_ID() AS gameID;");
 				ResultSet rs = stmt.executeQuery();
 				MySQLConnection_close(conn);
 				while (rs.next()) {
-						g.setGameID(rs.getString("gameID"));
+					g.setGameID(rs.getString("gameID"));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-			System.out.println("GameID:\t"+g.getGameID());
-			if(g.getSteamID()!=null) {
-				System.out.println("SteamID:\t"+g.getSteamID());
+			System.out.println("GameID:\t" + g.getGameID());
+			if (g.getSteamID() != null) {
+				System.out.println("SteamID:\t" + g.getSteamID());
 				g.setTaglist(SteamUtil.getSteamGameWithTags(g.getSteamID()).getTaglist());
 			}
-			//TODO oculusTags hinzufügen?
-			if(!g.getTaglist().isEmpty()) {
+			// TODO oculusTags hinzufügen?
+			if (!g.getTaglist().isEmpty()) {
 				addGameTagsByGame(g);
 			}
-		}else {
+		} else {
 			System.out.println("Spiel ist schon in DB.");
+			g=getGameIDBy(g);
+			updateGame(g);
 		}
 		return g;
 	}
 
-	/**returns true wenn nicht schon in der Datenbank*/
+	/** returns true wenn nicht schon in der Datenbank */
 	private static boolean checkSteamID(String steamID) {
 		String myQuery = "SELECT steamID FROM games WHERE steamID=?";
-		
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, steamID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				if(rs.getString("steamID").equals(steamID)) {
+				if (rs.getString("steamID").equals(steamID)) {
 					return false;
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return true;
 	}
 
-
-	
 	public static void addGameTagByID(String gameID, String tagID) {
 		String myQuery = "INSERT INTO gametags(gameID, tagID) values(?,?)";
-		try (Connection conn=MariaDBConnection_connect();) {
+		try (Connection conn = MariaDBConnection_connect();) {
 			PreparedStatement stmt = conn.prepareStatement(myQuery);
 			stmt.setString(1, gameID);
 			stmt.setString(2, tagID);
@@ -343,14 +427,14 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void addGameTagsByGame(Game g) {
 		String myQuery = "INSERT INTO gametags(gameID, tagID) VALUES ";
 		for (Tag t : g.getTaglist()) {
 			myQuery += "(?,?),";
 		}
-		myQuery=myQuery.substring(0, myQuery.length()-1);
-		try (Connection conn=MariaDBConnection_connect();) {
+		myQuery = myQuery.substring(0, myQuery.length() - 1);
+		try (Connection conn = MariaDBConnection_connect();) {
 			PreparedStatement stmt = conn.prepareStatement(myQuery);
 			int c = 1;
 			for (Tag t : g.getTaglist()) {
@@ -363,146 +447,144 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void addTagCategory(TagCategory tagCategory) {
 		String myQuery = "INSERT INTO tagCats(catID, labelDE, labelEN) values(?,?,?)";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			int c=1;
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			int c = 1;
 			stmt.setString(c++, tagCategory.getCatID());
 			stmt.setString(c++, tagCategory.getLabelDE());
 			stmt.setString(c, tagCategory.getLabelEN());
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 		}
 	}
-	
+
 	public static void addTag(Tag t) {
 		String myQuery = "INSERT INTO tags(catID, labelDE, labelEN) values(?,?,?)";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			int c = 1;
 			stmt.setString(c++, t.getCatID());
 			stmt.setString(c++, t.getLabelDE());
 			stmt.setString(c, t.getLabelEN());
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void updateGame(Game g) {
-		// TODO Auto-generated method stub
-		
-	}
-	
+
 	public static void updateTag(Tag t) {
-		String myQuery="UPDATE tags SET catID=?,labelDE=?,labelEN=? WHERE tagID=?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			int c=1;
+		String myQuery = "UPDATE tags SET catID=?,labelDE=?,labelEN=? WHERE tagID=?";
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			int c = 1;
 			stmt.setString(c++, t.getCatID());
 			stmt.setString(c++, t.getLabelDE());
 			stmt.setString(c++, t.getLabelEN());
 			stmt.setString(c++, t.getTagID());
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void deleteGame(Game g) {//Anm.: ON DELETE CASCADE loescht Eintraege in gametags-Tabelle automatisch mit.
+
+	public static void deleteGame(Game g) {// Anm.: ON DELETE CASCADE loescht Eintraege in gametags-Tabelle automatisch
+											// mit.
 		String myQuery = "DELETE FROM games WHERE gameID = ?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, g.getGameID());
-			stmt.executeUpdate();
-			MySQLConnection_close(conn);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void deleteTag(Tag t) {//Anm.: ON DELETE CASCADE loescht Eintraege in gametags-Tabelle automatisch mit.
-		String myQuery="DELETE FROM tags WHERE tagID = ?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			stmt.setString(1, t.getTagID());
-			stmt.executeUpdate();
-			MySQLConnection_close(conn);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void deleteGameTagByID(String gameID, String tagID) {
-		String myQuery="DELETE FROM gametags WHERE gameID = ? AND tagID = ?";
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			int c=1;
-			stmt.setString(c++, gameID);
-			stmt.setString(c++, tagID);
-			stmt.executeUpdate();
-			MySQLConnection_close(conn);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unused")
-	private static void addCustom(String myQuery) {
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	//Passwort Methoden
-	//Hashed und salted das passwort und trägt alles in eine DB ein
-	//Beispiel salts: "*K&Jji" "rt%sH" "wwwQ*&%"
-	public static void writePassword(String username, String originalPasswort, String salt){
+
+	public static void deleteTag(Tag t) {// Anm.: ON DELETE CASCADE loescht Eintraege in gametags-Tabelle automatisch
+											// mit.
+		String myQuery = "DELETE FROM tags WHERE tagID = ?";
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, t.getTagID());
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteGameTagByID(String gameID, String tagID) {
+		String myQuery = "DELETE FROM gametags WHERE gameID = ? AND tagID = ?";
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			int c = 1;
+			stmt.setString(c++, gameID);
+			stmt.setString(c++, tagID);
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private static void addCustom(String myQuery) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.executeUpdate();
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// Passwort Methoden
+	// Hashed und salted das passwort und trägt alles in eine DB ein
+	// Beispiel salts: "*K&Jji" "rt%sH" "wwwQ*&%"
+	public static void writePassword(String username, String originalPasswort, String salt) {
 		String myQuery = "INSERT INTO login(username, password, salt) values(?, ?, ?)";
 		String passwort = DigestUtils.sha256Hex(originalPasswort + salt);
-		try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, username);
 			stmt.setString(2, passwort);
 			stmt.setString(3, salt);
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
-		}catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-    	//nimmt username und passwort entgegen und guckt ob es richtig ist
-	public static boolean verifyLogin(String username, String enteredPassword){
-	    String myQuery = "SELECT salt, password FROM login WHERE username = ?";
-	    String salt = "";
-	    String password = "";
-	    try (Connection conn=MariaDBConnection_connect();PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+	// nimmt username und passwort entgegen und guckt ob es richtig ist
+	public static boolean verifyLogin(String username, String enteredPassword) {
+		String myQuery = "SELECT salt, password FROM login WHERE username = ?";
+		String salt = "";
+		String password = "";
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, username);
-	        ResultSet rs = stmt.executeQuery();
-	        MySQLConnection_close(conn);
-	        while(rs.next() == true){
-	            salt = rs.getString("salt");
-	            password = rs.getString("password");
-	        }
-	    }catch (SQLException e){
-	        e.printStackTrace();
-	    }
-	
-	    enteredPassword = DigestUtils.sha256Hex(enteredPassword + salt);
-	    if(enteredPassword.equals(password)){
-	        return true;
-	    }else{
-	        return false;
-	    }
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+			while (rs.next() == true) {
+				salt = rs.getString("salt");
+				password = rs.getString("password");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		enteredPassword = DigestUtils.sha256Hex(enteredPassword + salt);
+		if (enteredPassword.equals(password)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
-	
-	private static Boolean testIntegrity() {	//TODO test
+
+	private static Boolean testIntegrity() { // TODO test
 		LinkedList<Tag> taglist = new LinkedList<>();
 		taglist.add(new Tag("9999", "9998", "testLabelDE", "testLabelEN"));
 //		TagCategory tagCategory = new TagCategory("9998", "testCatDE", "testCatEN", taglist);
-		Game g = new Game("9997", "testGame", "https://openclipart.org/image/300px/svg_to_png/281016/monoscopio.png", taglist);
+		Game g = new Game("9997", "testGame", "https://openclipart.org/image/300px/svg_to_png/281016/monoscopio.png",
+				taglist);
 
 //		addTagCategory(tagCategory);
 //		System.out.println("TagCategory is added.");
@@ -516,7 +598,7 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		Game g =new Game("12345131"); 
+		Game g = new Game("12345131");
 		g.setGameID("804495");
 		g.addTag(new Tag("2"));
 		g.addTag(new Tag("11"));
@@ -528,7 +610,7 @@ public class DBUtil {
 //		writePassword("admin", "0000", "allahuakbar");
 //		System.out.println(verifyLogin("admin", "0000"));
 //		System.out.println(verifyLogin("admin", "0001"));
-		
+
 //		ArrayList<TagCategory> tagList = DBUtil.getTagList();
 //		System.out.println("hi");
 //		writePassword("admin", "passwort", "salt");
@@ -556,6 +638,5 @@ public class DBUtil {
 //				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
 //				+ "	('28','7','raumf&uuml;llend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
 	}
-
 
 }

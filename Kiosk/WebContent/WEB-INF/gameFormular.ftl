@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta name="viewport" content="width" = device-width, initial-scale = 1">
-<meta charset="utf-16">
+<meta charset="utf-8">
 <title>Spiel hinzufügen</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
@@ -22,6 +22,9 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 	<ul class="navbar-nav mr-auto">
+	<li class="nav-item">
+	<a class="nav-link" href="login">Login</a>
+	</li>
 	<li class="nav-item dropdown">
 	<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 	&Uuml;ber
@@ -37,7 +40,7 @@
 	</nav>
 <main role="main" class="container mt-5">
 	<div class="row top-buffer">
-	<form class="col-md-12" action="addGame" method="post">
+	<form class="col-md-12" action="${action}" method="post" accept-charset="UTF-8">
 		<div class="page-header">
 			<h1>Spiel hinzuf&uuml;gen</h1>
 		</div>
@@ -61,7 +64,7 @@
 				<div class="form-group row" >
 					<label for="gameID" class="col-sm-2 col-form-label">oculusID</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="oculusID" name="oculusID" value="${game.oculusID}" disabled>
+						<input type="text" class="form-control" id="oculusID" name="oculusID" value="${game.oculusID}">
 					</div>
 				</div>
 			</#if>
@@ -92,32 +95,41 @@
 						<textarea class="form-control" id="englishDescription" name="englishDescription" aria-describedby="englishHelp" rows="3"><#if game?has_content>${game.englishDescription!}</#if></textarea>
 					</div>
 				</div>		
+			<#if game?has_content && game.thumbnailLink?has_content>
 			<div class="form-group row">
-				<div class="col-sm-2">
-				</div>
-				<div class="custom-file col-sm-10" id="customFile" lang="es">
-					<input type="file" class="custom-file-input" name="thumbnail" aria-describedby="fileHelp">
-					<label class="custom-file-label" for="exampleInputFile">
-						Thumbnail auswählen...
-					</label>
+			<label for="thumbnailLink" class="col-sm-2 col-form-label">Thumbnaillink</label>
+				<div class="custom-file col-sm-10" id="customFile">
+						<input type="text" class="form-control" id="thumbnailLink" name="thumbnailLink" value="${game.thumbnailLink}">
 				</div>
 			</div>
+			<#else>
 			<div class="form-group row">
-				<div class="col-sm-2">
-				</div>
-				<div class="custom-file col-sm-10" id="customFile" lang="es">
-					<input type="file" class="custom-file-input" name="screenshot" aria-describedby="fileHelp">
-					<label class="custom-file-label" for="exampleInputFile">
-						Screenshot auswählen...
-					</label>
+			<label for="thumbnailLink" class="col-sm-2 col-form-label">Thumbnaillink</label>
+				<div class="custom-file col-sm-10" id="customFile">
+						<input type="text" class="form-control" id="thumbnailLink" name="thumbnailLink">
 				</div>
 			</div>
+			</#if>
+			<#if game?has_content && game.screenshotLink?has_content>
+			<div class="form-group row">
+			<label for="screenshotLink" class="col-sm-2 col-form-label">Screenshot-Link</label>
+				<div class="custom-file col-sm-10" id="customFile">
+						<input type="text" class="form-control" id="screenshotLink" name="screenshotLink" value="${game.screenshotLink}">
+				</div>
+			</div>
+			<#else>
+			<div class="form-group row">
+			<label for="screenshotLink" class="col-sm-2 col-form-label">Screenshot-Link</label>
+				<div class="custom-file col-sm-10" id="customFile">
+						<input type="text" class="form-control" id="screenshotLink" name="screenshotLink">
+				</div>
+			</div>
+			</#if>
 		<div class="form-group row" id="buttons">
 			<div class="col-sm-2">
 			</div>
 			<div class="col-sm-10">
-				<button id="submitButton" type ="submit" class="btn btn-primary" role="button">Fertig</button>
-				<button type ="cancel" class="btn btn-primary" role="button">Abbrechen</button>
+				<button id="submitButton" type ="submit" class="btn btn-primary" role="button">Spiel Hinzufügen</button>
 			</div>
 		</div>
 	</form>

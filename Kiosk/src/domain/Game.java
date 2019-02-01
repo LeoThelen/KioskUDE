@@ -3,7 +3,7 @@ package domain;
 import java.util.LinkedList;
 
 public class Game {
-	private String name;
+	private String name=null;
 	private String gameID=null;
 	private LinkedList<Tag> taglist = new LinkedList<>();
 	private String thumbnailLink;
@@ -11,11 +11,11 @@ public class Game {
 	private String steamID=null;
 	private String oculusID=null;
 	
-	private String germanDescription="";
-	private String englishDescription="";
-	private String arabDescription="";
-	private String path="";
-	private String lastTimeUsed="";
+	private String germanDescription=null;
+	private String englishDescription=null;
+	private String arabDescription=null;
+	private String path=null;
+	private String lastTimeUsed=null;
 	
 	public Game(){
 
@@ -63,11 +63,17 @@ public class Game {
 	}
 
 	public void addTag(Tag tag) {
+		//TODO testen, ob Tag schon in Liste
+		for (Tag gTag : taglist) {
+			if (gTag.getTagID().equals(tag.getTagID())) {
+				return;
+			}
+		}
 		taglist.add(tag);
 	}
 
 	public String getThumbnailLink() {
-		return this.thumbnailLink==null ? "screenshots/sample.png":this.thumbnailLink;
+		return this.thumbnailLink;
 	}
 
 	public void setThumbnailLink(String thumbnailLink) {
@@ -75,7 +81,7 @@ public class Game {
 	}
 
 	public String getScreenshotLink() {
-		return this.screenshotLink==null ? "screenshots/sample.png":this.screenshotLink;
+		return this.screenshotLink;
 	}
 
 	public void setScreenshotLink(String screenshotLink) {
@@ -83,14 +89,14 @@ public class Game {
 	}
 
 	public String getSteamID() {
-		return steamID==null?null:steamID;
+		return steamID;
 	}
 
 	public void setSteamID(String steamID) {
 		this.steamID = steamID;
 	}
 	public String getOculusID() {
-		return oculusID==null?null:oculusID;
+		return oculusID;
 	}
 	public void setOculusID(String oculusID) {
 		this.oculusID = oculusID;
