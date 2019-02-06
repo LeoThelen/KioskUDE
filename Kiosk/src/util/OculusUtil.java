@@ -34,14 +34,14 @@ public class OculusUtil {
 		g.setOculusID(oculusID);
 		try {
 			Document doc = Jsoup.connect("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=en_US").get();
-			System.out.println("Getting information about "+doc.title());
+//			System.out.println("Getting information about "+doc.title());
 			g=getJSONObject(g, new JSONObject(doc.selectFirst("script[type]").html()));	//englische Beschreibung und image(s)
 			doc = Jsoup.connect("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=de_DE").get();
 			g.setGermanDescription(new JSONObject(doc.selectFirst("script[type]").html()).get("description").toString());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		MiscUtil.saveResizedThumbnail(g);
+//		MiscUtil.saveResizedThumbnail(g);//TODO
 //		System.setProperty("webdriver.chrome.driver","C:/xampp/chromedriver.exe");
 //		WebDriver webDriver = new ChromeDriver();
 //		webDriver.navigate().to("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=de_DE");

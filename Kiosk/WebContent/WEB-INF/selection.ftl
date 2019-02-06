@@ -91,12 +91,12 @@
 					<#list gamelist as game> <#if game?has_content>
 
 					<div class="grid-item ${game.classtags!}" id="${game.gameID!}" gametitle="${game.name}">
-						<#if loggedin??>
 							<div class="container-btn-admin">
+						<#if loggedin??>
 							<button type="button" class="btn btn-semitransparent-warning btn-lg">Bearbeiten</button>
 							<button type="button" class="btn btn-semitransparent-danger btn-lg">Löschen</button>
-							</div>
 						</#if>
+						</div>
 						<#if game.thumbnailLink?has_content>
 						<img class="thumbnail" src="screenshots/thumb_${game.gameID}.jpg" onerror="if (this.src != '${game.thumbnailLink}') this.src = '${game.thumbnailLink}';" alt="${game.name}">
 						<#else>

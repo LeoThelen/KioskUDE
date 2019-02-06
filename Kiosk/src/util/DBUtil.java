@@ -88,7 +88,8 @@ public class DBUtil {
 		}
 		LinkedList<Game> gameList = new LinkedList<>();
 
-		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+		try (Connection conn = MariaDBConnection_connect()) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {

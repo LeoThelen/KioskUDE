@@ -39,16 +39,14 @@ public class TEST extends HttpServlet {
 		return null; 
 	}
 
-
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		Runtime.getRuntime().exec("C:\\games\\icytower151\\icytower15.exe");
 //		MiscUtil.saveAllResizedThumbnails();
-		
-		new SelectionServlet().doGet(request, response);
+		response.getWriter().append("<a href=\"kioskstart://X.java\">KLICK</a>");
+//		new SelectionServlet().doGet(request, response);
 	}
 
 	/**
