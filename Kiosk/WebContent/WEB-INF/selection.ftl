@@ -12,7 +12,7 @@
 <body>
 <div class="background-image"></div>
 	<!-- Navbar -->
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" id="navie">
 		<a class="navbar-brand" href="#">VR Kiosk</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarsExampleDefault"
@@ -48,7 +48,7 @@
 				<li class="nav-item" id="EN"><a class="nav-link">EN</a></li>
         </ul>
       </div>
-      <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+      <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search" id="s">
 			<button class="input-group-append icon-search" id="searchie" />
 			<!-- <input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
 			<div class="input-group-append">

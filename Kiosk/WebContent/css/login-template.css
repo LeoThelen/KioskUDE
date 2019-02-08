@@ -51,3 +51,6 @@ a.badge-light:hover {
 }
 .transition2 {transition: all ease 2s; }
 .transition2:hover {transition: none; }  
+#navie{
+	background-color: #000000!important;
+}

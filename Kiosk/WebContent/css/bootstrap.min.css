@@ -1791,8 +1791,8 @@ pre code {
 
 .form-control {
 	display: block;
-	width: 50%;
-	height: calc(1.8rem);
+	width: 100%;
+	height: calc(2.25rem + 2px);
 	padding: .375rem .75rem;
 	font-size: 1rem;
 	font-weight: 400;
@@ -6454,7 +6454,7 @@ a.bg-light:focus, a.bg-light:hover, button.bg-light:focus, button.bg-light:hover
 }
 
 .bg-dark {
-	background-color: #000000
+	background-color: #343a40!important
 }
 
 a.bg-dark:focus, a.bg-dark:hover, button.bg-dark:focus, button.bg-dark:hover

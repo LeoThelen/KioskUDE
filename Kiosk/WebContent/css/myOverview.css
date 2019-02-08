@@ -182,4 +182,11 @@ img.screenshot{
 	border: none;
 	padding:0.6%;
 }
+#s{
+	width:50%;
+	height: calc(1.8rem);
+}
+#navie{
+	background-color: #000000!important;
+}
 }
