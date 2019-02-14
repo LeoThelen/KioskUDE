@@ -1,3 +1,12 @@
+<html>
+<head>
+<meta charset="utf-8">
+
+<link rel="stylesheet" href="css/myDescription.css" media="screen">
+</head>
+<body>
+<!-- neues oben-->
+
 <h1>${game.name}</h1>
 <br>
 <div>
@@ -33,5 +42,16 @@
 </div>
 <br>
 <img class="screenshot" src="screenshots/screenshot_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';">
+
+<!-- neues -->
+<!-- tags des spiels anzeigen lassen -->
+<br>
+	<#if taglist?has_content> <#list taglist as tag>
+	<div class=DE><span class="badge badge-secondary">#${tag.labelDE!"keine tags"}</span></div>
+	<div class=EN><span class="badge badge-secondary">#${tag.labelEN!"keine tags"}</span></div>
+	</#list>
+	</#if>
+	
 <br><h2><div class=DE>${game.germanDescription!"Keine Beschreibung"}</div>
 	<div class=EN>${game.englishDescription!"No Description"}</div></h2>
+	
