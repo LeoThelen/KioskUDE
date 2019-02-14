@@ -30,9 +30,11 @@ public class DescriptionServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Game g = DBUtil.getGameDescriptionByID(request.getParameter("id"));
+		g.setTaglist(DBUtil.getGameTagsByID(request.getParameter("id")));
 		System.out.println("Loading description page for ID "+request.getParameter("id"));
 		System.out.println("oclID"+g.getOculusID());
 		request.setAttribute("game", g);
+		request.setAttribute("taglist", g.getTaglist());
 		request.getRequestDispatcher("description.ftl").forward(request, response);
 	}
 

@@ -182,14 +182,14 @@ public class DBUtil {
 	}
 
 	public static LinkedList<Tag> getGameTagsByID(String gameID) {
-		String myQuery = "SELECT tagID FROM gametags WHERE gameID = ?";
+		String myQuery = "SELECT tags.tagID, catID, labelDE, labelEN  FROM gametags JOIN tags ON gametags.tagID = tags.tagID WHERE gameID = ?";
 		LinkedList<Tag> taglist = new LinkedList<>();
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, gameID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				taglist.add(new Tag(rs.getString("tagID")));
+				taglist.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"), rs.getString("labelEN")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
