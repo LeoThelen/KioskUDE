@@ -164,7 +164,7 @@ body {
 body.down-scrolled {
 	-webkit-animation: fade 5s;
 	animation: fade 5s;
-	background: #bd0;
+	background:  #9B7E4B;
 
 }
 #description.down-scrolled {

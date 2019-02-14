@@ -306,8 +306,9 @@ public class DBUtil {
 			myQuery += "englishDescription=?, ";
 		}
 		if (g.getPath() != null) {
-			myQuery += "path=? "; // kein Komma beim letzten Eintrag
+			myQuery += "path=?, "; // kein Komma beim letzten Eintrag
 		}
+		myQuery = myQuery.substring(0, myQuery.length()-2);
 		myQuery += " WHERE gameID=?";
 		try (Connection conn = MariaDBConnection_connect()) {
 			PreparedStatement stmt = conn.prepareStatement(myQuery);
@@ -380,6 +381,7 @@ public class DBUtil {
 				e.printStackTrace();
 			}
 			System.out.println("GameID:\t" + g.getGameID());
+			//get Tags from Steam
 			if (g.getSteamID() != null) {
 				System.out.println("SteamID:\t" + g.getSteamID());
 				g.setTaglist(SteamUtil.getSteamGameWithTags(g.getSteamID()).getTaglist());
@@ -498,6 +500,7 @@ public class DBUtil {
 			stmt.setString(1, g.getGameID());
 			stmt.executeUpdate();
 			MySQLConnection_close(conn);
+			System.out.println("Game deleted: "+ g.getGameID());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

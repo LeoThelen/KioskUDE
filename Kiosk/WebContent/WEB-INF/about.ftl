@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
 <link rel="stylesheet" href="css/my.css">
-<link rel="stylesheet" href="css/about.css">
+<link rel="stylesheet" href="css/myAbout.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">

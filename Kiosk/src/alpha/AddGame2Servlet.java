@@ -17,7 +17,7 @@ import util.DBUtil;
 /**
  * Servlet implementation class AddGame2Servlet
  */
-@WebServlet({ "/AddGame2Servlet", "/addGame" })
+@WebServlet({ "/AddGame2Servlet", "/addGame", "/edit_game" })
 public class AddGame2Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -59,11 +59,15 @@ public class AddGame2Servlet extends HttpServlet {
 		if(request.getParameter("gamePath") != null) {
 			g.setPath(request.getParameter("gamePath"));
 		}
+		
+		
 		g.setGermanDescription(request.getParameter("germanDescription"));
 		g.setEnglishDescription(request.getParameter("englishDescription"));
 		g.setThumbnailLink(request.getParameter("thumbnailLink"));
 		g.setScreenshotLink(request.getParameter("screenshotLink"));
 		System.out.println("62");
+		
+		
 		if(request.getParameter("gameID") != null) {
 			g.setGameID(request.getParameter("gameID"));
 			System.out.println("updating...");
@@ -91,7 +95,6 @@ public class AddGame2Servlet extends HttpServlet {
 				}
 			}
 		}
-		System.out.println("honda");
 		request.setAttribute("tagCats", tagCatList);
 		request.getRequestDispatcher("tagFormular.ftl").forward(request, response);
 	}

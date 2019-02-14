@@ -42,18 +42,18 @@
 	<div class="row top-buffer">
 	<form class="col-md-12" action="${action}" method="post" accept-charset="UTF-8">
 		<div class="page-header">
-			<h1>Spiel hinzuf&uuml;gen</h1>
+			<h1>Spieleformular</h1>
 		</div>
 			<#if game?has_content && game.gameID?has_content>
-				<div class="form-group row" >
+				<div class="hidden form-group row" >
 					<label for="gameID" class="col-sm-2 col-form-label">ID</label>
 					<div class="col-sm-10">
-						<input type="text" class="form-control" id="gameID" name="gameID" value="${game.gameID}" disabled>
+						<input type="text" class="form-control" id="gameID" name="gameID" value="${game.gameID}">
 					</div>
 				</div>
 			</#if>
 			<#if game?has_content && game.steamID?has_content>
-				<div class="form-group row" >
+				<div class="hidden form-group row" >
 					<label for="SteamID" class="col-sm-2 col-form-label">steamID</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="steamID" name="steamID" value="${game.steamID}">
@@ -61,7 +61,7 @@
 				</div>
 			</#if>
 			<#if game?has_content && game.oculusID?has_content>
-				<div class="form-group row" >
+				<div class="hidden form-group row" >
 					<label for="gameID" class="col-sm-2 col-form-label">oculusID</label>
 					<div class="col-sm-10">
 						<input type="text" class="form-control" id="oculusID" name="oculusID" value="${game.oculusID}">
@@ -129,7 +129,7 @@
 			<div class="col-sm-2">
 			</div>
 			<div class="col-sm-10">
-				<button id="submitButton" type ="submit" class="btn btn-primary" role="button">Spiel Hinzufügen</button>
+				<button id="submitButton" type ="submit" class="btn btn-primary" role="button">&gt;&gt;</button>
 			</div>
 		</div>
 	</form>

@@ -18,7 +18,7 @@ import util.SteamUtil;
 /**
  * Servlet implementation class GameFormularServlet
  */
-@WebServlet({"/gameFormular","/edit_game","/import_oculusgo","/import_steam"})
+@WebServlet({"/gameFormular", "/import_oculusgo", "/import_steam"})
 public class GameFormularServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -34,6 +34,17 @@ public class GameFormularServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String editID = request.getParameter("editID");
+		System.out.println("editGameID:\t"+editID);	
+
+		request.setAttribute("action", "addGame");
+		if (editID != null) {
+			Game g = null;
+			g = DBUtil.getGameDescriptionByID(editID);
+			request.setAttribute("game", g);
+			request.setAttribute("action", "edit_game");
+
+		}
 		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
 	}
 
@@ -44,10 +55,8 @@ public class GameFormularServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String steamID = request.getParameter("steamID");
 		String oculusID = request.getParameter("oculusID");
-		String editID = request.getParameter("editID");
 		System.out.println("steamGameID:\t"+steamID);
 		System.out.println("oculusGameID:\t"+oculusID);
-		System.out.println("editGameID:\t"+editID);	
 
 		Game g = null;
  		if (steamID!=null) {
@@ -57,15 +66,8 @@ public class GameFormularServlet extends HttpServlet {
  		if (oculusID != null) {
 			g = OculusUtil.getGameWithDetails(oculusID);
 			request.setAttribute("game", g);
-		}
+		}		
 		request.setAttribute("action", "addGame");
- 		if (editID != null) {
-			g = DBUtil.getGameDescriptionByID(editID);
-			request.setAttribute("game", g);
-			request.setAttribute("action", "editGame");
-
-		}
-		
 		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
 	}
 }
