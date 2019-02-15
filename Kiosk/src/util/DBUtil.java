@@ -236,10 +236,13 @@ public class DBUtil {
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, labelEN);
 			ResultSet rs = stmt.executeQuery();
+			System.out.println("DBUtil.getTagByLabel returns ");
 			if (rs.next() == true) {
+				System.out.println(rs.getString("tagID"));
 				return new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
 						rs.getString("labelEN"));
 			}
+			System.err.println("nothing.");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -386,7 +389,10 @@ public class DBUtil {
 				System.out.println("SteamID:\t" + g.getSteamID());
 				g.setTaglist(SteamUtil.getSteamGameWithTags(g.getSteamID()).getTaglist());
 			}
-			// TODO oculusTags hinzufügen?
+			if(g.getOculusID() != null) {
+				// TODO oculusTags hinzufügen?
+				g.addTag(DBUtil.getTagByLabelEN("Oculus Go"));
+			}
 			if (!g.getTaglist().isEmpty()) {
 				addGameTagsByGame(g);
 			}
@@ -602,16 +608,16 @@ public class DBUtil {
 	 * Mainmethode zum Datenbanksetup:
 	 */
 	public static void main(String[] args) throws SQLException {
-		Game g = new Game("12345131");
-		g.setGameID("804495");
-		g.addTag(new Tag("2"));
-		g.addTag(new Tag("11"));
-		g.addTag(new Tag("12"));
-		g.addTag(new Tag("13"));
-		addGameTagsByGame(g);
+//		Game g = new Game("12345131");
+//		g.setGameID("804495");
+//		g.addTag(new Tag("2"));
+//		g.addTag(new Tag("11"));
+//		g.addTag(new Tag("12"));
+//		g.addTag(new Tag("13"));
+//		addGameTagsByGame(g);
 //		addGame(g);		
 //		testIntegrity();
-//		writePassword("admin", "0000", "allahuakbar");
+		writePassword("admin", "0000", "sdarmlur;cluas;rim");
 //		System.out.println(verifyLogin("admin", "0000"));
 //		System.out.println(verifyLogin("admin", "0001"));
 

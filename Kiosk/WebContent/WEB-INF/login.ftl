@@ -29,8 +29,6 @@
 	&Uuml;ber
 	</a>
 	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	<a class="dropdown-item" href="https://github.com/LeoThelen/KioskUDE">Projekt auf GitHub</a>
-	<div class="dropdown-divider"></div>
 	<a class="dropdown-item" href="about.ftl">Impressum</a>
 	</div>
 	</li>

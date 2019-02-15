@@ -1,5 +1,6 @@
 package alpha;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -37,13 +38,26 @@ public class DeleteServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		// TODO Auto-generated method stub
 		String gameID = request.getParameter("delID");
 		Game g = new Game();
 		g.setGameID(gameID);
 		DBUtil.deleteGame(g);
-		response.sendRedirect("main");
+		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
+			f.delete();
+		}
+		f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
+			f.delete();
+		}
+		try {
+			response.sendRedirect("main");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

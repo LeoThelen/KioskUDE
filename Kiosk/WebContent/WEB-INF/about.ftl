@@ -34,10 +34,15 @@
 		<p> Lehrstuhl Entertainment Computing an der Universität Duisburg-Essen </p>
 		</div>
 		<br>
-		<div class ="row">
-		<p> Betreuer </p>
+		<div class="row mb-2 mt-2">
+		<h3>Mitwirkende</h3>
 		</div>
 		<div class="row">
+			<div class="d-flex w-100 justify-content-between">
+      				<h5 class="mb-1">Betreuer</h5>
+    		</div>
+    	</div>
+    	<div class="row">
 			<figure class="figure">
   				<img src="https://www.ecg.uni-due.de/cms/upload/Mitarbeiter/Masuch.jpg" class="figure-img img-fluid picture">
  				<figcaption class="figure-caption">Prof. Dr.-Ing. Maic Masuch</figcaption>
@@ -46,9 +51,6 @@
   				<img src="https://www.ecg.uni-due.de/cms/upload/Mitarbeiter/Liszio-3-von-3_1024x1024.jpg" class="figure-img img-fluid picture">
  				<figcaption class="figure-caption">Stefan Liszio, M.Sc.</figcaption>
 			</figure>
-		</div>
-		<div class="row">
-		<h3>Mitwirkende</h3>
 		</div>
 		<div class="row">
 			<div class="list-group">
@@ -81,7 +83,9 @@
 			<div class="list-group">
   				<class="list-group-item list-group-item-action flex-column align-items-start active">
     			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">Kiosksystem</h5>
+      				<h5 class="mb-1">Kiosksystem</h5><a class="" href="https://github.com/LeoThelen/KioskUDE">
+						<div class="DE">Projekt auf GitHub</div>
+						</a>
     			</div>
     				<p class="mb-1">Romaissa Benakila, Rebecca Kuliga, Pia Wierschin, Suzanne Wrobel</p>
   			</div>

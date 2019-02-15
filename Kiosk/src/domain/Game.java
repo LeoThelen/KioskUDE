@@ -13,13 +13,24 @@ public class Game {
 	
 	private String germanDescription=null;
 	private String englishDescription=null;
-	private String arabDescription=null;
 	private String path=null;
 	private String lastTimeUsed=null;
 	
+	/**
+	 * Konstruktor für ein leeres Gameobjekt
+	 */
 	public Game(){
 
 	}
+
+	/**
+	 * Konstruktor für GameObjekt. Enthält alle nötigen Informationen für die Übersichtsliste.
+	 * 
+	 * @param gameID wird von der Datenbank erzeugt.
+	 * @param name
+	 * @param thumbnailLink
+	 * @param taglist
+	 */
 	public Game(String gameID, String name, String thumbnailLink, LinkedList<Tag> taglist){
 		this.gameID=gameID;
 		this.name=name;
@@ -27,6 +38,11 @@ public class Game {
 		this.taglist=taglist;
 	}
 
+	/**
+	 * Konstruktor für Gameobjekt. Erzeugt automatisch den Thumbnaillink aus der SteamID.
+	 * 
+	 * @param steamID wird als String erwartet.
+	 */
 	public Game(String steamID){//from SteamUtil
 		this.steamID=steamID;
 		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
@@ -35,23 +51,35 @@ public class Game {
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	public String getGameID() {
 		return gameID;
 	}
+	
 	public void setGameID(String gameID) {
 		this.gameID = gameID;
 	}
-	public LinkedList<Tag> getTaglist() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	
+	/**
+	 * nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	 */
+	public LinkedList<Tag> getTaglist() {	
 		return taglist;
 	}
+	
 	public void setTaglist(LinkedList<Tag> taglist) {
 		this.taglist = taglist;
 	}
 	
-	public String getClasstags() {	//nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	/**
+	 * @return Klassennamen für die Sortierung aus den Tags. 
+	 * nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
+	 */
+	public String getClasstags() {	
 		if(taglist==null) {
 			return null;
 		}
@@ -62,14 +90,18 @@ public class Game {
 		return classtags;
 	}
 
+	/**
+	 * Markiert Spiel mit einem Gametag. Wenn Gametag schon vorhanden, passiert nichts.
+	 * @param tag
+	 */
 	public void addTag(Tag tag) {
-		//TODO testen, ob Tag schon in Liste
 		for (Tag gTag : taglist) {
 			if (gTag.getTagID().equals(tag.getTagID())) {
 				return;
 			}
 		}
 		taglist.add(tag);
+		System.out.println("Added tag " + tag.getTagID() + " to Game.");
 	}
 
 	public String getThumbnailLink() {
@@ -95,15 +127,19 @@ public class Game {
 	public void setSteamID(String steamID) {
 		this.steamID = steamID;
 	}
+	
 	public String getOculusID() {
 		return oculusID;
 	}
+	
 	public void setOculusID(String oculusID) {
 		this.oculusID = oculusID;
 	}
+	
 	public String getGermanDescription() {
 		return germanDescription;
 	}
+	
 	public void setGermanDescription(String germanDescription) {
 		this.germanDescription = germanDescription;
 	}
@@ -116,14 +152,10 @@ public class Game {
 		this.englishDescription = englishDescription;
 	}
 
-	public String getArabDescription() {
-		return arabDescription;
-	}
-
-	public void setArabDescription(String arabDescription) {
-		this.arabDescription = arabDescription;
-	}
-
+	/**
+	 * 
+	 * @return Spielpfad oder Ausführungspfad von Steamspielen (für Protocol Handler) 
+	 */
 	public String getPath() {
 		return this.steamID==null ? this.path:"steam://run/"+steamID;
 	}
@@ -132,13 +164,15 @@ public class Game {
 		this.path = path;
 	}
 
+	/**
+	 * 
+	 * @return Zeit des letzten Spielstarts. Wenn noch nie gestartet dann Installationszeitpunkt.
+	 */
 	public String getLastTimeUsed() {
-		return this.lastTimeUsed==null?this.lastTimeUsed:Long.toString(System.currentTimeMillis());
+		return this.lastTimeUsed==null?Long.toString(System.currentTimeMillis()):this.lastTimeUsed;
 	}
 
 	public void setLastTimeUsed(String lastTimeUsed) {
 		this.lastTimeUsed = lastTimeUsed;
 	}
-
-	
 }

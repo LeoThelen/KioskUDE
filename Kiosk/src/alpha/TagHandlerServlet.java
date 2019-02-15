@@ -15,21 +15,23 @@ import util.DBUtil;
 /**
  * Servlet implementation class TagFormularServlet
  */
-@WebServlet({"/TagFormularServlet", "/addTag"})
+@WebServlet({ "/TagFormularServlet", "/addTag" })
 public class TagHandlerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public TagHandlerServlet() {
-        super();
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public TagHandlerServlet() {
+		super();
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 //		LinkedList<TagCategory> tagList = DBUtil.getTagList();
 //		request.setAttribute("tagCats", tagList);
 
@@ -37,26 +39,26 @@ public class TagHandlerServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		String tagID = request.getParameter("tagID");
 		String action = request.getParameter("action");
 		String gameID = request.getParameter("gameID");
-		if(tagID!=null&&gameID!=null) {
+		if (tagID != null && gameID != null) {
 			if (action.equals("add")) {
 				DBUtil.addGameTagByID(gameID, tagID);
+				response.getWriter().append("Tag (ID: " + tagID + ") dem Spiel (ID: " + gameID + ") hinzugef&uuml;gt.");
+
 			}
 			if (action.equals("delete")) {
 				DBUtil.deleteGameTagByID(gameID, tagID);
-			}
-			
-			response.getWriter().append("Tag with ID "+tagID +" "+ action+"'d to Game "+ gameID);
-		}
-		
-		
-		
-	}
+				response.getWriter().append("Tag (ID: " + tagID + ") von dem Spiel (ID: " + gameID + ") entfernt.");
 
+			}
+		}
+	}
 }

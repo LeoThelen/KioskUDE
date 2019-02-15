@@ -8,14 +8,28 @@ public class Tag {
 	private String labelEN;
 	private boolean checked=false;
 	
+	/**
+	 * leerer Tag-Konstruktor. Setzt checked auf false.
+	 */
 	public Tag() {
 
 	}
 
+	/**
+	 * Konstruktor
+	 * @param tagID
+	 */
 	public Tag(String tagID) {
 		this.tagID = tagID;
 	}
 
+	/**
+	 * Konstruktor
+	 * @param tagID
+	 * @param catID
+	 * @param labelDE deutsche Beschreibung
+	 * @param labelEN englische Beschreibung
+	 */
 	public Tag(String tagID, String catID, String labelDE, String labelEN) {
 		this.tagID = tagID;
 		this.catID = catID;
@@ -26,6 +40,12 @@ public class Tag {
 	public String getTagID() {
 		return tagID;
 	}
+	
+	/**
+	 * Für IsotopeFilter
+	 * @return data-attribut für die Filter
+	 * Beispiel mit Freemarker: data-filter=".${tag.filter}"
+	 */
 	public String getFilter() {
 		return "tag"+tagID;
 	}
@@ -62,10 +82,19 @@ public class Tag {
 		return checked;
 	}
 
+	/**
+	 * für Tagformular
+	 * @return checked, wenn der Tag für das Spiel aktiv ist.
+	 * ansonsten leerer String. 
+	 */
 	public String getCheckedString() {
 		return checked?"checked":"";
 	}
 
+	/**
+	 * für Tagformular.
+	 * @param checked true, falls der Tag für das Spiel aktiv ist.
+	 */
 	public void setChecked(boolean checked) {
 		this.checked = checked;
 	}

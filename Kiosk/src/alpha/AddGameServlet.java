@@ -13,18 +13,19 @@ import domain.Game;
 import domain.Tag;
 import domain.TagCategory;
 import util.DBUtil;
+import util.MiscUtil;
 
 /**
  * Servlet implementation class AddGame2Servlet
  */
 @WebServlet({ "/AddGame2Servlet", "/addGame", "/edit_game" })
-public class AddGame2Servlet extends HttpServlet {
+public class AddGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public AddGame2Servlet() {
+	public AddGameServlet() {
 		super();
 	}
 
@@ -65,8 +66,6 @@ public class AddGame2Servlet extends HttpServlet {
 		g.setEnglishDescription(request.getParameter("englishDescription"));
 		g.setThumbnailLink(request.getParameter("thumbnailLink"));
 		g.setScreenshotLink(request.getParameter("screenshotLink"));
-		System.out.println("62");
-		
 		
 		if(request.getParameter("gameID") != null) {
 			g.setGameID(request.getParameter("gameID"));
@@ -76,6 +75,11 @@ public class AddGame2Servlet extends HttpServlet {
 		}else {
 			System.out.println("adding...");
 			g = DBUtil.addGame(g);
+			if (g.getSteamID()!=null) {
+				MiscUtil.saveThumbnailAndScreenshot(g);
+			}else {
+				MiscUtil.saveResizedThumbnailAndScreenshot(g);
+			}
 			System.out.println("added"+g.getGameID());
 		}
 		
@@ -84,6 +88,10 @@ public class AddGame2Servlet extends HttpServlet {
 //		System.out.println("getTaglist success");
 		LinkedList<Tag> gameTagList = DBUtil.getGameTagsByID(g.getGameID());//TODO beispiel :(
 //		System.out.println("getGameTaglist success");
+		
+		/**
+		 * setzt Haken in die Checkboxen bei belegten Tags 
+		 * */
 		for(int i=0; i < tagCatList.size(); i++) {
 			for(int j = 0; j < tagCatList.get(i).getTaglist().size(); j++) {
 //				System.out.println("i:"+i+"\tj:"+j);

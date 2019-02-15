@@ -23,8 +23,6 @@
 				</div>
 			</div>
 		</div>
-	<#else>
-		ok :(
 	</#if>
 	<#if game.path?has_content>
 		<#if game.steamID?has_content>

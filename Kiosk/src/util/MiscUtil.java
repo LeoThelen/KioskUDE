@@ -25,7 +25,14 @@ public class MiscUtil {
 
 	}
 
-	public static void saveResizedThumbnail(Game g) {
+	/**
+	 * speichert Thumbnail und Screenshot eines Spiels (und passt dessen Größe an) im Pfad unter
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg" (460x215)
+	 * und unter
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg"
+	 * */
+
+	public static void saveResizedThumbnailAndScreenshot(Game g) {
 		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 		if (!f.exists()) {
 			BufferedImage img = null;
@@ -34,6 +41,13 @@ public class MiscUtil {
 				img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.AUTOMATIC, 460, 215);
 				ImageIO.write(img, "png",
 						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"));
+				
+				
+				img = ImageIO.read(new URL(g.getScreenshotLink()).openStream());
+				img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.FIT_TO_HEIGHT, 999, 337);
+				ImageIO.write(img, "png",
+						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg"));
+			
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -46,28 +60,32 @@ public class MiscUtil {
 			File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 			if (!f.exists())
 				if (g.getSteamID() == null) {
-					saveResizedThumbnail(g);
+					saveResizedThumbnailAndScreenshot(g);
 				} else {
 					saveThumbnailAndScreenshot(g);
 				}
 		}
 	}
 
+	/**
+	 * speichert Thumbnail und Screenshots (ohne die Größe zu verändern) im Pfad unter
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"
+	 * und unter
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg"
+	 * */
 	public static void saveThumbnailAndScreenshot(Game g) {
 		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 		if (!f.exists()) {
 			try (InputStream in = new URL(g.getThumbnailLink()).openStream()) {
-				Files.copy(in, Paths.get("C:\\Users\\Leo\\git\\KioskUDE\\Kiosk\\WebContent\\screenshots\\thumb_"
-						+ g.getGameID() + ".jpg"));
+				Files.copy(in, Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"));
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		g = DBUtil.getGameDescriptionByID(g.getGameID());
 		try (InputStream in = new URL(g.getScreenshotLink()).openStream()) {
-			Files.copy(in, Paths.get("C:\\Users\\Leo\\git\\KioskUDE\\Kiosk\\WebContent\\screenshots\\screenshot_"
+			Files.copy(in, Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_"
 					+ g.getGameID() + ".jpg"));
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

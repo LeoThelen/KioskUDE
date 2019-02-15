@@ -33,12 +33,6 @@
 						<div class="EN">About</div>
 				</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item"
-							href="https://github.com/LeoThelen/KioskUDE">
-							<div class="DE">Projekt auf GitHub</div>
-							<div class="EN">Project on GitHub</div>
-						</a>
-						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="about.ftl">
 							<div class="DE">Impressum</div>
 							<div class="EN">Imprint</div>

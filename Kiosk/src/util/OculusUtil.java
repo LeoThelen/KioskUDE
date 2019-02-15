@@ -7,9 +7,12 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.By;
 //import org.openqa.selenium.By;
 //import org.openqa.selenium.WebDriver;
 //import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 
 import domain.Game;
 
@@ -21,6 +24,7 @@ public class OculusUtil {
 		JSONArray images = jsonObj.getJSONArray("image");
 		
 		g.setThumbnailLink(images.getString(0));
+		//TODO if keine 2 screenshots existieren, was dann?
 		g.setScreenshotLink(images.getString(1));
 //		for (Object imglink : images) {//purge first one bc it's just the title image.
 //			System.out.println(imglink);
@@ -41,21 +45,23 @@ public class OculusUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		MiscUtil.saveResizedThumbnail(g);//TODO
 //		System.setProperty("webdriver.chrome.driver","C:/xampp/chromedriver.exe");
 //		WebDriver webDriver = new ChromeDriver();
 //		webDriver.navigate().to("https://www.oculus.com/experiences/go/"+oculusID+"/?update_locale=de_DE");
 //		// Waiting a little bit before closing
 //		try {
-//			Thread.sleep(100);
+//			Thread.sleep(1000);
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		}
 ////TODO: tagSetzen:
-////		webDriver.findElement(By.className("app-age-rating-icon__text")).getText());
+//		
+//		//TODO folgende Zeile catch NoSuchElementException
+////		System.out.println(webDriver.findElement(By.className("app-age-rating-icon__text")).getText());
 //		// Closing the browser and webdriver
 //		webDriver.close();
 //		webDriver.quit();
+	
 		return g;
 	}
 	
