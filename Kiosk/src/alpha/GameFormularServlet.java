@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import domain.TagCategory;
 import util.DBUtil;
+import util.MiscUtil;
 import util.OculusUtil;
 import util.SteamUtil;
 
@@ -34,6 +36,13 @@ public class GameFormularServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
+		if(loginCookie != null) {
+			request.setAttribute("loggedin", true);
+			loginCookie.setMaxAge(3600); // expires after 1h
+			response.addCookie(loginCookie);
+		}
+		
 		String editID = request.getParameter("editID");
 		System.out.println("editGameID:\t"+editID);	
 
@@ -53,6 +62,12 @@ public class GameFormularServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
+		if(loginCookie != null) {
+			request.setAttribute("loggedin", true);
+			loginCookie.setMaxAge(3600); // expires after 1h
+			response.addCookie(loginCookie);
+		}
 		String steamID = request.getParameter("steamID");
 		String oculusID = request.getParameter("oculusID");
 		System.out.println("steamGameID:\t"+steamID);

@@ -31,7 +31,10 @@
 			<div class=EN>Start Steam Game</div></button>
 			</a>
 		<#else>
-			<a href="kioskstart://${game.path}">KLICK</a>
+			<a href="kioskstart://${game.path}">
+				<button type="button" class="btn btn-secondary btn-lg"><div class=DE>Spiel starten</div>
+				<div class=EN>Start Game</div></button>
+			</a>
 		</#if>
 	</#if>
 

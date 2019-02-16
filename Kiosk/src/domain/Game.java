@@ -95,7 +95,7 @@ public class Game {
 	 * @param tag
 	 */
 	public void addTag(Tag tag) {
-		for (Tag gTag : taglist) {
+		for (Tag gTag : taglist) {	//wenn tag in liste, skip
 			if (gTag.getTagID().equals(tag.getTagID())) {
 				return;
 			}

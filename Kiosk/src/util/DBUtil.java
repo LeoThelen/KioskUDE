@@ -27,7 +27,7 @@ public class DBUtil {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-			DriverManager.setLogWriter(new PrintWriter(System.out));
+//			DriverManager.setLogWriter(new PrintWriter(System.out));
 
 //			try {
 //				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File(".\\tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));

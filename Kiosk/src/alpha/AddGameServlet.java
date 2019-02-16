@@ -5,6 +5,7 @@ import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,7 @@ import domain.Tag;
 import domain.TagCategory;
 import util.DBUtil;
 import util.MiscUtil;
+import util.ScreenshotUtil;
 
 /**
  * Servlet implementation class AddGame2Servlet
@@ -30,20 +32,17 @@ public class AddGameServlet extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-	}
-
-	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
+		if(loginCookie != null) {
+			request.setAttribute("loggedin", true);
+			loginCookie.setMaxAge(3600); // expires after 1h
+			response.addCookie(loginCookie);
+		}
+		
 		Game g = new Game();
 		request.setCharacterEncoding("UTF-8"); //Sonderzeichen und Umlaute
 		g.setName(request.getParameter("gameTitle"));
@@ -78,9 +77,9 @@ public class AddGameServlet extends HttpServlet {
 			System.out.println("added"+g.getGameID());
 		}
 		if (g.getSteamID()!=null) {						//save screenshots locally
-			MiscUtil.saveThumbnailAndScreenshot(g);
+			ScreenshotUtil.saveThumbnailAndScreenshot(g);
 		}else {
-			MiscUtil.saveResizedThumbnailAndScreenshot(g);
+			ScreenshotUtil.saveResizedThumbnailAndScreenshot(g);
 		}
 		
 		request.setAttribute("game", g);

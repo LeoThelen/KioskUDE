@@ -33,7 +33,6 @@ public class LoginServlet extends HttpServlet {
 		String user = request.getParameter("user");
 		String password = request.getParameter("password");
 		Cookie cookies[] = request.getCookies();
-		request.setAttribute("loggedin", false);
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
 				System.out.println(cookie.getName());

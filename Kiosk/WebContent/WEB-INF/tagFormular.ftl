@@ -37,7 +37,7 @@
 	</div>
 	</nav>
 	<main role="main" class="mt-5">
-
+	<#if loggedin == true>
 	<div id="warnung" class="alert alert-warning" role="alert">
 		Bitte Tags für die Suche setzen.
 	</div>
@@ -66,6 +66,9 @@
 		</div>
 	</form>
 </div>
+<#else>
+	Nicht eingeloggt.
+</#if>
 </main>				
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>

@@ -37,6 +37,7 @@
 	</div>
 	</nav>
 <main role="main" class="container mt-5">
+	<#if loggedin == true>
 	<div class="row top-buffer">
 	<form class="col-md-12" action="${action}" method="post" accept-charset="UTF-8">
 		<div class="page-header">
@@ -132,6 +133,9 @@
 		</div>
 	</form>
 	</div>
+	<#else>
+		Nicht eingeloggt.
+	</#if>
 </main>				
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script>
