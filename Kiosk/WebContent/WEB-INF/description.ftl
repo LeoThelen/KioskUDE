@@ -31,7 +31,7 @@
 			<div class=EN>Start Steam Game</div></button>
 			</a>
 		<#else>
-			<a href=\"kioskstart://X.java\">KLICK</a>
+			<a href="kioskstart://${game.path}">KLICK</a>
 		</#if>
 	</#if>
 

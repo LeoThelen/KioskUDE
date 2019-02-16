@@ -67,20 +67,20 @@ public class AddGameServlet extends HttpServlet {
 		g.setThumbnailLink(request.getParameter("thumbnailLink"));
 		g.setScreenshotLink(request.getParameter("screenshotLink"));
 		
-		if(request.getParameter("gameID") != null) {
+		if(request.getParameter("gameID") != null) {	//update game
 			g.setGameID(request.getParameter("gameID"));
-			System.out.println("updating...");
 			DBUtil.updateGame(g);	//TODO
 			System.out.println("updated");
-		}else {
+		}else {											//add new game
 			System.out.println("adding...");
 			g = DBUtil.addGame(g);
-			if (g.getSteamID()!=null) {
-				MiscUtil.saveThumbnailAndScreenshot(g);
-			}else {
-				MiscUtil.saveResizedThumbnailAndScreenshot(g);
-			}
+			
 			System.out.println("added"+g.getGameID());
+		}
+		if (g.getSteamID()!=null) {						//save screenshots locally
+			MiscUtil.saveThumbnailAndScreenshot(g);
+		}else {
+			MiscUtil.saveResizedThumbnailAndScreenshot(g);
 		}
 		
 		request.setAttribute("game", g);

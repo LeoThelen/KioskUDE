@@ -331,7 +331,7 @@ public class DBUtil {
 			if (g.getEnglishDescription() != null)
 				stmt.setString(c++, g.getEnglishDescription());
 			if (g.getPath() != null)
-				stmt.setString(c++, g.getPath());
+				stmt.setString(c++, g.getPath().replace("\"", ""));	//Anführungsstriche entfernen erhöht Sicherheit
 //			if(g.getLastTimeUsed()!=null)
 //				stmt.setString(c++, g.getLastTimeUsed());
 			if (g.getGameID() != null)
@@ -371,7 +371,7 @@ public class DBUtil {
 				stmt.setString(c++, g.getOculusID());
 				stmt.setString(c++, g.getGermanDescription());
 				stmt.setString(c++, g.getEnglishDescription());
-				stmt.setString(c++, g.getPath());
+				stmt.setString(c++, g.getPath().replace("\"", ""));	//Anführungsstriche entfernen erhöht Sicherheit
 				stmt.setString(c++, g.getLastTimeUsed());
 				stmt.executeUpdate();
 				stmt = conn.prepareStatement("SELECT LAST_INSERT_ID() AS gameID;");
