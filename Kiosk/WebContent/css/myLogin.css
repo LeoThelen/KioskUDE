@@ -48,3 +48,13 @@ a.badge-light:hover {
 }
 .transition2 {transition: all ease 2s; }
 .transition2:hover {transition: none; }  
+
+.fa-info-circle{
+	color: #c2c5cc;
+}
+.info{
+	color: #c2c5cc;
+}
+.gif{
+	width: 450px;
+}
