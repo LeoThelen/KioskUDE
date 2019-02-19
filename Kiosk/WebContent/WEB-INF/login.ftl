@@ -57,6 +57,15 @@
 					<input type="text" id="steamID" class="form-control" placeholder="Steam App ID" name="steamID" required>
 					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
 				</form>
+				<i class="col-1 fas fa-info-circle text-left fa-lg info-symbol" aria-hidden="true"></i>
+				<div class="info hidden">
+					<div class="dropdown-divider"></div>
+					<p>Wie finde ich die Steam ID?</p>
+					<p>Schritt 1: Öffnen Sie die <a href="https://store.steampowered.com/?l=german"> Steam Website. </a></p>
+					<p>Schritt 2: Suchen Sie nach dem gewünschten Spiel.</p>
+					<p>Schritt 3: Die Steam ID finden Sie nun in dem Link.</p>
+					<img class="gif" src="screenshots/steamInfo.gif">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -76,6 +85,15 @@
 					<input type="text" id="oculusID" class="form-control" placeholder="Oculus App ID" name="oculusID" required>
 					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Spiel hinzufügen...</button>
 				</form>
+				<i class="col-1 fas fa-info-circle text-left fa-lg info-symbol" aria-hidden="true"></i>
+				<div class="info hidden">
+					<div class="dropdown-divider"></div>
+					<p> Wie finde ich die Oculus ID? </p>
+					<p>Schritt 1: Öffnen Sie die <a href="https://www.oculus.com/experiences/go/">Oculus Website</a></p>
+					<p>Schritt 2: Suchen Sie nach dem gewünschten Spiel.</p>
+					<p>Schritt 3: Die Oculus ID finden Sie nun in dem Link.</p>
+					<img class="gif" src="screenshots/oculusInfo.gif">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -125,6 +143,11 @@
   	var daMail=$('#inputUser').val();
   	$('#inputUserForgotPW').val(daMail);
   });
+</script>
+<script>
+	$('.info-symbol').on('click', function() {
+		$('.info').toggleClass("hidden");
+	});
 </script>
 <#if username??>
 <script>
