@@ -23,9 +23,24 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String username = request.getParameter("user");
-		String password = request.getParameter("password");
 		ServletUtil.checkAndRefreshLogin(request, response);
+		request.getRequestDispatcher("login.ftl").forward(request, response);
+	}
+	
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 * wird nach login aufgerufen
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		attemptToLogin(request, response);
+		request.getRequestDispatcher("login.ftl").forward(request, response);		
+	}
+
+	private void attemptToLogin(HttpServletRequest request, HttpServletResponse response) {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
 		if (notEmpty(username, password)) {
 			if(DBUtil.verifyLogin(username, password)) {
 				System.out.println("Login verified.");
@@ -38,23 +53,9 @@ public class LoginServlet extends HttpServlet {
 				request.setAttribute("username", username);
 			}
 		}
-		
-		request.getRequestDispatcher("login.ftl").forward(request, response);
 	}
 
 	private boolean notEmpty(String user, String password) {
 		return user != null && password != null;
 	}
-	
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 * wird nach logout aufgerufen
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

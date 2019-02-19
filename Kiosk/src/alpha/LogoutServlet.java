@@ -16,18 +16,16 @@ public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LogoutServlet() {
-		super();
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		deleteLoginCookie(request, response);
+		request.getRequestDispatcher("login.ftl").forward(request, response);		
+}
+
+	private void deleteLoginCookie(HttpServletRequest request, HttpServletResponse response) {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
@@ -38,7 +36,6 @@ public class LogoutServlet extends HttpServlet {
 				}
 			}
 		}
-		response.sendRedirect("login");
 	}
 
 	/**

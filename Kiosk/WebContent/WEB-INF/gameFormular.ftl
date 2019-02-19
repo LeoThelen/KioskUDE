@@ -10,7 +10,7 @@
 <main role="main" class="container mt-5">
 	<#if loggedin?exists && loggedin==true>
 	<div class="row mt-4">
-	<form class="col-md-12" action="${action}" method="post" accept-charset="UTF-8">
+	<form class="col-md-12" action="save_game" method="post" accept-charset="UTF-8">
 		<div class="page-header">
 			<h1>Spieleformular</h1>
 		</div>

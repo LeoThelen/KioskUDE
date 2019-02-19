@@ -100,7 +100,7 @@
 </div>
 
 <#else>
-<form class="form-signin" method="post">
+<form class="form-signin" action="login" method="post">
 
 <h1 class="h3 font-weight-normal">Bitte einloggen</h1>
 

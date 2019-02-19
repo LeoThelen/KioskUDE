@@ -22,13 +22,6 @@ public class TagHandlerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TagHandlerServlet() {
-		super();
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
@@ -44,20 +37,21 @@ public class TagHandlerServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.checkAndRefreshLogin(request, response);
+		addOrDeleteTagFromGame(request, response);
+	}
 
+	private void addOrDeleteTagFromGame(HttpServletRequest request, HttpServletResponse response) throws IOException { //TODO refactor
 		String tagID = request.getParameter("tagID");
-		String action = request.getParameter("action");
 		String gameID = request.getParameter("gameID");
+		String action = request.getParameter("action");
 		if (tagID != null && gameID != null) {
 			if (action.equals("add")) {
 				DBUtil.addGameTagByID(gameID, tagID);
 				response.getWriter().append("Tag (ID: " + tagID + ") dem Spiel (ID: " + gameID + ") hinzugef&uuml;gt.");
-
 			}
 			if (action.equals("delete")) {
 				DBUtil.deleteGameTagByID(gameID, tagID);
 				response.getWriter().append("Tag (ID: " + tagID + ") von dem Spiel (ID: " + gameID + ") entfernt.");
-
 			}
 		}
 	}

@@ -26,45 +26,56 @@ public class GameFormularServlet extends HttpServlet {
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * wird beim Bearbeiten und bei neuen Drittanbieterspielen aufgerufen
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.checkAndRefreshLogin(request, response);
-
-		String editID = request.getParameter("editID");
-		System.out.println("edit Game with ID:\t"+editID);	
-		if (editID == null) {
-			request.setAttribute("action", "addGame");
-		}else{
-			Game g = null;
-			g = DBUtil.getGameDescriptionByID(editID);
-			request.setAttribute("game", g);
-			request.setAttribute("action", "edit_game");
-
-		}
+		fillFormWithGameInfosOnEdit(request);
 		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
+	}
+
+	private void fillFormWithGameInfosOnEdit(HttpServletRequest request) {
+		String editID = request.getParameter("editID");
+//		System.out.println("edit Game with ID:\t"+editID);	
+		if (exists(editID)) {
+			Game g = DBUtil.getGameDescriptionByID(editID);
+			request.setAttribute("game", g);
+		}
+	}
+
+	private boolean exists(String editID) {
+		return editID != null;
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * wird beim import neuer steam/oculus-Spiele aufgerufen
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.checkAndRefreshLogin(request, response);
-
-		String steamID = request.getParameter("steamID");
-		String oculusID = request.getParameter("oculusID");
-		System.out.println("steamGameID:\t"+steamID);
-		System.out.println("oculusGameID:\t"+oculusID);
-
 		Game g = null;
- 		if (steamID!=null) {
+		callImportForSteamGames(request);
+ 		callImportForOculusGames(request);		
+		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
+	}
+
+	private void callImportForOculusGames(HttpServletRequest request) {
+		Game g;
+		String oculusID = request.getParameter("oculusID");
+		System.out.println("oculusGameID:\t"+oculusID);
+		if (exists(oculusID)) {
+			g = OculusUtil.getGameWithDetails(oculusID);
+			request.setAttribute("game", g);
+		}
+	}
+
+	private void callImportForSteamGames(HttpServletRequest request) {
+		Game g;
+		String steamID = request.getParameter("steamID");
+		System.out.println("steamGameID:\t"+steamID);
+		if (exists(steamID)) {
 			g = SteamUtil.getSteamGameWithDetailsAndTags(steamID);
 			request.setAttribute("game", g);
  		}
- 		if (oculusID != null) {
-			g = OculusUtil.getGameWithDetails(oculusID);
-			request.setAttribute("game", g);
-		}		
-		request.setAttribute("action", "addGame");
-		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
 	}
 }

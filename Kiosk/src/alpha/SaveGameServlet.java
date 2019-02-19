@@ -22,8 +22,8 @@ import util.ScreenshotUtil;
  * @author Leo, Suzanne
  * Fügt Spiele hinzu oder speichert deren Änderungen. Es folgt eine Weiterleitung zum Tagformular.
  */
-@WebServlet({ "/AddGameServlet", "/addGame", "/edit_game" })
-public class AddGameServlet extends HttpServlet {
+@WebServlet({ "/AddGameServlet", "/save_game",  "/add_game", "/edit_game" })
+public class SaveGameServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
