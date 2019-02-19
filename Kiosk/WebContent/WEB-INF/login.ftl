@@ -1,44 +1,20 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="Login">
 	<meta name="author" content="Leonhard Thelen">
 	<title>Login - VR Kiosk</title>
-	<link href="css/bootstrap.min.css" rel="stylesheet">
-	<link href="css/my.css" rel="stylesheet">
+	<#include "cssBindings.ftl">
 	<link href="css/myLogin.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 
 <body>
-	<header>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-	<a class="navbar-brand" href="main">VR Kiosk</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-	<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	<ul class="navbar-nav mr-auto">
 
-	<li class="nav-item active">
-	<a class="nav-link" href="#">Login</a>
-	</li>
-	<li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	&Uuml;ber
-	</a>
-	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	<a class="dropdown-item" href="about.ftl">Impressum</a>
-	</div>
-	</li>
-	</ul>
-	</div>
-	</nav>
-</header>
+	<#include "navbar.ftl">
+
 <main role="main" class="container">
 
-<#if loggedin==true>
+<#if loggedin?exists && loggedin==true>
 <div class="form-signin">
 <h2 class="mb-5">Sie sind eingeloggt.</h2>
 
@@ -110,7 +86,7 @@
 
 <h1 class="h3 font-weight-normal">Bitte einloggen</h1>
 
-<input type="text" id="inputUser" class="form-control" placeholder="E-Mail-Adresse" name="user" required autofocus>
+<input type="text" id="inputUser" class="form-control" placeholder="E-Mail-Adresse" name="username" required autofocus>
 <label for="inputPassword" class="sr-only">Password</label>
 <input type="password" id="inputPassword" class="form-control" placeholder="Passwort" name="password" required>
 <button class="btn btn-lg btn-primary btn-block" type="submit">Anmelden</button>
@@ -143,25 +119,17 @@
 </div>
 </#if>
 </main>
-<!-- /.container -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-		window.jQuery
-				|| document
-						.write('<script src="js/jquery-3.3.1.min.js"><\/script>')
-	</script>
-	<script src="js/bootstrap.bundle.min.js"></script>
+	<#include "jsBindings.ftl">
 <script>	
   $('#forgot-pw-badge').click(function(){
   	var daMail=$('#inputUser').val();
   	$('#inputUserForgotPW').val(daMail);
   });
 </script>
-<#if lastmail??>
+<#if username??>
 <script>
   $(document).ready(function(){
-  	$('#inputUser').val("${lastmail}");
+  	$('#inputUser').val("${username}");
   }); 
 </script>
 </#if>

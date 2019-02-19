@@ -34,12 +34,7 @@ public class TagHandlerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
-		if(loginCookie != null) {
-			request.setAttribute("loggedin", true);
-			loginCookie.setMaxAge(3600); // expires after 1h
-			response.addCookie(loginCookie);
-		}
+		ServletUtil.checkAndRefreshLogin(request, response);
 		request.getRequestDispatcher("tagFormular.ftl").forward(request, response);
 	}
 
@@ -48,12 +43,8 @@ public class TagHandlerServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
-		if(loginCookie != null) {
-			request.setAttribute("loggedin", true);
-			loginCookie.setMaxAge(3600); // expires after 1h
-			response.addCookie(loginCookie);
-		}
+		ServletUtil.checkAndRefreshLogin(request, response);
+
 		String tagID = request.getParameter("tagID");
 		String action = request.getParameter("action");
 		String gameID = request.getParameter("gameID");

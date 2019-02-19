@@ -10,18 +10,6 @@ import domain.Game;
 
 public class MiscUtil {
 
-	public static Cookie getLoginCookie(Cookie cookies[]) {
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				System.out.println(cookie.getName());
-				if (cookie.getName().equals("vrlogin")) {
-					return cookie;
-				}
-			}
-		}
-		return null;
-	}
-	
 	public static void printCurrentDir() {
 		System.out.println(
 				"Current dir:" + Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots").toAbsolutePath().toString());

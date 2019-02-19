@@ -18,55 +18,38 @@ public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public LoginServlet() {
-		super();
-	}
-
-	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String user = request.getParameter("user");
+		String username = request.getParameter("user");
 		String password = request.getParameter("password");
-		Cookie cookies[] = request.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				System.out.println(cookie.getName());
-				if (cookie.getName().equals("vrlogin")) {
-					request.setAttribute("loggedin", true);
-					break;
-				}
-			}
-		}
-		if (user != null && password != null) {
-			System.out.println(user+"<user password>"+password);
-			request.setAttribute("wrongpassword", true);
-			request.setAttribute("lastmail", user);
-			
-			/*if (user.equals("admin@god") && password.equals("0000")) { // TODO increase security
-				Cookie loginCookie = new Cookie("vrlogin", user);
+		ServletUtil.checkAndRefreshLogin(request, response);
+		if (notEmpty(username, password)) {
+			if(DBUtil.verifyLogin(username, password)) {
+				System.out.println("Login verified.");
+				Cookie loginCookie = new Cookie("vrlogin", username);
 				loginCookie.setMaxAge(3600); // expires after 1h
 				response.addCookie(loginCookie);
 				request.setAttribute("loggedin", true);
-			}*/
-			if(DBUtil.verifyLogin(user, password)) {
-				Cookie loginCookie = new Cookie("vrlogin", user);
-				loginCookie.setMaxAge(3600); // expires after 1h
-				response.addCookie(loginCookie);
-				request.setAttribute("loggedin", true);
+			}else {
+				request.setAttribute("wrongpassword", true);
+				request.setAttribute("username", username);
 			}
 		}
 		
 		request.getRequestDispatcher("login.ftl").forward(request, response);
 	}
 
+	private boolean notEmpty(String user, String password) {
+		return user != null && password != null;
+	}
+	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 * wird nach logout aufgerufen
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

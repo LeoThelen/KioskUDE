@@ -24,30 +24,17 @@ import util.SteamUtil;
 public class GameFormularServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public GameFormularServlet() {
-        super();
-    }
-
 	/**
-	 * doGetMethode, falls Spiel ohne Vorverarbeitung durch Steam oder Oculus erzeugt werden soll.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
-		if(loginCookie != null) {
-			request.setAttribute("loggedin", true);
-			loginCookie.setMaxAge(3600); // expires after 1h
-			response.addCookie(loginCookie);
-		}
-		
-		String editID = request.getParameter("editID");
-		System.out.println("editGameID:\t"+editID);	
+		ServletUtil.checkAndRefreshLogin(request, response);
 
-		request.setAttribute("action", "addGame");
-		if (editID != null) {
+		String editID = request.getParameter("editID");
+		System.out.println("edit Game with ID:\t"+editID);	
+		if (editID == null) {
+			request.setAttribute("action", "addGame");
+		}else{
 			Game g = null;
 			g = DBUtil.getGameDescriptionByID(editID);
 			request.setAttribute("game", g);
@@ -58,16 +45,11 @@ public class GameFormularServlet extends HttpServlet {
 	}
 
 	/**
-	 * TODO doPostMethode, falls Spiel schon durch Steam oder Oculus vorverarbeitet wurde oder geändert werden soll. 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
-		if(loginCookie != null) {
-			request.setAttribute("loggedin", true);
-			loginCookie.setMaxAge(3600); // expires after 1h
-			response.addCookie(loginCookie);
-		}
+		ServletUtil.checkAndRefreshLogin(request, response);
+
 		String steamID = request.getParameter("steamID");
 		String oculusID = request.getParameter("oculusID");
 		System.out.println("steamGameID:\t"+steamID);

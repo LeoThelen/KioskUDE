@@ -92,9 +92,9 @@ $grid.on('click', '.grid-item', function() {
 	$(this).toggleClass('grid-item-active');
 	//load description page
 	$.get('description?id='+$(this).attr('id'), function(data) {
+		$('#description').html(data);
 		var currentEN = $(".EN").css("display");
 		var currentDE = $(".DE").css("display");
-		$('#description').html(data);
 		$('.EN').css('display', currentEN);
 		$('.DE').css('display', currentDE);
 	});

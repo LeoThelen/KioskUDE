@@ -3,46 +3,15 @@
 <meta charset="utf-8">
 
 <title>Games</title>
+<#include "cssBindings.ftl">
 <link rel="stylesheet" href="css/isotope-docs.css" media="screen">
-<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-<link rel="stylesheet" href="css/my.css" >
 <link rel="stylesheet" href="css/mySelection.css" media="screen">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div class="background-image"></div>
 	<!-- Navbar -->
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-		<a class="navbar-brand" href="#">VR Kiosk</a>
-		<button class="navbar-toggler" type="button" data-toggle="collapse"
-			data-target="#navbarsExampleDefault"
-			aria-controls="navbarsExampleDefault" aria-expanded="false"
-			aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon" />
-		</button>
+	<#include "navbar.ftl">
 
-		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="login">Login</a>
-				</li>
-				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" id="navbarDropdown"
-					role="button" data-toggle="dropdown" aria-haspopup="true"
-					aria-expanded="false">
-						<div class="DE">Über</div>
-						<div class="EN">About</div>
-				</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="about.ftl">
-							<div class="DE">Impressum</div>
-							<div class="EN">Imprint</div>
-						</a>
-					</div></li>
-				<li class="nav-item"><a class="nav-link" id="DE">DE</a></li>
-				<li class="nav-item" id="EN"><a class="nav-link">EN</a></li>
-        </ul>
-      </div>
-    </nav>
 			<!-- Filter -->
 			<div class="row justify-content-start">
 				<div class="filters mt-5 col-6">
@@ -127,15 +96,8 @@
 		</div>
 	</div>
 	<style id="dynamicStyle">::-webkit-scrollbar-thumb {background: #aaa;}</style>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="js/jquery-3.3.1.min.js"><\/script>')
-	</script>
-	<script	src="js/isotope.pkgd.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/my.js"></script>
+	<#include "jsBindings.ftl">
+
 	
 </body>
 </html>

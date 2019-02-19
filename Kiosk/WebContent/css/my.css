@@ -18,3 +18,11 @@ body{
 	padding:0rem 1rem;
 	z-index:1061;
 }
+
+.DE {
+	display: inline-block;
+}
+
+.EN {
+	display: none;
+}

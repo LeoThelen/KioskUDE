@@ -1,44 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width" = device-width, initial-scale = 1">
-<meta charset="utf-8">
 <title>Spiel hinzufügen</title>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link rel="stylesheet" href="css/isotope-docs.css" media="screen">
-<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-<link rel="stylesheet" href="css/my.css">
-<link rel="stylesheet" href="css/myGameFormular.css">
-<link
-	href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css"
-	rel="stylesheet">
+<#include "cssBindings.ftl">
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-	<a class="navbar-brand" href="main">VR Kiosk</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-	<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	<ul class="navbar-nav mr-auto">
-	<li class="nav-item">
-	<a class="nav-link" href="login">Login</a>
-	</li>
-	<li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	&Uuml;ber
-	</a>
-	<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-	<a class="dropdown-item" href="about.ftl">Impressum</a>
-	</div>
-	</li>
-	</ul>
-	</div>
-	</nav>
+	<#include "navbar.ftl">
 <main role="main" class="container mt-5">
-	<#if loggedin == true>
-	<div class="row top-buffer">
+	<#if loggedin?exists && loggedin==true>
+	<div class="row mt-4">
 	<form class="col-md-12" action="${action}" method="post" accept-charset="UTF-8">
 		<div class="page-header">
 			<h1>Spieleformular</h1>
@@ -137,16 +108,7 @@
 		Nicht eingeloggt.
 	</#if>
 </main>				
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script>
-		window.jQuery
-				|| document
-						.write('<script src="js/jquery-3.3.1.min.js"><\/script>')
-	</script>
-	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script src="js/isotope.pkgd.js"></script>
-	<script src="js/bootstrap.bundle.min.js"></script>
-	<script src="js/my.js"></script>
+	<#include "jsBindings.ftl">
 	<!-- include summernote css/js -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>

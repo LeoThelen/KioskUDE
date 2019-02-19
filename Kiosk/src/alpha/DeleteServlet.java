@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import util.DBUtil;
 import util.MiscUtil;
+import util.ScreenshotUtil;
 
 /**
  * Servlet implementation class DeleteServlet
@@ -20,44 +21,26 @@ import util.MiscUtil;
 @WebServlet({"/DeleteServlet", "/delete_game"})
 public class DeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public DeleteServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
+	 * @throws IOException 
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("request DeleteServlet.java");
-		Cookie loginCookie = MiscUtil.getLoginCookie(request.getCookies());
-		if(loginCookie != null) {
-			loginCookie.setMaxAge(3600); // expires after 1h
-			response.addCookie(loginCookie);
-		}
+		ServletUtil.checkAndRefreshLogin(request, response);
+		deleteGame(request);
+		response.sendRedirect("main");
+	}
 
+	private void deleteGame(HttpServletRequest request) {
 		String gameID = request.getParameter("delID");
 		Game g = new Game();
 		g.setGameID(gameID);
 		DBUtil.deleteGame(g);
-		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
-		if (!f.exists()) {
-			f.delete();
-		}
-		f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg");
-		if (!f.exists()) {
-			f.delete();
-		}
-		try {
-			response.sendRedirect("main");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		ScreenshotUtil.deleteThumbnailAndScreenshot(g);
 	}
+
+
 
 }

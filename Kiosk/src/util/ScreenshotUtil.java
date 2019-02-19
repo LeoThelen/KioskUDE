@@ -6,6 +6,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Savepoint;
 import java.util.LinkedList;
 
@@ -72,7 +73,7 @@ public class ScreenshotUtil {
 		if(g.getThumbnailLink()!=null) {
 			System.out.println("Converting Thumbnail from " + g.getThumbnailLink());
 				try (InputStream in = new URL(g.getThumbnailLink()).openStream()) {
-					Files.copy(in, Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"));
+					Files.copy(in, Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -82,12 +83,23 @@ public class ScreenshotUtil {
 		if(g.getScreenshotLink()!=null) {
 			try (InputStream in = new URL(g.getScreenshotLink()).openStream()) {
 				Files.copy(in, Paths.get("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_"
-						+ g.getGameID() + ".jpg"));
+						+ g.getGameID() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public static void deleteThumbnailAndScreenshot(Game g) {
+		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
+			f.delete();
+		}
+		f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg");
+		if (!f.exists()) {
+			f.delete();
 		}
 	}
 }

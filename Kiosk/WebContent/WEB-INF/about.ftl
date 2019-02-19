@@ -1,47 +1,20 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" href="css/bootstrap.min.css" media="screen">
-<link rel="stylesheet" href="css/my.css">
-<link rel="stylesheet" href="css/myAbout.css">
+	<meta charset="utf-8">
+	<#include "cssBindings.ftl">
+	<link rel="stylesheet" href="css/myAbout.css">
 </head>
 <body>
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-	<a class="navbar-brand" href="main">VR Kiosk</a>
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-	<span class="navbar-toggler-icon"></span>
-	</button>
-	<div class="collapse navbar-collapse" id="navbarsExampleDefault">
-	<ul class="navbar-nav mr-auto">
-	<li class="nav-item">
-	<a class="nav-link" href="login">Login</a>
-	</li>
-	</div>
-	</ul>
-	</div>
-	</nav>
-	
-	<div class="container">
-		<div class="row">
+	<#include "navbar.ftl">
+	<div id="impressum" class="container mt-5">
 		<h1>Impressum</h1>
-		</div>
 		<br>
-		<div class="row">
 		<h3>Praxisprojekt Medical VR Playroom</h3>
-		</div>
-		<div class="row">
 		<p> Lehrstuhl Entertainment Computing an der Universität Duisburg-Essen </p>
-		</div>
 		<br>
-		<div class="row mb-2 mt-2">
 		<h3>Mitwirkende</h3>
-		</div>
-		<div class="row">
-			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">Betreuer</h5>
-    		</div>
-    	</div>
+		<h5 class="mb-1">Betreuer</h5>
     	<div class="row">
 			<figure class="figure">
   				<img src="https://www.ecg.uni-due.de/cms/upload/Mitarbeiter/Masuch.jpg" class="figure-img img-fluid picture">
@@ -52,49 +25,21 @@
  				<figcaption class="figure-caption">Stefan Liszio, M.Sc.</figcaption>
 			</figure>
 		</div>
-		<div class="row">
-			<div class="list-group">
-  				<class="list-group-item list-group-item-action flex-column align-items-start active">
-    			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">User Stories</h5>
-    			</div>
-    				<p class="mb-1">Melisa Akdas, Carolin Draeger, Jana Lunau, Lena Magduschewski</p>
-  			</div>
-		</div>
-		<div class="row">
-			<div class="list-group">
-  				<class="list-group-item list-group-item-action flex-column align-items-start active">
-    			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">App Library</h5>
-    			</div>
-    				<p class="mb-1">Kimberly Rittner, Kaya Trautvetter, Muriel Weitzel</p>
-  			</div>
-		</div>
-		<div class="row">
-			<div class="list-group">
-  				<class="list-group-item list-group-item-action flex-column align-items-start active">
-    			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">Hardware</h5>
-    			</div>
-    				<p class="mb-1">Milena Fluck, Sandra Hasselmann, Svenja Vieker, Leo Thelen</p>
-  			</div>
-		</div>
-		<div class="row">
-			<div class="list-group">
-  				<class="list-group-item list-group-item-action flex-column align-items-start active">
-    			<div class="d-flex w-100 justify-content-between">
-      				<h5 class="mb-1">Kiosksystem</h5><a class="" href="https://github.com/LeoThelen/KioskUDE">
-						<div class="DE">Projekt auf GitHub</div>
-						</a>
-    			</div>
-    				<p class="mb-1">Romaissa Benakila, Rebecca Kuliga, Pia Wierschin, Suzanne Wrobel</p>
-  			</div>
-		</div>
-		<div class="row">
-			<figure class="figure">
-  				<img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Universit%C3%A4t_Duisburg-Essen.svg" class="figure-img img-fluid logo">
-			</figure>	
-		</div>
+		<h5 class="mb-1">User Stories</h5>
+		<p class="mb-1">Melisa Akdas, Carolin Draeger, Jana Lunau, Lena Magduschewski</p>
+		<h5 class="mb-1">App Library</h5>
+		<p class="mb-1">Kimberly Rittner, Kaya Trautvetter, Muriel Weitzel</p>
+		<h5 class="mb-1">Hardware</h5>
+		<p class="mb-1">Milena Fluck, Sandra Hasselmann, Svenja Vieker, Leo Thelen</p>
+		<h5 class="mb-1">Poster</h5></a>
+		<p class="mb-1">Sandra Hasselmann, Svenja Vieker, Pia Wierschin</p>
+		<h5 class="mb-1">Kiosksystem</h5></a>
+		<p class="mb-1">Romaissa Benakila, Milena Fluck, Rebecca Kuliga, Leo Thelen, Pia Wierschin, Suzanne Wrobel</p>
+		<small class="mb-1">Link zum Projekt https://github.com/LeoThelen/KioskUDE </small><br />
+		<figure class="figure">
+			<img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Universit%C3%A4t_Duisburg-Essen.svg" class="figure-img img-fluid logo">
+		</figure>	
 	</div>
 </body>
+<#include "jsBindings.ftl">
 </html>
