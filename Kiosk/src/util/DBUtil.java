@@ -15,6 +15,13 @@ import domain.Game;
 import domain.Tag;
 import domain.TagCategory;
 
+/**
+ * 
+ * @author Leo Thelen, Suzanne Wrobel
+ *
+ * Datenbankfunktionen
+ *
+ */
 public class DBUtil {
 
 	static String dbHost = "localhost";
@@ -27,20 +34,9 @@ public class DBUtil {
 		// Datenbanktreiber fuer ODBC Schnittstellen laden
 		try {
 			Class.forName("org.mariadb.jdbc.Driver");
-//			DriverManager.setLogWriter(new PrintWriter(System.out));
-
-//			try {
-//				DriverManager.setLogWriter(new PrintWriter(new FileWriter(new File(".\\tomcat\\wtpwebapps\\Kiosk\\db.log"),true)));
-//			} catch (FileNotFoundException e) {
-//				
-//				e.printStackTrace();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
 			// Verbindung zur Datenbank herstellen
 			return DriverManager.getConnection("jdbc:mariadb://" + dbHost + ":" + dbPort + "/" + database, dbUser,
 					dbPassword);
-//			System.out.println("Datenbankverbindung aufgebaut");
 		} catch (SQLException e) {
 			System.out.println("Verbindung nicht moeglich");
 		} catch (ClassNotFoundException e) {
@@ -59,16 +55,23 @@ public class DBUtil {
 			}
 		}
 	}
-
+	
+	/**
+	 * Lädt alle Games aus der DB.
+	 * @return List<Game> Informationsreduzierte Gameobjekte mit gameID, Name, ThumbnailLink
+	 */
 	public static LinkedList<Game> getGameList() {
 		return getGameList(0);
 	}
 
 	/**
-	 * bekommt ein request.getParameter("...") uebergeben und gibt eine
-	 * List<GameEntry> zurueck.
-	 * 
-	 * @return
+	 * @param librarySpecifier ermöglicht genaueres Spezifizieren der Library<br>
+	 * case 1: nur Spiele mit SteamID<br>
+	 * case 2: nur Spiele mit OculusID<br>
+	 * case -1: nur Spiele ohne SteamID<br>
+	 * case -2: nur Spiele ohne OculusID<br>
+	 * ansonsten: alle Spiele
+	 * @return List<Game> Informationsreduzierte Gameobjekte mit gameID, Name, ThumbnailLink
 	 */
 	public static LinkedList<Game> getGameList(int librarySpecifier) {
 		String myQuery = "SELECT gameID, name, thumbnailLink FROM games ORDER BY lastTimeUsed DESC";
@@ -94,7 +97,7 @@ public class DBUtil {
 			MySQLConnection_close(conn);
 			while (rs.next()) {
 				gameList.add(new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"),
-						getGameTagsByID(rs.getString("gameID"))));
+						getGameTagsByGameID(rs.getString("gameID"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -102,36 +105,10 @@ public class DBUtil {
 		return gameList;
 	}
 	
-	public static Game getGameIDBy(Game g) {
-		String myQuery = "SELECT gameID FROM games WHERE "; 
-		if(g.getSteamID()!=null) {
-			myQuery+="steamID=?";
-		}
-		if(g.getOculusID()!=null) {
-			myQuery+="oculusID=?";
-		}
-		try (Connection conn = MariaDBConnection_connect()) {
-			PreparedStatement stmt = conn.prepareStatement(myQuery);
-			if(g.getSteamID()!=null) {
-				stmt.setString(1, g.getSteamID());
-			}
-			if(g.getOculusID()!=null) {
-				stmt.setString(1, g.getOculusID());
-			}
-			ResultSet rs = stmt.executeQuery();
-			MySQLConnection_close(conn);
-			if (rs.next() == true) {
-				String gameID= Integer.toString(rs.getInt("gameID"));
-				g.setGameID(gameID);
-				return g;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return g;
-	}
-
-	public static LinkedList<TagCategory> getTagList() {
+	/**
+	 * @return LinkedList<TagCategory> Liste aller Tagkategorien mit entsprechenden Tags
+	 */
+	public static LinkedList<TagCategory> getTagCategoryList() {
 		String myQuery = "SELECT catID, labelDE, labelEN FROM tagCats";
 		LinkedList<TagCategory> tagCats = new LinkedList<>();
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -139,7 +116,7 @@ public class DBUtil {
 			MySQLConnection_close(conn);
 			while (rs.next()) {
 				tagCats.add(new TagCategory(rs.getString("catID"), rs.getString("labelDE"), rs.getString("labelEN"),
-						getAllTagsOfCat(rs.getString("catID"))));
+						getAllTagsOfCategory(rs.getString("catID"))));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -147,13 +124,23 @@ public class DBUtil {
 		return tagCats;
 	}
 
-	/**
-	 * Gets full description of Game. Da hier nur ein Eintrag abgefragt wird, wuerde
-	 * eine passgenauere Funktion die Performance nicht wesentlich steigern. TODO:
-	 * Klasse schreiben, die gametags für jedes Spiel gettet.
-	 * 
-	 * @return <b>Game</b> Object with all Information except Tags
-	 */
+	private static LinkedList<Tag> getAllTagsOfCategory(String catID) {
+		String myQuery = "SELECT tagID, catID, labelDE, labelEN FROM tags WHERE catID = ?";
+		LinkedList<Tag> taglist = new LinkedList<>();
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			stmt.setString(1, catID);
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+			while (rs.next()) {
+				taglist.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
+						rs.getString("labelEN")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return taglist;
+	}
+	
 	public static Game getGameDescriptionByID(String ID) {
 		String myQuery = "SELECT gameID, steamID, oculusID, name, germanDescription, englishDescription, thumbnailLink, screenshotLink, path, lastTimeUsed"
 				+ " FROM games WHERE gameID=?";
@@ -178,10 +165,11 @@ public class DBUtil {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		g.setTaglist(getGameTagsByGameID(g.getGameID()));
 		return g;
 	}
 
-	public static LinkedList<Tag> getGameTagsByID(String gameID) {
+	public static LinkedList<Tag> getGameTagsByGameID(String gameID) {
 		String myQuery = "SELECT tags.tagID, catID, labelDE, labelEN  FROM gametags JOIN tags ON gametags.tagID = tags.tagID WHERE gameID = ?";
 		LinkedList<Tag> taglist = new LinkedList<>();
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
@@ -197,24 +185,7 @@ public class DBUtil {
 		return taglist;
 	}
 
-	public static LinkedList<Tag> getAllTagsOfCat(String catID) {
-		String myQuery = "SELECT tagID, catID, labelDE, labelEN FROM tags WHERE catID = ?";
-		LinkedList<Tag> taglist = new LinkedList<>();
-		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			stmt.setString(1, catID);
-			ResultSet rs = stmt.executeQuery();
-			MySQLConnection_close(conn);
-			while (rs.next()) {
-				taglist.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"),
-						rs.getString("labelEN")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return taglist;
-	}
-
-	public static Tag getTagByID(String tagID) {
+	public static Tag getTagByTagID(String tagID) {
 		String myQuery = "SELECT * FROM tags WHERE tagID = ?";
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, tagID);
@@ -347,6 +318,8 @@ public class DBUtil {
 	// angepasst mit checkSteamID
 	/** adds game, returns Gameobject with GameID from DB */
 	public static Game addGame(Game g) {
+		System.out.println("DBUtil.addGame called with " + g.getName()); 
+		
 		String myQuery = "INSERT INTO GAMES(";
 		if (g.getGameID() != null) {
 			myQuery += "gameID,";
@@ -357,7 +330,7 @@ public class DBUtil {
 			myQuery += "?,";
 		}
 		myQuery += "?, ?, ?, ?, ?, ?, ?, ?, ?);";
-		if (checkSteamID(g.getSteamID())) {		//TODO Oculus-Check
+		if (steamIDNotInDB(g.getSteamID()) && oculusIDNotInDB(g.getOculusID()) ) {
 			try (Connection conn = MariaDBConnection_connect()) {
 				PreparedStatement stmt = conn.prepareStatement(myQuery);
 				int c = 1;
@@ -371,7 +344,7 @@ public class DBUtil {
 				stmt.setString(c++, g.getOculusID());
 				stmt.setString(c++, g.getGermanDescription());
 				stmt.setString(c++, g.getEnglishDescription());
-				stmt.setString(c++, g.getPath().replace("\"", ""));	//Anführungsstriche entfernen erhöht Sicherheit
+				stmt.setString(c++, g.getPath());
 				stmt.setString(c++, g.getLastTimeUsed());
 				stmt.executeUpdate();
 				stmt = conn.prepareStatement("SELECT LAST_INSERT_ID() AS gameID;");
@@ -397,31 +370,82 @@ public class DBUtil {
 				addGameTagsByGame(g);
 			}
 		} else {
-			System.out.println("Spiel ist schon in DB.");
+			System.out.println("Spiel ist schon in DB. Updatemethode wird aufgerufen.");
 			g=getGameIDBy(g);
 			updateGame(g);
 		}
 		return g;
 	}
 
-	/** returns true wenn nicht schon in der Datenbank */
-	private static boolean checkSteamID(String steamID) {
-		String myQuery = "SELECT steamID FROM games WHERE steamID=?";
+	/* returns true wenn nicht schon in der Datenbank */
+	private static boolean steamIDNotInDB(String steamID) {
+		return !isInDB(steamID, "Steam");
+	}
 
+	/* returns true wenn nicht schon in der Datenbank */
+	private static boolean oculusIDNotInDB(String oculusID) {
+		return !isInDB(oculusID, "Oculus");
+	}
+	
+	/* returns true wenn schon in der Datenbank */
+	private static boolean isInDB(String libraryID, String library) {
+		String myQuery = "";
+		if(library.equals("Steam")) {
+			myQuery += "SELECT steamID FROM games WHERE steamID=?";
+		}
+		if(library.equals("Oculus")) {
+			myQuery += "SELECT oculusID FROM games WHERE oculusID=?";
+		}
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
-			stmt.setString(1, steamID);
+			stmt.setString(1, libraryID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				if (rs.getString("steamID").equals(steamID)) {
-					return false;
+				if (rs.getString(library+"ID").equals(libraryID)) {
+					System.out.println("is in db."); 
+					return true;
 				}
 			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return true;
+		System.out.println(library + ""+ libraryID +"is not in db."); 
+		return false;
+	}
+	
+	/*
+	 * versucht, gameID anhand der Steam-/OculusID zu bekommen
+	 * @param g
+	 * @return
+	 */
+	private static Game getGameIDBy(Game g) {
+		String myQuery = "SELECT gameID FROM games WHERE "; 
+		if(g.getSteamID()!=null) {
+			myQuery+="steamID=?";
+		}
+		if(g.getOculusID()!=null) {
+			myQuery+="oculusID=?";
+		}
+		try (Connection conn = MariaDBConnection_connect()) {
+			PreparedStatement stmt = conn.prepareStatement(myQuery);
+			if(g.getSteamID()!=null) {
+				stmt.setString(1, g.getSteamID());
+			}
+			if(g.getOculusID()!=null) {
+				stmt.setString(1, g.getOculusID());
+			}
+			ResultSet rs = stmt.executeQuery();
+			MySQLConnection_close(conn);
+			if (rs.next() == true) {
+				String gameID= Integer.toString(rs.getInt("gameID"));
+				g.setGameID(gameID);
+				return g;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return g;
 	}
 
 	public static void addGameTagByID(String gameID, String tagID) {
@@ -588,65 +612,4 @@ public class DBUtil {
 			return false;
 		}
 	}
-
-	private static Boolean testIntegrity() { // TODO test
-		LinkedList<Tag> taglist = new LinkedList<>();
-		taglist.add(new Tag("9999", "9998", "testLabelDE", "testLabelEN"));
-//		TagCategory tagCategory = new TagCategory("9998", "testCatDE", "testCatEN", taglist);
-		Game g = new Game("9997", "testGame", "https://openclipart.org/image/300px/svg_to_png/281016/monoscopio.png",
-				taglist);
-
-//		addTagCategory(tagCategory);
-//		System.out.println("TagCategory is added.");
-//		addTag(taglist.getLast());
-		addGame(g);
-//		deleteGame(g);
-		return false;
-	}
-
-	/**
-	 * Mainmethode zum Datenbanksetup:
-	 */
-	public static void main(String[] args) throws SQLException {
-//		Game g = new Game("12345131");
-//		g.setGameID("804495");
-//		g.addTag(new Tag("2"));
-//		g.addTag(new Tag("11"));
-//		g.addTag(new Tag("12"));
-//		g.addTag(new Tag("13"));
-//		addGameTagsByGame(g);
-//		addGame(g);		
-//		testIntegrity();
-		writePassword("admin", "0000", "sdarmlur;cluas;rim");
-//		System.out.println(verifyLogin("admin", "0000"));
-//		System.out.println(verifyLogin("admin", "0001"));
-
-//		ArrayList<TagCategory> tagList = DBUtil.getTagList();
-//		System.out.println("hi");
-//		writePassword("admin", "passwort", "salt");
-//		try (Connection con = MariaDBConnection_connect()) {
-//			MySQLConnection_close(con);
-//		}
-//		addCustom("INSERT INTO tagCats (catID,labelDE, labelEN)\r\n" + "VALUES\r\n"
-//				+ "	('1','VR-Brille','VR-System'),\r\n" + "	('2','Alter','Age'),\r\n" + "	('3','Genre','Genre'),\r\n"
-//				+ "	('5','Sprache','Language'),\r\n"
-//				+ "	('6','Spiell&auml;nge','Time'),\r\n" + "	('7','Bewegung','Movement')\r\n" + ";");
-//		addCustom("INSERT INTO tags (tagID, catID, labelDE, labelEN)\r\n" + "VALUES\r\n"
-//				+ "	('1','1','HTC Vive Pro','HTC Vive Pro'),\r\n" + "	('2','1','Oculus Go','Oculus Go'),\r\n"
-//				+ "	('3','2','unter 12 Jahre','under 12'),\r\n" + "	('4','2','12 - 16 J.','12 - 16 years'),\r\n"
-//				+ "	('5','2','16 und &auml;lter','16 and older'),\r\n" + "	('6','3','Film','Movies'),\r\n"
-//				+ "	('7','3','Wissen','Knowledge'),\r\n" + "	('8','3','Medizin','Medicine'),\r\n"
-//				+ "	('9','3','Minispiele','Mini Games'),\r\n" + "	('10','3','Abenteuer','Adventure'),\r\n"
-//				+ "	('11','3','Simulation','Simulation'),\r\n" + "	('12','3','Geschicklichkeit','Dexterity'),\r\n"
-//				+ "	('13','3','Strategie','Strategy'),\r\n" + "	('14','3','Action','Action'),\r\n"
-//				+ "	('15','3','Entspannung','Relaxation'),\r\n"
-//				+ "	('19','5','Deutsch','German'),\r\n" + "	('20','5','Englisch','English'),\r\n"
-//				+ "	('21','5','Andere','Other'),\r\n"
-//				+ "	('22','6','kurz (unter 30 Minuten)','short (less than 30 min.)'),\r\n"
-//				+ "	('23','6','lang (&uuml;ber 30 Minuten)','long (more than 30 min.)'),\r\n"
-//				+ "	('24','7','liegend','lying'),\r\n" + "	('25','7','stehend','standing'),\r\n"
-//				+ "	('26','7','sitzend','seated'),\r\n" + "	('27','7','interaktiv','interactive'),\r\n"
-//				+ "	('28','7','raumf&uuml;llend','Room-Scale'),\r\n" + "	('29','7','passiv','passive')\r\n" + ";");
-	}
-
 }

@@ -19,6 +19,7 @@ public class TagCategory {
 		return catID;
 	}
 	
+	/**für Isotope html-filtergroup-attribut*/
 	public String getFilterGroup() {
 		return "filtergroup"+catID;
 	}

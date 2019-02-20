@@ -35,14 +35,6 @@ public class DescriptionServlet extends HttpServlet {
 
 		Game g = DBUtil.getGameDescriptionByID(gameID);
 		request.setAttribute("game", g);
-		
-		provideTagInformation(request, g);
-	}
-
-	private void provideTagInformation(HttpServletRequest request, Game g) {
-		LinkedList<Tag> gameTags = DBUtil.getGameTagsByID(request.getParameter("id"));
-		g.setTaglist(gameTags);
-		request.setAttribute("taglist", g.getTaglist());
 	}
 
 	/**

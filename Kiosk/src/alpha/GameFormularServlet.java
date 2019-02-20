@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import domain.TagCategory;
 import util.DBUtil;
-import util.MiscUtil;
 import util.OculusUtil;
+import util.ServletUtil;
 import util.SteamUtil;
 
 /**

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import domain.TagCategory;
 import util.DBUtil;
-import util.MiscUtil;
+import util.ServletUtil;
 
 /**
  * Servlet implementation class TagFormularServlet
@@ -34,13 +34,14 @@ public class TagHandlerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
+	 *      wird von den einzelnen Tagcheckboxen aufgerufen
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.checkAndRefreshLogin(request, response);
-		addOrDeleteTagFromGame(request, response);
+		toggleGameTag(request, response);
 	}
 
-	private void addOrDeleteTagFromGame(HttpServletRequest request, HttpServletResponse response) throws IOException { //TODO refactor
+	private void toggleGameTag(HttpServletRequest request, HttpServletResponse response) throws IOException { //TODO refactor
 		String tagID = request.getParameter("tagID");
 		String gameID = request.getParameter("gameID");
 		String action = request.getParameter("action");

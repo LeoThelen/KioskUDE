@@ -18,11 +18,7 @@ import org.json.JSONException;
 import domain.Game;
 import domain.Tag;
 
-
-
 public class SteamUtil {
-	static String steamk = "95FED09450A068AEA6FBB7BD94259949";
-	static String steamAccountID="76561198025357496";
 	
 	private static String getHTML(String urlString) {
 		HttpURLConnection conn; // The actual connection to the web page
@@ -42,31 +38,13 @@ public class SteamUtil {
 		}
 		return htmlcontent;
 
-	}
+	}	
 	
-	public static LinkedList<Game> getOwnedSteamGamesFromAPI() {
-
-		String urlToRead = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?"
-				+ "key=" + steamk 
-				+ "&steamid="+steamAccountID
-				+ "&include_appinfo=1"
-				+ "&format=json";
-		JSONObject obj = new JSONObject(getHTML(urlToRead)).getJSONObject("response");
-		LinkedList<Game> list = new LinkedList<>();
-		JSONArray arr = obj.getJSONArray("games");
-		for (int i = 0; i < arr.length(); i++)
-		{
-			list.add(new Game(arr.getJSONObject(i).get("appid").toString()));
-			list.getLast().setName(arr.getJSONObject(i).get("name").toString());
-		}
-		return list;
-	}
-
+	@SuppressWarnings("unused")
 	public static void addSteamGameToDB(String steamID) {
 		Game g = SteamUtil.getSteamGameWithDetailsAndTags(steamID);
 		DBUtil.addGame(g);
 	}
-
 
 	public static Game getSteamGameWithDetailsAndTags(String steamID) {
 		Game g = SteamUtil.getGameWithDetails(steamID);
@@ -141,20 +119,9 @@ public class SteamUtil {
 		return g;
 	}
 	
-	@SuppressWarnings("unused")
-	private static void addAllSteamGamesToDB() {
-		LinkedList<Game> list = SteamUtil.getOwnedSteamGamesFromAPI();
-		for (Game game : list) {
-			//TODO if already in db, dont add
-			game = SteamUtil.getGameWithDetails(game.getSteamID());
-			game=getHMDAgeAndPlayAreaTags(game);
-			System.out.println(game.getName());
-			DBUtil.addGame(game);
-		}
-	}
-	
-	/**gets genre tags from steamspy
-	*/
+	/**
+	 * gets genre tags from steamspy
+	 */
 	public static Game getSteamGenreTags(Game g) {
 		List<String> taglist = new ArrayList<String>();
 		try {
@@ -183,21 +150,4 @@ public class SteamUtil {
 		return g;
 	}
 
-	public static void main(String[] args) {
-		getHMDAgeAndPlayAreaTags(new Game("406860"));
-//		addSteamGameToDB("451520");//theBlu
-//		addSteamGameToDB("397750");//Guided Meditation VR
-//		addSteamGameToDB("450390");//The Lab
-//		addSteamGameToDB("620980");//Beat Saber
-//		addSteamGameToDB("548010");//3D Organon VR Anatomy
-//		addSteamGameToDB("550520");//B. Braun Future Operating Room
-//		addSteamGameToDB("566580");//The Jigsaw Puzzle Room
-//		addSteamGameToDB("531990");//Egg Time
-//		addSteamGameToDB("348250");//Google Earth VR
-//		addSteamGameToDB("490840");//Gnomes & Goblins (preview)
-//		addSteamGameToDB("787790");//Epic Roller Coasters
-//		addSteamGameToDB("804490");//Creed: Rise to Glory
-//		addSteamGameToDB("406860");//Blind [USK 16]
-//		addSteamGameToDB("448280");//Job Simulator
-	}
 }

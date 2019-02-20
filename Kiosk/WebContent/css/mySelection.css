@@ -51,7 +51,7 @@ body {
 }
 
 #description {
-	text-shadow: 0px 0px 4px #fff;
+	text-shadow: 0px 0px 1px #fff;
 	height: 100%;
 	overflow-y: scroll;
 	transition: text-shadow 1s ease;

@@ -42,9 +42,9 @@ public class Tag {
 	}
 	
 	/**
-	 * Für IsotopeFilter
+	 * Zum setzen des html-Attributs
 	 * @return data-attribut für die Filter
-	 * Beispiel mit Freemarker: data-filter=".${tag.filter}"
+	 * Beispiel mit Freemarker und Isotope: data-filter=".${tag.filter}"
 	 */
 	public String getFilter() {
 		return "tag"+tagID;

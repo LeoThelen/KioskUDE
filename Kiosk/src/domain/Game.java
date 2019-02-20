@@ -76,7 +76,7 @@ public class Game {
 	}
 	
 	/**
-	 * @return Klassennamen für die Sortierung aus den Tags. 
+	 * @return Klassennamen für die Isotope Sortierung aus den Tags. 
 	 * nur fuer die Uebergabe an Freemarker oder zum kopieren von Kategorisierungen.
 	 */
 	public String getClasstags() {	
@@ -91,7 +91,7 @@ public class Game {
 	}
 
 	/**
-	 * Markiert Spiel mit einem Gametag. Wenn Gametag schon vorhanden, passiert nichts.
+	 * Markiert dieses GameObjekt mit einem Gametag. Wenn Gametag schon vorhanden, passiert nichts.
 	 * @param tag
 	 */
 	public void addTag(Tag tag) {
@@ -153,7 +153,6 @@ public class Game {
 	}
 
 	/**
-	 * 
 	 * @return Spielpfad oder Ausführungspfad von Steamspielen (für Protocol Handler) 
 	 */
 	public String getPath() {
@@ -161,11 +160,13 @@ public class Game {
 	}
 
 	public void setPath(String path) {
-		this.path = path;
+		//Anführungsstriche entfernen erhöht Sicherheit
+		if(path!=null){
+			this.path = path.replace("\"", "");
+		}
 	}
 
 	/**
-	 * 
 	 * @return Zeit des letzten Spielstarts. Wenn noch nie gestartet dann Installationszeitpunkt.
 	 */
 	public String getLastTimeUsed() {

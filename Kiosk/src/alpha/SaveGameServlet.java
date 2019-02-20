@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,12 +13,11 @@ import domain.Game;
 import domain.Tag;
 import domain.TagCategory;
 import util.DBUtil;
-import util.MiscUtil;
 import util.ScreenshotUtil;
+import util.ServletUtil;
 
 /**
  * Servlet implementation class AddGameServlet
- * @author Leo, Suzanne
  * Fügt Spiele hinzu oder speichert deren Änderungen. Es folgt eine Weiterleitung zum Tagformular.
  */
 @WebServlet({ "/AddGameServlet", "/save_game",  "/add_game", "/edit_game" })
@@ -32,6 +30,8 @@ public class SaveGameServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ServletUtil.checkAndRefreshLogin(request, response);
 		request.setCharacterEncoding("UTF-8"); //Sonderzeichen und Umlaute
+		System.out.println("SaveGameServlet."); 
+		
 		Game g = getValuesFromGameForm(request);		
 		g = saveGame(g);
 		request.setAttribute("game", g);
@@ -42,8 +42,8 @@ public class SaveGameServlet extends HttpServlet {
 
 
 	private LinkedList<TagCategory> tickCheckboxesWithActiveTags(Game g) {
-		LinkedList<TagCategory> tagCatList = DBUtil.getTagList();
-		LinkedList<Tag> gameTagList = DBUtil.getGameTagsByID(g.getGameID());
+		LinkedList<TagCategory> tagCatList = DBUtil.getTagCategoryList();
+		LinkedList<Tag> gameTagList = DBUtil.getGameTagsByGameID(g.getGameID());
 		for(int i=0; i < tagCatList.size(); i++) {
 			for(int j = 0; j < tagCatList.get(i).getTaglist().size(); j++) {
 				for (Tag gtag : gameTagList) {

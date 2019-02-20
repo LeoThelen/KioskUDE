@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import domain.Game;
 import util.DBUtil;
-import util.MiscUtil;
 import util.ScreenshotUtil;
+import util.ServletUtil;
 
 /**
  * Servlet implementation class DeleteServlet

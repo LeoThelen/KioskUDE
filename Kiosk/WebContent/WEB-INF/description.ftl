@@ -42,8 +42,8 @@
 <br>
 <img class="screenshot" src="screenshots/screenshot_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';">
 <br>
-	<#if taglist?has_content>
-	<#list taglist as tag>
+	<#if game.taglist?has_content>
+	<#list game.taglist as tag>
 	<div class=DE><span class="badge badge-secondary">#${tag.labelDE!"kein tagname"}</span></div>
 	<div class=EN><span class="badge badge-secondary">#${tag.labelEN!"no tag label"}</span></div>
 	</#list>
