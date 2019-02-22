@@ -47,21 +47,21 @@ public class SteamUtil {
 	}
 
 	public static Game getSteamGameWithDetailsAndTags(String steamID) {
-		Game g = SteamUtil.getGameWithDetails(steamID);
-		g = SteamUtil.getSteamGenreTags(g);
-		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
+		Game g = SteamUtil.getGameObjectFromSteamAPI(steamID);
+		g = SteamUtil.addGenreTagsFromSteamSpyTo(g);
+		g = SteamUtil.getUSKAndVRTags(g);
 		return g;
 	}
 
 	public static Game getSteamGameWithTags(String steamID) {
-		Game g = new Game(steamID);
-		g = SteamUtil.getSteamGenreTags(g);
-		g = SteamUtil.getHMDAgeAndPlayAreaTags(g);
+		Game g = Game.FromSteamID(steamID);
+		g = SteamUtil.addGenreTagsFromSteamSpyTo(g);
+		g = SteamUtil.getUSKAndVRTags(g);
 		return g;
 	}
 	
 	
-	private static Game getHMDAgeAndPlayAreaTags(Game game) {//TODO this is hardcoded
+	private static Game getUSKAndVRTags(Game game) {//TODO this is hardcoded
 		Elements elements = null;
 		Elements uskElements = null;
 		try {
@@ -105,8 +105,8 @@ public class SteamUtil {
 		return game;
 	}
 
-	public static Game getGameWithDetails(String steamID) {
-		Game g = new Game(steamID);
+	public static Game getGameObjectFromSteamAPI(String steamID) {
+		Game g = Game.FromSteamID(steamID);
 		JSONObject j = new JSONObject(getHTML("https://store.steampowered.com/api/appdetails?appids="+steamID));
 		if(j.getJSONObject(steamID).get("success").equals(true)) {
 			j=j.getJSONObject(steamID).getJSONObject("data");//geht in die Verschachtelung des JSON-Objektes
@@ -119,10 +119,7 @@ public class SteamUtil {
 		return g;
 	}
 	
-	/**
-	 * gets genre tags from steamspy
-	 */
-	public static Game getSteamGenreTags(Game g) {
+	public static Game addGenreTagsFromSteamSpyTo(Game g) {
 		List<String> taglist = new ArrayList<String>();
 		try {
 			JSONObject j = new JSONObject(getHTML("http://steamspy.com/api.php?request=appdetails&appid="+g.getSteamID()));

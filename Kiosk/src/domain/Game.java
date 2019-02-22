@@ -36,17 +36,22 @@ public class Game {
 		this.name=name;
 		this.thumbnailLink=thumbnailLink;
 		this.taglist=taglist;
-	}
-
+	}	
+	
 	/**
-	 * Konstruktor für Gameobjekt. Erzeugt automatisch den Thumbnaillink aus der SteamID.
+	 * Factorymethode für Gameobjekt. Erzeugt auch automatisch den Thumbnaillink aus der SteamID.
 	 * 
 	 * @param steamID wird als String erwartet.
 	 */
-	public Game(String steamID){//from SteamUtil
-		this.steamID=steamID;
-		this.thumbnailLink="https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg";
+
+	public static Game FromSteamID(String steamID){//from SteamUtil
+		Game game = new Game();
+		game.setSteamID(steamID);
+		game.setThumbnailLink("https://steamcdn-a.akamaihd.net//steam//apps//"+steamID+"//header.jpg");
+		return game;
+		
 	}
+	
 	
 	public String getName() {
 		return name;
