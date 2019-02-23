@@ -12,17 +12,6 @@ import domain.Game;
 
 
 public class OculusUtil {
-//	public static void main(String[] args) {
-//		DBUtil.addGame(getGameWithDetails("890562797701371"));
-//		DBUtil.addGame(getGameWithDetails("2252817104759749"));
-//		DBUtil.addGame(getGameWithDetails("2084588764916379"));
-//		DBUtil.addGame(getGameWithDetails("1152440564774310"));
-//		DBUtil.addGame(getGameWithDetails("1064866736899927"));
-//		DBUtil.addGame(getGameWithDetails("967457083325115"));
-//		DBUtil.addGame(getGameWithDetails("1092021544167262"));
-//		DBUtil.addGame(getGameWithDetails("1692021557498395"));
-//		DBUtil.addGame(getGameWithDetails("878262692296965"));
-//	}
 	
 	public static Game getGameWithDetails(String oculusID) {
 		Game game = new Game();
@@ -76,9 +65,6 @@ private static Game getNameAndDescriptionAndImages(Game game, JSONObject jsonObj
 			
 			game.setScreenshotLink(images.getString(0));
 		}
-//		for (Object imglink : images) {//purge first one bc it's just the title image.
-//			System.out.println(imglink);
-//		}
 		game.setName(jsonObj.get("name").toString());
 		return game;
 	}

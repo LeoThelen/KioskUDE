@@ -22,37 +22,35 @@ public class ScreenshotUtil {
 	/**
 	 * speichert Thumbnail und Screenshot eines Spiels (und passt dessen Größe an)
 	 * im Pfad unter 
-	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg" (460x215)
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + game.getGameID() + ".jpg" (460x215)
 	 * und unter
-	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg"
+	 * "tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + game.getGameID() + ".jpg"
 	 */
-	public static void saveResizedThumbnailAndScreenshot(Game g) {
-		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
+	public static void saveResizedThumbnailAndScreenshot(Game game) {
 		BufferedImage img = null;
 
 		try {
-			System.out.println("Converting Thumbnail from " + g.getThumbnailLink());
-			if (g.getThumbnailLink() != null) {
-				img = ImageIO.read(new URL(g.getThumbnailLink()).openStream());
+			System.out.println("Converting Thumbnail from " + game.getThumbnailLink());
+			if (game.getThumbnailLink() != null) {
+				img = ImageIO.read(new URL(game.getThumbnailLink()).openStream());
 				img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.AUTOMATIC, 460, 215);
 				ImageIO.write(img, "png",
-						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg"));
+						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + game.getGameID() + ".jpg"));
 			}
-			if (g.getScreenshotLink() != null) {
-				img = ImageIO.read(new URL(g.getScreenshotLink()).openStream());
+			if (game.getScreenshotLink() != null) {
+				img = ImageIO.read(new URL(game.getScreenshotLink()).openStream());
 				img = Scalr.resize(img, Method.ULTRA_QUALITY, Mode.FIT_TO_HEIGHT, 999, 337);
 				ImageIO.write(img, "png",
-						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + g.getGameID() + ".jpg"));
+						new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\screenshot_" + game.getGameID() + ".jpg"));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void downloadAllLocalThumbnails() {
+	public static void saveAllThumbnailsAndScreenshots() {
 		LinkedList<Game> gamelist = DBUtil.getGameList();
 		for (Game g : gamelist) {
-			File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 			if (g.getSteamID() == null) {
 				saveResizedThumbnailAndScreenshot(g);
 			} else {
@@ -68,7 +66,6 @@ public class ScreenshotUtil {
 	 * g.getGameID() + ".jpg"
 	 */
 	public static void saveThumbnailAndScreenshot(Game g) {
-		File f = new File("tomcat\\wtpwebapps\\Kiosk\\screenshots\\thumb_" + g.getGameID() + ".jpg");
 		if (g.getThumbnailLink() != null) {
 			System.out.println("Converting Thumbnail from " + g.getThumbnailLink());
 			try (InputStream in = new URL(g.getThumbnailLink()).openStream()) {

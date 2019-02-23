@@ -14,6 +14,14 @@ body{
   }
 }
 
+.center{
+	display: block;
+	margin-top: 333px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: auto;
+}
+
 .navbar{
 	padding:0rem 1rem;
 	z-index:1061;

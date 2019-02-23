@@ -37,15 +37,9 @@ public class SteamUtil {
 			e.printStackTrace();
 		}
 		return htmlcontent;
-
 	}	
 	
-	@SuppressWarnings("unused")
-	public static void addSteamGameToDB(String steamID) {
-		Game g = SteamUtil.getSteamGameWithDetailsAndTags(steamID);
-		DBUtil.addGame(g);
-	}
-
+	//TODO Refactoring
 	public static Game getSteamGameWithDetailsAndTags(String steamID) {
 		Game g = SteamUtil.getGameObjectFromSteamAPI(steamID);
 		g = SteamUtil.addGenreTagsFromSteamSpyTo(g);
@@ -61,7 +55,7 @@ public class SteamUtil {
 	}
 	
 	
-	private static Game getUSKAndVRTags(Game game) {//TODO this is hardcoded
+	private static Game getUSKAndVRTags(Game game) {//TODO has to be commented
 		Elements elements = null;
 		Elements uskElements = null;
 		try {
@@ -75,13 +69,11 @@ public class SteamUtil {
 			System.out.println("USK"+x);
 			switch (x) {
 			case "18":
-			case "16":game.addTag(new Tag("13"));break;
-			case "12":game.addTag(new Tag("12"));break;
+			case "16":game.addTag(Tag.FromTagID("13"));break;
+			case "12":game.addTag(Tag.FromTagID("12"));break;
 			case "/6":
-			case "/0":game.addTag(new Tag("11"));break;
-			
+			case "/0":game.addTag(Tag.FromTagID("11"));break;
 			}
-		
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (IndexOutOfBoundsException e) {
@@ -90,15 +82,15 @@ public class SteamUtil {
 		for (int i=1; i<elements.size();i+=2) {
 			System.out.println(elements.get(i).text());
 			switch (elements.get(i).text()) {
-			case "HTC Vive":game.addTag(new Tag("1"));
+			case "HTC Vive":game.addTag(Tag.FromTagID("1"));
 				break;
 //			case "Oculus Rift":
 //				break;
-			case "Seated":game.addTag(new Tag("42"));
+			case "Seated":game.addTag(Tag.FromTagID("42"));
 				break;
-			case "Standing":game.addTag(new Tag("41"));
+			case "Standing":game.addTag(Tag.FromTagID("41"));
 				break;
-			case "Room-Scale":game.addTag(new Tag("44"));
+			case "Room-Scale":game.addTag(Tag.FromTagID("44"));
 				break;
 			}
 		}
@@ -136,7 +128,7 @@ public class SteamUtil {
 		}catch(JSONException e) {
 			e.printStackTrace();
 		}
-		//if Tag exists in DB then AddGameTag
+		//compare english label from SteamSpy and DB. If equal label then add Tag to GameObject
 		for(int i = 0; i < taglist.size(); i++) {
 			Tag newTag = DBUtil.getTagByLabelEN(taglist.get(i));
 			if(newTag != null) {

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import util.DBUtil;
 import util.ScreenshotUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 
 /**
  * Servlet implementation class DeleteServlet
@@ -28,7 +28,7 @@ public class DeleteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("request DeleteServlet.java");
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		deleteGame(request);
 		response.sendRedirect("main");
 	}

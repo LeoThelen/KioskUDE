@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import domain.Tag;
 import util.DBUtil;
+import util.ScreenshotUtil;
 import util.SteamUtil;
 
 /**
@@ -32,8 +33,7 @@ public class DescriptionServlet extends HttpServlet {
 	private void provideGameDescription(HttpServletRequest request) {
 		String gameID = request.getParameter("id");
 		System.out.println("Loading description page for ID " + gameID);
-
-		Game g = DBUtil.getGameDescriptionByID(gameID);
+		Game g = DBUtil.getGameDescriptionByGameID(gameID);
 		request.setAttribute("game", g);
 	}
 

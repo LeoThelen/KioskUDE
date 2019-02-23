@@ -25,10 +25,13 @@
 	<div class="row"><i class="col-1 fas fa-eye text-left" aria-hidden="true"></i><div class="col text-right">Oculus Go App hinzufügen</div></div>
 </a>
 <a href="gameFormular" class="btn btn-outline-primary btn-lg btn-block text-right" role="button">
-	<div class="text-left"><i class="fas fa-ellipsis-h text-left" aria-hidden="true"></i></div>Drittanbieter-App hinzufügen
+	<div class="row"><i class="col-1 fas fa-ellipsis-h text-left" aria-hidden="true"></i><div class="col text-right">manuell App hinzufügen</div></div>
 </a>
 <a href="main" class="btn btn-outline-primary btn-lg btn-block text-right" role="button">
-	<div class="text-left"><i class="fas fa-edit text-left" aria-hidden="true"></i></div>Spiele Bearbeiten
+	<div class="row"><i class="col-1 fas fa-edit text-left" aria-hidden="true"></i><div class="col text-right">Spiele Bearbeiten</div></div>
+</a>
+<a href="#" class="btn btn-outline-primary btn-lg btn-block text-right" role="button" data-toggle="modal" data-target="#editPassword">
+<div class="row"><i class="col-1 fas fa-key text-left" aria-hidden="true"></i><div class="col text-right">Passwort ändern</div></div>
 </a>
 <a href="logout" class="btn btn-warning btn-lg mt-5" role="button">Ausloggen</a>
 </div>
@@ -42,7 +45,7 @@
 
 
 
-
+<!-- Modals -->
 <div class="modal fade" id="SteamAdder" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered" role="document">
 		<div class="modal-content">
@@ -94,6 +97,25 @@
 					<p>Schritt 3: Die Oculus ID finden Sie nun in dem Link.</p>
 					<img class="gif" src="screenshots/oculusInfo.gif">
 				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="editPassword" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Passwort ändern</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-signin" action="edit_password" method="post">
+					<input type="password" id="password" class="form-control" placeholder="Neues Passwort" name="newPassword" required>
+					<button class="btn btn-lg btn-primary btn-block mt-2" type="submit">Passwort ändern</button>
+				</form>
 			</div>
 		</div>
 	</div>

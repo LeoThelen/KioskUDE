@@ -14,7 +14,7 @@ import domain.Game;
 import domain.TagCategory;
 import util.DBUtil;
 import util.OculusUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 import util.SteamUtil;
 
 /**
@@ -29,7 +29,7 @@ public class GameFormularServlet extends HttpServlet {
 	 * wird beim Bearbeiten und bei neuen Drittanbieterspielen aufgerufen
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		fillFormWithGameInfosOnEdit(request);
 		request.getRequestDispatcher("gameFormular.ftl").forward(request, response);
 	}
@@ -38,7 +38,7 @@ public class GameFormularServlet extends HttpServlet {
 		String editID = request.getParameter("editID");
 //		System.out.println("edit Game with ID:\t"+editID);	
 		if (exists(editID)) {
-			Game g = DBUtil.getGameDescriptionByID(editID);
+			Game g = DBUtil.getGameDescriptionByGameID(editID);
 			request.setAttribute("game", g);
 		}
 	}
@@ -52,7 +52,7 @@ public class GameFormularServlet extends HttpServlet {
 	 * wird beim import neuer steam/oculus-Spiele aufgerufen
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		Game g = null;
 		callImportForSteamGames(request);
  		callImportForOculusGames(request);		

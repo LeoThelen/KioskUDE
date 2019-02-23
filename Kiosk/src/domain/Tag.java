@@ -19,8 +19,12 @@ public class Tag {
 	 * Konstruktor
 	 * @param tagID
 	 */
-	public Tag(String tagID) {
+	private Tag(String tagID) {
 		this.tagID = tagID;
+	}
+	
+	public static Tag FromTagID(String tagID) {
+		return new Tag(tagID);
 	}
 
 	/**

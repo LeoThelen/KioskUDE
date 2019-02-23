@@ -14,7 +14,7 @@ import domain.Tag;
 import domain.TagCategory;
 import util.DBUtil;
 import util.ScreenshotUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 
 /**
  * Servlet implementation class AddGameServlet
@@ -28,7 +28,7 @@ public class SaveGameServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		request.setCharacterEncoding("UTF-8"); //Sonderzeichen und Umlaute
 		System.out.println("SaveGameServlet."); 
 		
@@ -63,7 +63,7 @@ public class SaveGameServlet extends HttpServlet {
 			System.out.println("updated");
 		}else {
 			System.out.println("adding new Game...");
-			g = DBUtil.addGame(g);			
+			g = DBUtil.saveGame(g);			
 			System.out.println("added" + g.getGameID());
 		}
 		if (g.getSteamID()!=null) {						//save screenshots locally

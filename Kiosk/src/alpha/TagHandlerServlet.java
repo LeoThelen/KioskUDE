@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import domain.TagCategory;
 import util.DBUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 
 /**
  * Servlet implementation class TagFormularServlet
@@ -27,7 +27,7 @@ public class TagHandlerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		request.getRequestDispatcher("tagFormular.ftl").forward(request, response);
 	}
 
@@ -37,7 +37,7 @@ public class TagHandlerServlet extends HttpServlet {
 	 *      wird von den einzelnen Tagcheckboxen aufgerufen
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		toggleGameTag(request, response);
 	}
 
@@ -47,11 +47,11 @@ public class TagHandlerServlet extends HttpServlet {
 		String action = request.getParameter("action");
 		if (tagID != null && gameID != null) {
 			if (action.equals("add")) {
-				DBUtil.addGameTagByID(gameID, tagID);
+				DBUtil.addGameTagByGameIDAndTagID(gameID, tagID);
 				response.getWriter().append("Tag (ID: " + tagID + ") dem Spiel (ID: " + gameID + ") hinzugef&uuml;gt.");
 			}
 			if (action.equals("delete")) {
-				DBUtil.deleteGameTagByID(gameID, tagID);
+				DBUtil.deleteGameTagByGameIDAndTagID(gameID, tagID);
 				response.getWriter().append("Tag (ID: " + tagID + ") von dem Spiel (ID: " + gameID + ") entfernt.");
 			}
 		}

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import util.DBUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 
 /**
  * Servlet implementation class LoginServlet
@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		request.getRequestDispatcher("login.ftl").forward(request, response);
 	}
 	

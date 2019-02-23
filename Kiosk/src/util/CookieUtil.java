@@ -4,7 +4,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ServletUtil {
+public class CookieUtil {
 	
 	/**
 	 * überprüft anhand der Cookies vom Clientrequest, ob man eingeloggt ist

@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import domain.Game;
 import domain.TagCategory;
 import util.DBUtil;
-import util.ServletUtil;
+import util.CookieUtil;
 import util.SteamUtil;
 
 /**
@@ -27,7 +27,7 @@ public class SelectionServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ServletUtil.checkAndRefreshLogin(request, response);
+		CookieUtil.checkAndRefreshLogin(request, response);
 		request.setAttribute("gamelist", DBUtil.getGameList());
 		request.setAttribute("tagCats", DBUtil.getTagCategoryList());
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
