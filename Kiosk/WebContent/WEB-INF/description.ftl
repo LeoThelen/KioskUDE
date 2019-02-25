@@ -1,5 +1,5 @@
 <h1>${game.name}</h1>
-
+	<!-- Warnhinweise -->
 	<div class="ml-1">
 		<#if game.taglist?has_content>
 			<i class="fas fa-exclamation-triangle"></i>
@@ -16,6 +16,7 @@
 	</div>
 	<br>
 	
+	<!-- Startbuttons -->
 	<#if game.oculusID?has_content>
 		<button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#oculusGoHowToStart"><div class="DE">Oculus Go-Spiel</div>
 		<div class="EN">Oculus Go-Game</div></button>
@@ -57,11 +58,13 @@
 <br>
 <br>
 
+<!-- Screenshot -->
 <div class="row">
-	<img class="screenshot" src="screenshots/screenshot_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';">
-	
+	<img class="screenshot" src="screenshots/screenshot_${game.gameID}.jpg" onerror="if (this.src != '${game.screenshotLink}') this.src = '${game.screenshotLink}';">	
 </div>
 <br>
+
+<!-- Tags -->
 	<#if game.taglist?has_content>
 	<#list game.taglist as tag>
 	<#if tag.catID != "0">
@@ -71,6 +74,8 @@
 	</#list>
 	</#if>
 <br>
+
+<!-- Beschreibungen -->
 <h2>
 	<div class="DE">${game.germanDescription!"Keine Beschreibung"}</div>
 	<div class="EN">${game.englishDescription!"No Description"}</div>
