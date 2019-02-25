@@ -168,7 +168,6 @@ body.down-scrolled {
 
 }
 #description.down-scrolled {
-	text-shadow: 0 0 3px #009, 0 0 12px #990;
 }
 ::-webkit-scrollbar.down-scrolled {
 	text-shadow: 0px 0px 3px #445;

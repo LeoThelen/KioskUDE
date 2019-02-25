@@ -100,4 +100,8 @@ public class ScreenshotUtil {
 			f.delete();
 		}
 	}
+	
+	public static boolean isPicture(String link) {
+		return link.contains(".jpg") || link.contains(".jpeg") || link.contains(".png");
+	}
 }

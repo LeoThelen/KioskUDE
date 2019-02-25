@@ -3,6 +3,7 @@
 <head>
 <title>Spiel hinzufügen</title>
 <#include "cssBindings.ftl">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.css">
 </head>
 
 <body>
@@ -44,15 +45,18 @@
 						<input type="text" class="form-control" id="gameTitle" name="gameTitle" placeholder="Titel eingeben" <#if game?exists && game.name?has_content>value="${game.name}"</#if> required>
 					</div>
 				</div>
-			<#if game?has_content>
-			<#else>
 				<div class="form-group row" >
 					<label for="gamePath" class="col-sm-2 col-form-label">Dateipfad</label>
-					<div class="col-sm-10">
-						<input type="text" class="form-control" id="gamePath" name="gamePath" placeholder="Pfad eingeben" required>
+					<div class="col-sm-7">
+						<input type="text" class="form-control" id="gamePath" name="gamePath" placeholder="Pfad eingeben" <#if game?exists && game.path?has_content>value="${game.path}"</#if> required>
+					</div>
+					<div class="col">
+						<a id="pathTest" class="hidden" href="#">
+							<button type="button" class="btn btn-primary"><div class=DE>Pfad testen</div>
+							<div class=EN>Test Path</div></button>
+						</a>
 					</div>
 				</div>
-			</#if>
 				<div class="form-group row" >
 					<label for="germanDescription" class="col-sm-2 col-form-label">Deutsche Beschreibung</label>
 					<div class="col-sm-10">
@@ -109,14 +113,21 @@
 	</#if>
 </main>				
 	<#include "jsBindings.ftl">
-	<!-- include summernote css/js -->
-<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.css" rel="stylesheet">
-<script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
-  <script>
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/jodit/3.1.39/jodit.min.js"></script>
+<script>
     $(document).ready(function() {
-    	$('#germanDescription').summernote();
-    	$('#englishDescription').summernote();
+           var editor = new Jodit('#germanDescription');
+           var editoreng = new Jodit('#englishDescription');
     });
-  </script>
+    </script>
+<script>
+	$('#gamePath').on('input', function(e){
+		var path = $('#gamePath').val();
+		var startlink = "kioskstart://" + path;
+		$('#pathTest').attr("href", startlink);
+		$('#pathTest').removeClass("hidden");
+	});
+</script>
 </body>
 </html>

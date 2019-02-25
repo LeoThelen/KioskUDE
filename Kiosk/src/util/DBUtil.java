@@ -96,15 +96,17 @@ public class DBUtil {
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				gameList.add(new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"),
-						getGameTagsByGameID(rs.getString("gameID"))));
+				gameList.add(new Game(rs.getString("gameID"), rs.getString("name"), rs.getString("thumbnailLink"), new LinkedList<Tag>()));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		gameList = getGameTagsOnGameList(gameList);
 		return gameList;
 	}
 	
+
+
 	/**
 	 * @return LinkedList<TagCategory> Liste aller Tagkategorien mit entsprechenden Tags
 	 */
@@ -171,18 +173,35 @@ public class DBUtil {
 
 	public static LinkedList<Tag> getGameTagsByGameID(String gameID) {
 		String myQuery = "SELECT tags.tagID, catID, labelDE, labelEN  FROM gametags JOIN tags ON gametags.tagID = tags.tagID WHERE gameID = ?";
-		LinkedList<Tag> taglist = new LinkedList<>();
+		LinkedList<Tag> tagList = new LinkedList<>();
 		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
 			stmt.setString(1, gameID);
 			ResultSet rs = stmt.executeQuery();
 			MySQLConnection_close(conn);
 			while (rs.next()) {
-				taglist.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"), rs.getString("labelEN")));
+				tagList.add(new Tag(rs.getString("tagID"), rs.getString("catID"), rs.getString("labelDE"), rs.getString("labelEN")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return taglist;
+		return tagList;
+	}
+	
+	private static LinkedList<Game> getGameTagsOnGameList(LinkedList<Game> gameList) {
+		String myQuery = "SELECT tagID FROM gametags WHERE gameID = ?";
+		try (Connection conn = MariaDBConnection_connect(); PreparedStatement stmt = conn.prepareStatement(myQuery)) {
+			for (Game game : gameList) {
+				stmt.setString(1, game.getGameID());
+				ResultSet rs = stmt.executeQuery();
+				while (rs.next()) {
+					game.getTaglist().add(Tag.FromTagID(rs.getString("tagID")));
+				}
+			}
+			MySQLConnection_close(conn);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return gameList;
 	}
 
 	public static Tag getTagByTagID(String tagID) {
@@ -587,5 +606,14 @@ public class DBUtil {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static void main(String[] args) {
+		long starttime;
+		for (int i = 0; i < 20; i++) {
+			starttime= System.currentTimeMillis();
+			getGameList();
+			System.out.println(System.currentTimeMillis()-starttime);
+		}
 	}
 }

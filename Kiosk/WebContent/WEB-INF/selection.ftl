@@ -16,6 +16,7 @@
 			<div class="row justify-content-start">
 				<div class="filters mt-5 col-6">
 					<#if tagCats?has_content> <#list tagCats as tagCat>
+					<#if tagCat.labelDE != "Warnhinweise">
 					<div class="button-group js-radio-button-group row mb-3"
 						data-filter-group="${tagCat.filterGroup}">
 						<button class="button is-checked col-3" data-filter="">
@@ -27,11 +28,13 @@
 							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
 							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
 						</button>
-						</#list>
+						</#list>			
 					</div>
+					</#if>
 					</#list> </#if>
 				</div>
 			</div>
+
 			
 	<div class="row">
 		<div id="left" class="col-6">
@@ -73,8 +76,7 @@
 			
 		</div>
 		<div class="col-6 pt-60" id="description">
-			<div style="text-align:center; font-size:200px;">UKE<br>VR
-			</div>
+			<img class="center" src="screenshots/UKE_Logo.png"/>
 		</div>
 	</div>
 	<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">

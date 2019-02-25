@@ -2,6 +2,8 @@ package domain;
 
 import java.util.LinkedList;
 
+import util.ScreenshotUtil;
+
 public class Game {
 	private String name=null;
 	private String gameID=null;
@@ -114,7 +116,11 @@ public class Game {
 	}
 
 	public void setThumbnailLink(String thumbnailLink) {
-		this.thumbnailLink = thumbnailLink;
+		if (ScreenshotUtil.isPicture(thumbnailLink)) {
+			this.thumbnailLink = thumbnailLink;			
+		}else {
+			this.thumbnailLink = "https://i.imgur.com/gAtYmRF.png";	//no Thumbnail sample
+		}
 	}
 
 	public String getScreenshotLink() {
@@ -122,7 +128,11 @@ public class Game {
 	}
 
 	public void setScreenshotLink(String screenshotLink) {
-		this.screenshotLink = screenshotLink;
+		if (ScreenshotUtil.isPicture(screenshotLink)) {
+			this.screenshotLink = screenshotLink;			
+		}else {
+			this.screenshotLink = "https://i.imgur.com/gAtYmRF.png";	//no Screenshot sample
+		}
 	}
 
 	public String getSteamID() {
