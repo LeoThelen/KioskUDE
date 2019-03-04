@@ -62,11 +62,11 @@
 					<#if tagCats?has_content> <#list tagCats as tagCat>
 					<select class="filters-select"
 						data-filter-group="${tagCat.filterGroup}">
-						<option data-filter="">
+						<option value="">
 							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
 						</option>
 						<#list tagCat.taglist as tag>
-						<option data-filter=".${tag.filter}">
+						<option value=".${tag.filter}">
 							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
 						</option>
 						</#list>
@@ -75,26 +75,7 @@
 				</div>
 				</div>
 	</div>
-	<div id="header" class="EN">
-			<!-- Filter -->
-				<div class="row justify-content-start">
-				<div class="filters col-12 roterHintergrund">
-					<#if tagCats?has_content> <#list tagCats as tagCat>
-					<select class="filters-select"
-						data-filter-group="${tagCat.filterGroup}">
-						<option data-filter="">
-							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
-						</option>
-						<#list tagCat.taglist as tag>
-						<option data-filter=".${tag.filter}">
-							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
-						</option>
-						</#list>
-					</select>
-					</#list> </#if>
-				</div>
-				</div>
-	</div>
+	
 	<div class="row">
 		<div id="left" class="col-6">
 		<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="icon-chevron-up"></i> Filter <i class="icon-chevron-up"></i></button>

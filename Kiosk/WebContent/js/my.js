@@ -4,6 +4,7 @@ var buttonFilters = {};
 var buttonFilter;
 // quick search regex
 var qsRegex;
+var filters = {};
 
 // init Isotope
 var $grid = $('.grid').isotope({
@@ -16,25 +17,11 @@ var $grid = $('.grid').isotope({
   },
 });
 
-$('.filters').on( 'click', '.button', function() {
-  var $this = $(this);
-  // get group key
-  var $buttonGroup = $this.parents('.button-group');
-  var filterGroup = $buttonGroup.attr('data-filter-group');
-  // set filter for group
-  buttonFilters[ filterGroup ] = $this.attr('data-filter');
-  // combine filters
-  buttonFilter = concatValues( buttonFilters );
-  // Isotope arrange
-  $grid.isotope();
-});
-
 // use value of search field to filter the grid items
 var $quicksearch = $('.quicksearch').keyup( debounce( function() {
   qsRegex = new RegExp( $quicksearch.attr('gametitle'), 'gi' );
   $grid.isotope();
 }) );
-
 // change is-checked class on buttons
 $('.button-group').each( function( i, buttonGroup ) {
   var $buttonGroup = $( buttonGroup );
@@ -43,7 +30,19 @@ $('.button-group').each( function( i, buttonGroup ) {
     $( this ).addClass('is-checked');
   });
 });
-  
+
+$('.filters').on('change', function( event ) {
+	var $select = $( event.target );
+	//get group key
+	var filterGroup = $select.attr('data-filter-group');
+	//set filter for group
+	filters [ filterGroup ] = event.target.value;
+	//combine filters
+	buttonFilter = concatValues( filters );
+	// set filter for Isotope
+	$grid.isotope();
+});
+
 // flatten object by concatting values
 function concatValues( obj ) {
   var value = '';
@@ -177,5 +176,4 @@ function switchLanguageToDE () {
 document.getElementById('EN').onclick = function () {switchLanguageToEN()};	
 function switchLanguageToEN () {
 		$('.EN').css('display', 'inline-block');
-		$('.DE').css('display', 'none');	
-}
+		$('.DE').css('display', 'none');	}
