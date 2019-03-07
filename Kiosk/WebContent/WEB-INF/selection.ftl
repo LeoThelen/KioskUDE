@@ -10,36 +10,43 @@
 	<div class="background-image"></div>
 		<!-- Navbar -->
 		<#include "navbar.ftl">
+
+		<div id="filterbar">
 			<!-- Filter -->
 			<div class="row justify-content-start">
-				<div class="filters mt-5 col-6">
-					<#if tagCats?has_content> <#list tagCats as tagCat>
+				<div class="filters col-12 roterHintergrund">
+					<#if tagCats?has_content>
+					<#list tagCats as tagCat>
 					<#if tagCat.labelDE != "Warnhinweise">
-					<div class="button-group js-radio-button-group row mb-3"
-						data-filter-group="${tagCat.filterGroup}">
-						<button class="button is-checked col-3" data-filter="">
-							<div class="DE">${tagCat.labelDE!"noCatLabel"}</div>
-							<div class="EN">${tagCat.labelEN!"noCatLabel"}</div>
-						</button>
+					<select class="filters-select" data-filter-group="${tagCat.filterGroup}">
+						<option value="" class="DE">
+							${tagCat.labelDE!"noCatLabel"}
+						</option>
+						<option value="" class="EN">
+							${tagCat.labelEN!"noCatLabel"}
+						</option>
 						<#list tagCat.taglist as tag>
-						<button class="button col-3" data-filter=".${tag.filter}">
-							<div class="DE">${tag.labelDE!"noTagLabel"}</div>
-							<div class="EN">${tag.labelEN!"noTagLabel"}</div>
-						</button>
-						</#list>			
-					</div>
+						<option value=".${tag.filter}" class="DE">
+							${tag.labelDE!"noTagLabel"}
+						</option>
+						<option value=".${tag.filter}" class="EN">
+							${tag.labelEN!"noTagLabel"}
+						</option>
+						</#list>
+					</select>
 					</#if>
-					</#list> </#if>
+					</#list>
+					</#if>
 				</div>
 			</div>
+		</div>
 		<div class="row">
 			<div id="left" class="col-6">
-				<button id="back-to-top" type="button" class="btn btn-secondary btn-lg btn-block invisible"><i class="fas fa-chevron-up"></i> Filter <i class="fas fa-chevron-up"></i></button>
 				<div class="filters">
-					<div class="input-group mb-3">
+					<div class="input-group mt-2 mb-2">
 						<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
 						<div class="input-group-append">
-				    		<span class="input-group-text"><i class="icon-search"></i></span>
+				    		<span class="input-group-text"><i class="fas fa-search"></i></span>
 				  		</div>
 			  		</div>
 				</div>
@@ -71,7 +78,7 @@
 				</#if>
 				
 			</div>
-			<div class="col-6 pt-60" id="description">
+			<div class="col-6 pt-90" id="description">
 				<img class="center" src="screenshots/UKE_Logo.png"/>
 			</div>
 		</div>

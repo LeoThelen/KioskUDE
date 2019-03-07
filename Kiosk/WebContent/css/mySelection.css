@@ -8,18 +8,7 @@ body {
 	color: #d0d9d7;
 
 }
-.background-image{
-	background-image: url("");
-	background-size: cover;
-	display: block;
-  filter: blur(5px);
-  -webkit-filter: blur(5px);
-  height: 100%;
-  left: 0;
-  position: fixed;
-  right: 0;
-  z-index: -1;
-}
+
 .navbar {
 	padding: 0rem 1rem;
 }
@@ -38,23 +27,22 @@ body {
 [class*="col-"] {
 	float: left;
 }
-.pt-60{
-	padding-top: 60px;
-}
 
 .filters > div > button {
-	margin-bottom:0px;
+	margin-bottom:15px;
 }
 
 #left {
 	height: 100%;
+	padding-top: 100px;
 }
 
 #description {
-	text-shadow: 0px 0px 1px #fff;
 	height: 100%;
 	overflow-y: scroll;
 	transition: text-shadow 1s ease;
+	padding-top: 100px;
+	
 }
 .modal-content{
 	text-shadow: 0px 0px 4px #fff;
@@ -178,12 +166,13 @@ img.screenshot{
     height: 337px;
 }
 
-#header{
-	background-color: #f1f1f1;
-	padding: 50px 10 px;
+#filterbar{
+	background-color: #610B21;
+	padding-top: 10px;
+	padding-bottom: 10px;
 	color: black;
 	text-align: center;
-	font-size: 10px;
+	font-size: 14px;
 	font-weight: bold;
 	position: fixed;
 	top: 2.5rem;
@@ -193,6 +182,43 @@ img.screenshot{
 }
 
 #quickSearch{
-	width: 100%;
-	float: left;
+	height: 30%;
+	width: 30%;
+	float: right;
+}
+
+.DE {
+	display: inline-block;
+}
+
+.EN {
+	display: none;
+}
+
+.filters-select{
+	color:#E6E6E6;
+	background-color:#610B21;
+	border: none;
+	-moz-appearance: none;
+	text-align: center;
+	width: 10%;
+	cursor: pointer;
+}
+.filters-select > option{
+	text-align: center;
+}
+
+#searchie{
+	height: 200%;
+	width: 3%;
+	border-radius: 5px;
+	border: none;
+	padding:0.6%;
+}
+#s{
+	width:50%;
+	height: calc(1.8rem);
+}
+#navie{
+	background-color: #000000!important;
 }

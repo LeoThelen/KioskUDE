@@ -1,5 +1,5 @@
 <!-- Navigationsleiste -->	
-	<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+	<nav id="navie" class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 		<a class="navbar-brand" href="main">VR Kiosk</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#navbarsExampleDefault"
@@ -10,7 +10,11 @@
 
 		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item"><a class="nav-link" href="login">Login</a>
+				<li class="nav-item">
+					<a class="nav-link" href="login">
+						<div class="DE">Adminbereich</div>
+						<div class="EN">Administration</div>
+					</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="about.ftl">
@@ -32,6 +36,6 @@
 						</a>
 					</div>
 				</li>
-	        </ul>
-      </div>
-    </nav>
+			</ul>
+		</div>
+	</nav>
