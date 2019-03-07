@@ -18,18 +18,22 @@
 					<#if tagCats?has_content>
 					<#list tagCats as tagCat>
 					<#if tagCat.labelDE != "Warnhinweise">
-					<select class="filters-select" data-filter-group="${tagCat.filterGroup}">
-						<option value="" class="DE">
+					<select class="filters-select DE" data-filter-group="${tagCat.filterGroup}">
+						<option value="">
 							${tagCat.labelDE!"noCatLabel"}
 						</option>
-						<option value="" class="EN">
+						<#list tagCat.taglist as tag>
+						<option value=".${tag.filter}">
+							${tag.labelDE!"noTagLabel"}
+						</option>
+						</#list>
+					</select>
+					<select class="filters-select EN" data-filter-group="${tagCat.filterGroup}">
+						<option value="">
 							${tagCat.labelEN!"noCatLabel"}
 						</option>
 						<#list tagCat.taglist as tag>
-						<option value=".${tag.filter}" class="DE">
-							${tag.labelDE!"noTagLabel"}
-						</option>
-						<option value=".${tag.filter}" class="EN">
+						<option value=".${tag.filter}">
 							${tag.labelEN!"noTagLabel"}
 						</option>
 						</#list>
