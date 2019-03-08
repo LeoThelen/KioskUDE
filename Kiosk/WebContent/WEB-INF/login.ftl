@@ -61,9 +61,10 @@
 						<div class="info hidden">
 							<div class="dropdown-divider"></div>
 							<p>Wie finde ich die Steam ID?</p>
-							<p>Schritt 1: Öffnen Sie die <a href="https://store.steampowered.com/?l=german"> Steam Website. </a></p>
-							<p>Schritt 2: Suchen Sie nach dem gewünschten Spiel.</p>
-							<p>Schritt 3: Die Steam ID finden Sie nun in dem Link.</p>
+							<p>Schritt 1: Starten sie die Webseite im Fenstermodus.</p>
+							<p>Schritt 2: Öffnen Sie die <a href="https://store.steampowered.com/?l=german"> Steam Website. </a></p>
+							<p>Schritt 3: Suchen Sie nach dem gewünschten Spiel.</p>
+							<p>Schritt 4: Die Steam ID finden Sie nun in dem Link.</p>
 							<img class="gif" src="screenshots/steamInfo.gif">
 						</div>
 					</div>
@@ -90,9 +91,10 @@
 						<div class="info hidden">
 							<div class="dropdown-divider"></div>
 							<p> Wie finde ich die Oculus ID? </p>
-							<p>Schritt 1: Öffnen Sie die <a href="https://www.oculus.com/experiences/go/">Oculus Website</a></p>
-							<p>Schritt 2: Suchen Sie nach dem gewünschten Spiel.</p>
-							<p>Schritt 3: Die Oculus ID finden Sie nun in dem Link.</p>
+							<p>Schritt 1: Starten sie die Webseite im Fenstermodus.</p>
+							<p>Schritt 2: Öffnen Sie die <a href="https://www.oculus.com/experiences/go/">Oculus Website</a></p>
+							<p>Schritt 3: Suchen Sie nach dem gewünschten Spiel.</p>
+							<p>Schritt 4: Die Oculus ID finden Sie nun in dem Link.</p>
 							<img class="gif" src="screenshots/oculusInfo.gif">
 						</div>
 					</div>
