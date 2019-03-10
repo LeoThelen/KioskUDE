@@ -1,6 +1,5 @@
 /**Isotope Filter*/
 // store filter for each group
-var buttonFilters = {};
 var buttonFilter;
 // quick search regex
 var qsRegex;
@@ -19,17 +18,24 @@ var $grid = $('.grid').isotope({
 
 // use value of search field to filter the grid items
 var $quicksearch = $('.quicksearch').keyup( debounce( function() {
-  qsRegex = new RegExp( $quicksearch.attr('gametitle'), 'gi' );
+  qsRegex = new RegExp( $quicksearch.val(), 'gi' );
   $grid.isotope();
 }) );
-// change is-checked class on buttons
-$('.button-group').each( function( i, buttonGroup ) {
-  var $buttonGroup = $( buttonGroup );
-  $buttonGroup.on( 'click', 'button', function() {
-    $buttonGroup.find('.is-checked').removeClass('is-checked');
-    $( this ).addClass('is-checked');
-  });
-});
+
+//debounce so filtering doesn't happen every millisecond
+function debounce( fn, threshold ) {
+  var timeout;
+  threshold = threshold || 200;
+  return function debounced() {
+    clearTimeout( timeout );
+    var args = arguments;
+    var _this = this;
+    function delayed() {
+      fn.apply( _this, args );
+    }
+    timeout = setTimeout( delayed, threshold );
+  };
+}
 
 $('.filters').on('change', function( event ) {
 	var $select = $( event.target );
@@ -75,7 +81,15 @@ $grid.on('click', '.grid-item', function() {
 		$('.DE').css('display', currentDE);
 	});
 	$grid.isotope('layout');
+});
 
+//change is-checked class on buttons in tagFormular
+$('.button-group').each( function( i, buttonGroup ) {
+  var $buttonGroup = $( buttonGroup );
+  $buttonGroup.on( 'click', 'button', function() {
+    $buttonGroup.find('.is-checked').removeClass('is-checked');
+    $( this ).addClass('is-checked');
+  });
 });
 
 //add classes when down-scrolled
@@ -99,53 +113,6 @@ $(document).ready(function () {
     });
 });
 
-//use value of search field to filter
-var $quicksearch = $('.quicksearch').keyup( debounce( function() {
-  qsRegex = new RegExp( $quicksearch.val(), 'gi' );
-  $grid.isotope();
-}) );
-
-// debounce so filtering doesn't happen every millisecond
-function debounce( fn, threshold ) {
-  var timeout;
-  threshold = threshold || 200;
-  return function debounced() {
-    clearTimeout( timeout );
-    var args = arguments;
-    var _this = this;
-    function delayed() {
-      fn.apply( _this, args );
-    }
-    timeout = setTimeout( delayed, threshold );
-  };
-}
-
-/*
-//Header Funktion
-window.onscroll = function() {scrollfunction()};
-function scrollfunction() {
-	if(document.body.scrollTop > 50 || document.documentElement.scrollTop > 50){
-		document.getElementById("header").style.fontSize = "10px";
-    	$("#allFilters").addClass("invisible");
-	}else{
-		document.getElementById("header").style.fontSize = "30px";
-		$("#allFilters").removeClass("invisible");
-	}
-}
-
-window.onscroll = function() {scrollfunction()};
-function scrollfunction() {
-	if($(document).scrollTop() > 5){
-		document.getElementById("quickSearch").style.width = "60%";
-    	$("#allFilters").fadeOut();
-    	$("#back-to-top").fadeIn();
-	}else{
-		document.getElementById("quickSearch").style.width = "100%";
-		$("#allFilters").fadeIn();
-    	$("#back-to-top").hide();
-	}
-}
-*/
 document.getElementById('DE').onclick = function () {switchLanguageToDE()};
 function switchLanguageToDE () {
 		$('.DE').css('display', 'inline-block');

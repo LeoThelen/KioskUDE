@@ -46,14 +46,12 @@
 		</div>
 		<div class="row">
 			<div id="left" class="col-6">
-				<div class="filters">
 					<div class="input-group mt-2 mb-2">
 						<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
 						<div class="input-group-append">
 				    		<span class="input-group-text"><i class="fas fa-search"></i></span>
 				  		</div>
 			  		</div>
-				</div>
 				<!-- Hier sind die Spiele. -->
 				
 				<#if gamelist?has_content> <br>
