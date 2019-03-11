@@ -1,5 +1,9 @@
 body{
 	font-family:sans-serif;
+	background: #343a40;
+	transition: background-color 1s ease;
+	color: #d0d9d7;
+
 }
 .invisible{
 	visibility:hidden;
@@ -25,6 +29,7 @@ body{
 .navbar{
 	padding:0rem 1rem;
 	z-index:1061;
+	background-color: #000000!important;
 }
 
 .DE {

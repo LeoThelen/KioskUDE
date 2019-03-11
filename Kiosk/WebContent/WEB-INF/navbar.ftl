@@ -36,6 +36,14 @@
 						</a>
 					</div>
 				</li>
-			</ul>
+				</ul>
+				<form class="form-inline my-2 my-lg-0">
+				<div class="input-group mt-2 mb-2">
+						<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
+						<div class="input-group-append">
+				    		<span class="input-group-text"><i class="fas fa-search"></i></span>
+				  		</div>
+			  		</div>
+			  		</form>
 		</div>
 	</nav>
