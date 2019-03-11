@@ -37,6 +37,7 @@
 					</div>
 				</li>
 				</ul>
+				<#if mainpage??>
 				<form class="form-inline my-2 my-lg-0">
 				<div class="input-group mt-2 mb-2">
 						<input class="form-control quicksearch" type="search" placeholder="Suchen" aria-label="Search">
@@ -45,5 +46,6 @@
 				  		</div>
 			  		</div>
 			  		</form>
+			  		</#if>
 		</div>
 	</nav>

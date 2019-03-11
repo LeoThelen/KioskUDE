@@ -30,6 +30,8 @@ public class SelectionServlet extends HttpServlet {
 		CookieUtil.checkAndRefreshLogin(request, response);
 		request.setAttribute("gamelist", DBUtil.getGameList());
 		request.setAttribute("tagCats", DBUtil.getTagCategoryList());
+		request.setAttribute("mainpage", true);
 		request.getRequestDispatcher("selection.ftl").forward(request, response);
+		
 	}
 }
