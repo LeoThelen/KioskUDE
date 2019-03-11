@@ -15,16 +15,7 @@
 		<br>
 		<h3>Mitwirkende</h3>
 		<h5 class="mb-1">Betreuer</h5>
-    	<div class="row">
-			<figure class="figure">
-  				<img src="https://www.ecg.uni-due.de/cms/upload/Mitarbeiter/Masuch.jpg" class="figure-img img-fluid picture">
- 				<figcaption class="figure-caption">Prof. Dr.-Ing. Maic Masuch</figcaption>
-			</figure>	
-			<figure class="figure">
-  				<img src="https://www.ecg.uni-due.de/cms/upload/Mitarbeiter/Liszio-3-von-3_1024x1024.jpg" class="figure-img img-fluid picture">
- 				<figcaption class="figure-caption">Stefan Liszio, M.Sc.</figcaption>
-			</figure>
-		</div>
+		<p class="mb-1"> Prof. Dr.-Ing. Maic Masuch, Stefan Liszio, M.Sc., Dr. med. Oliver Basu</p>
 		<h5 class="mb-1">User Stories</h5>
 		<p class="mb-1">Melisa Akdas, Carolin Draeger, Jana Lunau, Lena Magduschewski</p>
 		<h5 class="mb-1">App Library</h5>
